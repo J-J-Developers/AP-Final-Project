@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class Swing {
     public static void main(String[] args) {
-        String TOKEN = null;
+        Token TOKEN = new Token();
         JFrame frame = new JFrame("Hokm");
         frame.setBounds(500, 150, 500, 500);
         frame.setLayout(null);
@@ -80,20 +80,25 @@ public class Swing {
                         btn5.setOpaque(true);
                         btn5.setForeground(new Color(131, 75, 166));
 
-                        lbl1.setBounds(135,200,55,30);
-                        txt1.setBounds(190,200,150,30);
-                        btn5.setBounds(345,200,30,30);
-
+                        lbl1.setBounds(105,200,55,30);
+                        txt1.setBounds(160,200,240,30);
+                        btn5.setBounds(405,200,50,30);
                         btn5.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                frame.remove(lbl1);
-                                frame.remove(txt1);
-                                frame.remove(btn5);
-                                frame.setTitle("Game Room");
+                                String text = txt1.getText();
+                                if (!text.isEmpty()) {
+                                    frame.remove(lbl1);
+                                    frame.remove(txt1);
+                                    frame.remove(btn5);
+                                    frame.setTitle("Game Room");
 
-                                frame.revalidate();
-                                frame.repaint();
+                                    frame.revalidate();
+                                    frame.repaint();
+                                } else {
+                                    JOptionPane.showMessageDialog(null,
+                                            "The field is empty", "Token", JOptionPane.WARNING_MESSAGE);
+                                }
                             }
                         });
 
@@ -114,13 +119,13 @@ public class Swing {
                         frame.setTitle("Game Room");
 
                         JLabel lbl2 = new JLabel("Token:");
-                        JTextField txt3 = new JTextField(TOKEN);
+                        JTextField txt3 = new JTextField(TOKEN.getTokenId());
                         txt3.setEditable(false);
                         txt3.setBackground(null);
                         txt3.setBorder(null);
 
                         lbl2.setBounds(135,30,55,30);
-                        txt3.setBounds(190,30,150,30);
+                        txt3.setBounds(190,30,240,30);
 
                         frame.add(lbl2);
                         frame.add(txt3);
