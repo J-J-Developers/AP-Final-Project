@@ -5,13 +5,17 @@ import javax.swing.*;
 public class Card {
     private int number;
     private String type;
-    private ImageIcon roo;
-    private ImageIcon posht;
+    private ImageIcon rooImage;
+    private String rooPath;
+    private ImageIcon poshtImage;
+    private String poshtPath;
     public Card(int number,String type,String rooPath,String poshtPath){
         this.number = number;
         this.type = type;
-        this.roo = new ImageIcon(rooPath);
-        this.posht = new ImageIcon(poshtPath);
+        this.rooImage = new ImageIcon(rooPath);
+        this.rooPath = rooPath;
+        this.poshtImage = new ImageIcon(poshtPath);
+        this.poshtPath = poshtPath;
     }
 
     public int getNumber() {
@@ -23,11 +27,17 @@ public class Card {
     }
 
     public ImageIcon getRoo() {
-        return roo;
+        return rooImage;
+    }
+    public String getRooPath(){
+        return rooPath;
     }
 
     public ImageIcon getPosht() {
-        return posht;
+        return poshtImage;
+    }
+    public String getPoshtPath(){
+        return poshtPath;
     }
 
 }
