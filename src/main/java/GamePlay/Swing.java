@@ -1,3 +1,5 @@
+package GamePlay;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -70,9 +72,9 @@ public class Swing {
                     public void actionPerformed(ActionEvent e) {
                         frame.remove(btn3);
                         frame.remove(btn4);
-                        frame.setTitle("Join By Token");
+                        frame.setTitle("Join By GamePlay.Token");
 
-                        JLabel lbl1 = new JLabel("Token:");
+                        JLabel lbl1 = new JLabel("GamePlay.Token:");
                         JTextField txt1 = new JTextField();
                         JButton btn5 = new JButton("Go");
 
@@ -97,7 +99,7 @@ public class Swing {
                                     frame.repaint();
                                 } else {
                                     JOptionPane.showMessageDialog(null,
-                                            "The field is empty", "Token", JOptionPane.WARNING_MESSAGE);
+                                            "The field is empty", "GamePlay.Token", JOptionPane.WARNING_MESSAGE);
                                 }
                             }
                         });
@@ -118,7 +120,7 @@ public class Swing {
                         frame.remove(btn4);
                         frame.setTitle("Game Room");
 
-                        JLabel lbl2 = new JLabel("Token:");
+                        JLabel lbl2 = new JLabel("GamePlay.Token:");
                         JTextField txt3 = new JTextField(TOKEN.getTokenId());
                         txt3.setEditable(false);
                         txt3.setBackground(null);

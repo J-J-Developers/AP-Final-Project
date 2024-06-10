@@ -9,8 +9,8 @@ public class Player {
     private String id;
     private int winSets;
     private boolean turn;
-    ArrayList<Card> myCards ;
-    ArrayList<JButton> buttons ;
+    private ArrayList<Card> myCards ;
+    private ArrayList<JButton> buttons ;
     public Player(String name,String id){
         this.name = name;
         this.id = id;
@@ -30,6 +30,9 @@ public class Player {
 
     public int getWinSets() {
         return winSets;
+    }
+    public boolean isTurn(){
+        return turn;
     }
 
     public void changeTurn() {
