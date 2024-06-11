@@ -1,5 +1,6 @@
 package Server;
 
+import GamePlay.Game;
 import GamePlay.Swing;
 
 import java.io.IOException;
@@ -14,9 +15,7 @@ public class Server {
     private static final ArrayList<ClientHandel>clients= new ArrayList<>() ;
     private static final ExecutorService pool = Executors.newFixedThreadPool(4);
 
-    public static final ArrayList<String> arrayList1 = new ArrayList<>(Arrays.asList("2", "3", "4", "5", "6", "7", "8", "9", "10"));
-    public static final ArrayList<String> arrayList2 = new ArrayList<>(Arrays.asList("del", "pike", "khesht", "gish"));
-    public static final ArrayList<String> arrayList3 = new ArrayList<>();
+    public ArrayList<Game> allGames = new ArrayList<>();
 
 
     public static void main(String[]args) throws IOException {
