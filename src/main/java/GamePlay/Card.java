@@ -39,5 +39,4 @@ public class Card {
     public String getPoshtPath(){
         return poshtPath;
     }
-
 }
