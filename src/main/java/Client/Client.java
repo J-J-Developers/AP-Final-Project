@@ -47,6 +47,13 @@
 
 package Client;
 
+import GamePlay.Swing;
+import GamePlay.Token;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -67,12 +74,13 @@ static int x = 0 ;
         PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
         new Thread(serverConn).start();
         try {
+            System.out.println(input.readLine());
         }
         finally {
             input.close();
             output.close();
             socket.close();
         }
-        System.exit(0);
+//        System.exit(0);
     }
 }

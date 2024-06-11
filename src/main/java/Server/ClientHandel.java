@@ -137,7 +137,6 @@
 //}
 
 
-
 //package Server;
 //
 //import java.io.IOException;
@@ -208,10 +207,11 @@
 //}
 
 
-
 package Server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -221,48 +221,39 @@ import java.util.Random;
 public class ClientHandel implements Runnable {
     private final Socket client;
     private final PrintWriter writer;
+    private final BufferedReader reader;
     private static final ArrayList<String> arrayList = new ArrayList<>(Arrays.asList("ruler", "secondNumber", "thirdNumber", "fourthNumber"));
     private static final ArrayList<String> uniqueList = new ArrayList<>();
-    private int turn = 0;
+    private String text ;
+    private String text2 ;
     private static final Object lock = new Object();
 
-    public ClientHandel(Socket socket, ArrayList<ClientHandel> clients) throws IOException {
+    public ClientHandel(String text , String text2 , Socket socket, ArrayList<ClientHandel> clients) throws IOException {
         this.client = socket;
         this.writer = new PrintWriter(client.getOutputStream(), true);
-        synchronized (uniqueList) {
-            if (uniqueList.isEmpty()) {
-                generateUniqueList();
-            }
-        }
+        this.reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        this.text = text ;
+        this.text2 = text2 ;
     }
-
-    private void generateUniqueList() {
-        // فرض می‌کنیم که Server.arrayList1 و Server.arrayList2 به درستی پر شده‌اند
-        for (String number : Server.arrayList1) {
-            for (String suit : Server.arrayList2) {
-                uniqueList.add(number + " " + suit);
-            }
-        }
-    }
-
     public PrintWriter getWriter() {
         return writer;
     }
 
     @Override
     public void run() {
-        Random random = new Random();
-        synchronized (lock) {
+        try {
+          if(!this.text.isEmpty() && !this.text2.isEmpty()) {
+              Server.outToAll("true");
+          }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+        } finally {
             try {
-
-
-            } finally {
-                try {
-                    client.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
         }
     }
 }
