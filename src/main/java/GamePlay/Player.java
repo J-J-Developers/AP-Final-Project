@@ -18,6 +18,10 @@ public class Player extends Client {
         this.buttons = new ArrayList<>(13);
     }
 
+    public ArrayList<Card> getMyCards() {
+        return myCards;
+    }
+
     public int getWinSets() {
         return winSets;
     }
