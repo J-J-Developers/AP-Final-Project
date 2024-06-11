@@ -1,31 +1,21 @@
 package GamePlay;
 
+import Client.Client;
+
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class Player {
-    //اگه player از کلاینت ارث بری بکنه اونوقت name,id تو کلاینت نوشته میشن
-    private String name;
-    private String id;
+public class Player extends Client {
     private int winSets;
     private boolean turn;
     private ArrayList<Card> myCards ;
     private ArrayList<JButton> buttons ;
     public Player(String name,String id){
-        this.name = name;
-        this.id = id;
+        super(name,id);
         this.winSets = 0;
         this.turn = false;
         this.myCards = new ArrayList<>(13);
         this.buttons = new ArrayList<>(13);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public int getWinSets() {

@@ -62,7 +62,21 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client {
-static int x = 0 ;
+    private String name;
+    private String id;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+    public Client(String name,String id){
+        this.name = name;
+        this.id = id;
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Socket socket = new Socket("127.0.0.1", 5000);
