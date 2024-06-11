@@ -1,5 +1,5 @@
 package GamePlay;
-
+import GamePlay.Token;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,7 +20,6 @@ public class Swing {
 
         JButton btn1 = new JButton("Random");
         JButton btn2 = new JButton("Friends");
-
         btn1.setBounds(175, 150, 150, 70);
         btn2.setBounds(175, 250, 150, 70);
 
@@ -52,9 +51,11 @@ public class Swing {
                 frame.setTitle("Friendly Game");
                 JButton btn3 = new JButton("Join");
                 JButton btn4 = new JButton("Create");
+                JButton exit = new JButton("Exit");
 
-                btn3.setBounds(175, 150, 150, 70);
-                btn4.setBounds(175, 250, 150, 70);
+                btn3.setBounds(175, 100, 150, 70);
+                btn4.setBounds(175, 200, 150, 70);
+                exit.setBounds(175,300,150,70);
 
                 btn3.setBackground(customColor1);
                 btn3.setOpaque(true);
@@ -64,52 +65,68 @@ public class Swing {
                 btn4.setOpaque(true);
                 btn4.setForeground(new Color(131, 75, 166));
 
+                exit.setBackground(customColor1);
+                exit.setOpaque(true);
+                exit.setForeground(new Color(131, 75, 166));
+
+                frame.add(exit);
                 frame.add(btn3);
                 frame.add(btn4);
 
                 btn3.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        frame.remove(exit);
                         frame.remove(btn3);
                         frame.remove(btn4);
-                        frame.setTitle("Join By GamePlay.Token");
+                        frame.setTitle("Join By Token");
 
                         JLabel lbl1 = new JLabel("GamePlay.Token:");
                         JTextField txt1 = new JTextField();
+                        JLabel lbl2 = new JLabel("Nickname:");
+                        JTextField txt2 = new JTextField();
                         JButton btn5 = new JButton("Go");
 
                         btn5.setBackground(customColor1);
                         btn5.setOpaque(true);
                         btn5.setForeground(new Color(131, 75, 166));
 
-                        lbl1.setBounds(105,200,55,30);
-                        txt1.setBounds(160,200,240,30);
-                        btn5.setBounds(405,200,50,30);
+                        lbl2.setBounds(50,100,110,30);
+                        txt2.setBounds(170,100,200,30);
+                        lbl1.setBounds(50,200,110,30);
+                        txt1.setBounds(170,200,200,30);
+                        btn5.setBounds(220,300,50,30);
                         btn5.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
+                                String text1 = txt2.getText();
                                 String text = txt1.getText();
-                                if (!text.isEmpty()) {
+                                if (!text.isEmpty() && !text1.isEmpty()) {
                                     frame.remove(lbl1);
                                     frame.remove(txt1);
                                     frame.remove(btn5);
+                                    frame.remove(lbl2);
+                                    frame.remove(txt2);
                                     frame.setTitle("Game Room");
 
                                     frame.revalidate();
                                     frame.repaint();
                                 } else {
                                     JOptionPane.showMessageDialog(null,
-                                            "The field is empty", "GamePlay.Token", JOptionPane.WARNING_MESSAGE);
+                                            "please sure you write the nickname and token", "Error", JOptionPane.WARNING_MESSAGE);
                                 }
                             }
                         });
 
+                        frame.add(lbl2);
+                        frame.add(txt2);
                         frame.add(lbl1);
                         frame.add(txt1);
                         frame.add(btn5);
 
                         frame.revalidate();
                         frame.repaint();
+
                     }
                 });
 
@@ -120,7 +137,7 @@ public class Swing {
                         frame.remove(btn4);
                         frame.setTitle("Game Room");
 
-                        JLabel lbl2 = new JLabel("GamePlay.Token:");
+                        JLabel lbl2 = new JLabel("Token:");
                         JTextField txt3 = new JTextField(TOKEN.getTokenId());
                         txt3.setEditable(false);
                         txt3.setBackground(null);
@@ -134,19 +151,25 @@ public class Swing {
 
                         frame.revalidate();
                         frame.repaint();
+
                     }
                 });
 
+                exit.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                    }
+                });
                 frame.revalidate();
                 frame.repaint();
+
             }
         });
 
         frame.add(btn1);
         frame.add(btn2);
 
+        frame.setResizable(false);
         frame.setVisible(true);
     }
 }
-
-
