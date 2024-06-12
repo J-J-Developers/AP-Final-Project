@@ -37,16 +37,19 @@ public class Player extends Client {
         this.winSets ++;
     }
 
-    public void putCard(String path){
+    public String putCard(String rooPath){
+        String output = "";
         for (int i = 0; i < myCards.size(); i++) {
-            if (myCards.get(i).getPoshtPath().equalsIgnoreCase(path)){
+            if (myCards.get(i).getPoshtPath().equalsIgnoreCase(rooPath)){
                 //فراخوانی متد ارسال پیام اینکه چی زده
                 // پاک شدن عکس کارت از صفحه بازی
                 // حذف کارت از اری لیست
+                output += myCards.get(i).getType();
                 myCards.remove(i);
                 break;
             }
         }
+        return output;
     }
 
     //وظیفه این متد فقط فقط ساخت دکمه که همون کارت بازیکنا هستش
