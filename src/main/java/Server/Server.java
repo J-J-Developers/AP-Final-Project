@@ -7,14 +7,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Server {
-    private static final ArrayList<ClientHandel>clients= new ArrayList<>() ;
-    private static final ExecutorService pool = Executors.newFixedThreadPool(4);
-
+    private static final ArrayList<ListenerClient>clients= new ArrayList<>() ;
     public ArrayList<Game> allGames = new ArrayList<>();
 
 
@@ -23,15 +18,14 @@ public class Server {
         while (true) {
             Socket client = server.accept();
             new Swing() ;
-            ClientHandel clientThread = new ClientHandel(Swing.text , Swing.text2 ,  client, clients);
+            ListenerClient clientThread = new ListenerClient(client, clients);
             clients.add(clientThread);
-            pool.execute(clientThread);
         }
     }
 
-    public static synchronized void outToAll(String message) {
-        for (ClientHandel client : clients) {
-            client.getWriter().println(message);
+    public static synchronized void outToAll(String message) throws IOException {
+        for (ListenerClient client : clients) {
+            client.getWriter().write(message);
         }
     }
 }
