@@ -3,7 +3,7 @@ package GamePlay;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Game {
+public class Game extends Swing{
     private String token;
     private CardBox cardBox;
     private int round;
@@ -20,23 +20,33 @@ public class Game {
         roomPlayers.add(new Player(p2.getName(),p2.getId()));
         roomPlayers.add(new Player(p3.getName(),p3.getId()));
         roomPlayers.add(new Player(p4.getName(),p4.getId()));
-        this.cardBox = new CardBox(); // ایجاد یک نمونه جدید از CardBox
         roomTeams.add(new Team(p1,p3));
         roomTeams.add(new Team(p2,p4));
+        this.cardBox = new CardBox();
     }
 
     // Getter method for CardBox
     public CardBox getCardBox() {
         return this.cardBox;
     }
-    public void divideCards(int amount){
+    public void divideCards(){
         while (!roomCards.isEmpty()){
             for (int i=0 ; i < 4 ; i++){
-                for (int j = 0; j < amount; j++) {
+                for (int j = 0; j < 5; j++) {
                   roomPlayers.get(i).getMyCards().add(roomCards.get(rand.nextInt(roomCards.size())));
+                }
+            }
+            //ایجاد وقفه برای تعیین حکم
+            for (int i=0 ; i < 4 ; i++){
+                for (int j = 0; j < 4; j++) {
+                    roomPlayers.get(i).getMyCards().add(roomCards.get(rand.nextInt(roomCards.size())));
+                }
+            }
+            for (int i=0 ; i < 4 ; i++){
+                for (int j = 0; j < 4; j++) {
+                    roomPlayers.get(i).getMyCards().add(roomCards.get(rand.nextInt(roomCards.size())));
                 }
             }
         }
     }
-    
 }
