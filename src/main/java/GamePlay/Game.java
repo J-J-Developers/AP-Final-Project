@@ -3,12 +3,12 @@ package GamePlay;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Game extends Swing{
+public class Game{
     private String token;
     private CardBox cardBox;
     private int round;
-    public Player king;
-    public Card hokm;
+    private Player king;
+    private Card hokm;
     Random rand = new Random();
     public ArrayList<Team> roomTeams = new ArrayList<>(2);
     public ArrayList<Card> roomCards = new ArrayList<>(getCardBox().cards);
@@ -23,12 +23,31 @@ public class Game extends Swing{
         roomTeams.add(new Team(p1,p3));
         roomTeams.add(new Team(p2,p4));
         this.cardBox = new CardBox();
+        this.king = roomPlayers.get(rand.nextInt(roomPlayers.size()));
     }
 
     // Getter method for CardBox
     public CardBox getCardBox() {
         return this.cardBox;
     }
+
+    public Card getHokm() {
+        return hokm;
+    }
+
+    public void setHokm(Card hokm) {
+        this.hokm = hokm;
+    }
+
+    public Player getKing() {
+        return king;
+    }
+
+    public void setKing(Player king) {
+        this.king = king;
+    }
+
+
     public void divideCards(){
         while (!roomCards.isEmpty()){
             for (int i=0 ; i < 4 ; i++){
