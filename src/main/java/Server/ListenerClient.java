@@ -10,14 +10,14 @@
 //import java.util.Random;
 //
 //
-//public class ClientHandel implements Runnable{
+//public class ListenerClient implements Runnable{
 //    private final Socket client;
 //    private final BufferedReader reader;
 //    private final PrintWriter writer;
 //    private static final ArrayList<String> arrayList = new ArrayList<>(Arrays.asList("ruler" , "secondNumber" , "thirdNumber" , "fourthNumber")) ;
 //    private static final ArrayList<String> arrayList1 = new ArrayList<>();
 //
-//    public ClientHandel(Socket socket, ArrayList<ClientHandel> clients) throws IOException {
+//    public ListenerClient(Socket socket, ArrayList<ListenerClient> clients) throws IOException {
 //        this.client = socket;
 //        this.reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 //        this.writer = new PrintWriter(client.getOutputStream(), true);
@@ -84,7 +84,7 @@
 //import java.util.Arrays;
 //import java.util.Random;
 //
-//public class ClientHandel implements Runnable {
+//public class ListenerClient implements Runnable {
 //    private final Socket client;
 //    private final BufferedReader reader;
 //    private final PrintWriter writer;
@@ -93,7 +93,7 @@
 //    int turn = 0 ;
 //    int x = 0 ;
 //
-//    public ClientHandel(Socket socket , ArrayList<ClientHandel> clients) throws IOException {
+//    public ListenerClient(Socket socket , ArrayList<ListenerClient> clients) throws IOException {
 //        this.client = socket;
 //        this.reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 //        this.writer = new PrintWriter(client.getOutputStream(), true);
@@ -146,7 +146,7 @@
 //import java.util.Arrays;
 //import java.util.Random;
 //
-//public class ClientHandel implements Runnable {
+//public class ListenerClient implements Runnable {
 //    private final Socket client;
 //    private final PrintWriter writer;
 //    private static final ArrayList<String> arrayList = new ArrayList<>(Arrays.asList("ruler", "secondNumber", "thirdNumber", "fourthNumber"));
@@ -154,7 +154,7 @@
 //    private int turn = 0;
 //    private int x = 0;
 //
-//    public ClientHandel(Socket socket, ArrayList<ClientHandel> clients) throws IOException {
+//    public ListenerClient(Socket socket, ArrayList<ListenerClient> clients) throws IOException {
 //        this.client = socket;
 //        this.writer = new PrintWriter(client.getOutputStream(), true);
 //        synchronized (uniqueList) {
@@ -216,45 +216,44 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
-public class ClientHandel implements Runnable {
-    private final Socket client;
+public class ListenerClient implements Runnable {
+    private final Socket socket;
     private final PrintWriter writer;
     private final BufferedReader reader;
     private static final ArrayList<String> arrayList = new ArrayList<>(Arrays.asList("ruler", "secondNumber", "thirdNumber", "fourthNumber"));
     private static final ArrayList<String> uniqueList = new ArrayList<>();
-    private String text ;
-    private String text2 ;
+
     private static final Object lock = new Object();
 
-    public ClientHandel(String text , String text2 , Socket socket, ArrayList<ClientHandel> clients) throws IOException {
-        this.client = socket;
-        this.writer = new PrintWriter(client.getOutputStream(), true);
-        this.reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        this.text = text ;
-        this.text2 = text2 ;
+    public ListenerClient(Socket socket, ArrayList<ListenerClient> clients) throws IOException {
+        this.socket = socket;
+        this.writer = new PrintWriter(socket.getOutputStream(), true);
+        this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
     public PrintWriter getWriter() {
         return writer;
     }
 
-
     @Override
     public void run() {
         try {
-          if(!this.text.isEmpty() && !this.text2.isEmpty()) {
-              Server.outToAll("true");
-          }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
+            String text;
+            // حلقه while برای اطمینان از اینکه داده‌ای برای خواندن وجود دارد
+            while ((text = reader.readLine()) != null) {
+                // اکنون می‌توانید با اطمینان text را چاپ کنید
+                System.out.println(text);
+                // ارسال پیام به همه کلاینت‌ها
+                Server.outToAll(text);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         } finally {
             try {
-                client.close();
+                socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }

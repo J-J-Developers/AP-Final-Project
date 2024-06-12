@@ -41,10 +41,6 @@
 //}
 
 
-
-
-
-
 package Client;
 
 import GamePlay.Swing;
@@ -72,12 +68,13 @@ public class Client {
     public String getId() {
         return id;
     }
-    public Client(String name,String id){
+
+    public Client(String name, String id) {
         this.name = name;
         this.id = id;
     }
 
-    public static void main(String[] args) throws IOException {
+    public Client(String str) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Socket socket = new Socket("127.0.0.1", 5000);
 
@@ -86,17 +83,11 @@ public class Client {
 
         BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-        new Thread(serverConn).start();
-        try {
-            System.out.println(input.readLine());
+//        new Thread(serverConn).start();
+
+       output.println(str);
+
         }
-        finally {
-            input.close();
-            output.close();
-            socket.close();
-        }
-//        System.exit(0);
-    }
 }
 
 
