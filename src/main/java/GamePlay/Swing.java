@@ -51,7 +51,7 @@ public class Swing {
                 frame.setTitle("Friendly Game");
                 JButton btn3 = new JButton("Join");
                 JButton btn4 = new JButton("Create");
-                JButton exit = new JButton("Exit");
+                JButton exit = new JButton("Back");
 
                 btn3.setBounds(175, 100, 150, 70);
                 btn4.setBounds(175, 200, 150, 70);
@@ -86,16 +86,22 @@ public class Swing {
                         JLabel lbl2 = new JLabel("Nickname:");
                         JTextField txt2 = new JTextField();
                         JButton btn5 = new JButton("Go");
+                        JButton exit1 = new JButton("Back");
 
                         btn5.setBackground(customColor1);
                         btn5.setOpaque(true);
                         btn5.setForeground(new Color(131, 75, 166));
 
+                        exit1.setBackground(customColor1);
+                        exit1.setOpaque(true);
+                        exit1.setForeground(new Color(131, 75, 166));
+
                         lbl2.setBounds(50,100,110,30);
                         txt2.setBounds(170,100,200,30);
                         lbl1.setBounds(50,200,110,30);
                         txt1.setBounds(170,200,200,30);
-                        btn5.setBounds(220,300,50,30);
+                        btn5.setBounds(180,300,50,30);
+                        exit1.setBounds(260,300,80,30);
                         btn5.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -107,14 +113,36 @@ public class Swing {
                                     frame.remove(btn5);
                                     frame.remove(lbl2);
                                     frame.remove(txt2);
+                                    frame.remove(exit1);
+
                                     frame.setTitle("Game Room");
 
                                     frame.revalidate();
                                     frame.repaint();
                                 } else {
                                     JOptionPane.showMessageDialog(null,
-                                            "please sure you write the nickname and token", "Error", JOptionPane.WARNING_MESSAGE);
+                                            "please sure you write the nickname and token",
+                                            "Error", JOptionPane.WARNING_MESSAGE);
                                 }
+                            }
+                        });
+
+                        exit1.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                frame.remove(lbl1);
+                                frame.remove(txt1);
+                                frame.remove(btn5);
+                                frame.remove(lbl2);
+                                frame.remove(txt2);
+                                frame.remove(exit1);
+
+                                frame.add(btn3);
+                                frame.add(btn4);
+                                frame.add(exit);
+
+                                frame.revalidate();
+                                frame.repaint();
                             }
                         });
 
@@ -123,6 +151,7 @@ public class Swing {
                         frame.add(lbl1);
                         frame.add(txt1);
                         frame.add(btn5);
+                        frame.add(exit1);
 
                         frame.revalidate();
                         frame.repaint();
@@ -135,6 +164,7 @@ public class Swing {
                     public void actionPerformed(ActionEvent e) {
                         frame.remove(btn3);
                         frame.remove(btn4);
+                        frame.remove(exit);
                         frame.setTitle("Game Room");
 
                         JLabel lbl2 = new JLabel("Token:");
@@ -158,6 +188,15 @@ public class Swing {
                 exit.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        frame.remove(btn3);
+                        frame.remove(btn4);
+                        frame.remove(exit);
+
+                        frame.add(btn1);
+                        frame.add(btn2);
+
+                        frame.revalidate();
+                        frame.repaint();
                     }
                 });
                 frame.revalidate();
