@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
-public class Client {
+public class Client2 {
     // آدرس سرور چت
     private static final String SERVER_ADDRESS = "127.0.0.1";
     // پورتی که سرور چت بر روی آن گوش می‌دهد
@@ -13,7 +13,7 @@ public class Client {
     private String name;
     private String id;
 
-    public Client(String name, String id){
+    public Client2(String name, String id){
         this.name = name;
         this.id = id;
     }
@@ -56,4 +56,3 @@ public class Client {
         }
     }
 }
-
