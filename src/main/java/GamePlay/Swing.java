@@ -38,11 +38,71 @@ public class Swing {
                 frame.remove(btn2);
                 frame.setTitle("Game Room");
 
+                JLabel lbl2 = new JLabel("Nickname:");
+                JTextField txt2 = new JTextField();
+                JButton btn5 = new JButton("Go");
+                JButton exit1 = new JButton("Back");
+
+                btn5.setBackground(customColor1);
+                btn5.setOpaque(true);
+                btn5.setForeground(new Color(131, 75, 166));
+
+                exit1.setBackground(customColor1);
+                exit1.setOpaque(true);
+                exit1.setForeground(new Color(131, 75, 166));
+
+                lbl2.setBounds(50, 200, 110, 30);
+                txt2.setBounds(170, 200, 200, 30);
+                btn5.setBounds(260, 300, 50, 30);
+                exit1.setBounds(170, 300, 80, 30);
+
+                exit1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        frame.remove(btn5);
+                        frame.remove(lbl2);
+                        frame.remove(txt2);
+                        frame.remove(exit1);
+
+                        frame.add(btn1);
+                        frame.add(btn2);
+
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                });
+
+                btn5.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String text1 = txt2.getText();
+                        if (!text1.isEmpty()) {
+                            frame.remove(btn5);
+                            frame.remove(lbl2);
+                            frame.remove(txt2);
+                            frame.remove(exit1);
+
+                            frame.setTitle("Game Room");
+
+                            frame.revalidate();
+                            frame.repaint();
+                        } else {
+                            JOptionPane.showMessageDialog(null,
+                                    "please sure you write the nickname",
+                                    "Error", JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
+                });
+
+                frame.add(lbl2);
+                frame.add(txt2);
+                frame.add(btn5);
+                frame.add(exit1);
+                frame.setVisible(true);
                 frame.revalidate();
                 frame.repaint();
             }
         });
-
         btn2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,7 +115,7 @@ public class Swing {
 
                 btn3.setBounds(175, 100, 150, 70);
                 btn4.setBounds(175, 200, 150, 70);
-                exit.setBounds(175,300,150,70);
+                exit.setBounds(175, 300, 150, 70);
 
                 btn3.setBackground(customColor1);
                 btn3.setOpaque(true);
@@ -96,12 +156,12 @@ public class Swing {
                         exit1.setOpaque(true);
                         exit1.setForeground(new Color(131, 75, 166));
 
-                        lbl2.setBounds(50,100,110,30);
-                        txt2.setBounds(170,100,200,30);
-                        lbl1.setBounds(50,200,110,30);
-                        txt1.setBounds(170,200,200,30);
-                        btn5.setBounds(180,300,50,30);
-                        exit1.setBounds(260,300,80,30);
+                        lbl2.setBounds(50, 100, 110, 30);
+                        txt2.setBounds(170, 100, 200, 30);
+                        lbl1.setBounds(50, 200, 110, 30);
+                        txt1.setBounds(170, 200, 200, 30);
+                        btn5.setBounds(260, 300, 50, 30);
+                        exit1.setBounds(170, 300, 80, 30);
                         btn5.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -126,7 +186,6 @@ public class Swing {
                                 }
                             }
                         });
-
                         exit1.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -173,8 +232,8 @@ public class Swing {
                         txt3.setBackground(null);
                         txt3.setBorder(null);
 
-                        lbl2.setBounds(135,30,55,30);
-                        txt3.setBounds(190,30,240,30);
+                        lbl2.setBounds(135, 30, 55, 30);
+                        txt3.setBounds(190, 30, 240, 30);
 
                         frame.add(lbl2);
                         frame.add(txt3);
