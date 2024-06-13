@@ -58,16 +58,21 @@ public class Game{
                 kingIndex = i;
             }
         }
+        int randomCard;
         // دادن 5 کارت به حاکم و نفر بعدیش
             for (int j = 0; j < 5; j++) {
-                roomPlayers.get(kingIndex).getMyCards().add(roomCards.get(rand.nextInt(roomCards.size())));
+                randomCard = rand.nextInt(roomCards.size());
+                roomPlayers.get(kingIndex).getMyCards().add(roomCards.get(randomCard));
                 roomPlayers.get(kingIndex).getMyButtons().add(new JButton());
                 roomPlayers.get(kingIndex).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get(kingIndex).getMyCards().getLast().getRoo().getImage()));
+                roomCards.remove(randomCard);
             }
             for (int j = 0; j < 5; j++) {
-                roomPlayers.get((kingIndex+1)%4).getMyCards().add(roomCards.get(rand.nextInt(roomCards.size())));
+                randomCard = rand.nextInt(roomCards.size());
+                roomPlayers.get((kingIndex+1)%4).getMyCards().add(roomCards.get(randomCard));
                 roomPlayers.get((kingIndex+1)%4).getMyButtons().add(new JButton());
                 roomPlayers.get((kingIndex+1)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+1)%4).getMyCards().getLast().getRoo().getImage()));
+                roomCards.remove(randomCard);
             }
             waitForRulerCardSelection();
             divideCards();
@@ -96,25 +101,32 @@ public class Game{
     }
 
     public void divideCards(){
+        int randomCard;
         // دادن 5 کارت به 2 نفر بعدی
         for (int j = 0; j < 5; j++) {
-            roomPlayers.get((kingIndex+2)%4).getMyCards().add(roomCards.get(rand.nextInt(roomCards.size())));
+            randomCard = rand.nextInt(roomCards.size());
+            roomPlayers.get((kingIndex+2)%4).getMyCards().add(roomCards.get(randomCard));
             roomPlayers.get((kingIndex+2)%4).getMyButtons().add(new JButton());
             roomPlayers.get((kingIndex+2)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+2)%4).getMyCards().getLast().getRoo().getImage()));
+            roomCards.remove(randomCard);
         }
         for (int j = 0; j < 5; j++) {
-            roomPlayers.get((kingIndex+3)%4).getMyCards().add(roomCards.get(rand.nextInt(roomCards.size())));
+            randomCard = rand.nextInt(roomCards.size());
+            roomPlayers.get((kingIndex+3)%4).getMyCards().add(roomCards.get(randomCard));
             roomPlayers.get((kingIndex+3)%4).getMyButtons().add(new JButton());
             roomPlayers.get((kingIndex+3)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+3)%4).getMyCards().getLast().getRoo().getImage()));
+            roomCards.remove(randomCard);
         }
         // دادن 2 دور 4 کارت به هر 4 نفر
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 4; j++) {
             int playerIndex = (kingIndex + j) % 4;
                 for (int k = 0; k < 4; k++) {
+                    randomCard = rand.nextInt(roomCards.size());
                     roomPlayers.get(playerIndex).getMyCards().add(roomCards.get(rand.nextInt(roomCards.size())));
                     roomPlayers.get(playerIndex).getMyButtons().add(new JButton());
                     roomPlayers.get(playerIndex).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get(playerIndex).getMyCards().getLast().getRoo().getImage()));
+                    roomCards.remove(randomCard);
                 }
              }
 
