@@ -16,6 +16,7 @@ public class Player extends Client {
         this.winSets = 0;
         this.turn = false;
         myHand = new JPanel();
+        myHandPanelSetting();
         this.myCards = new ArrayList<>(13);
         this.buttons = new ArrayList<>(13);
     }
@@ -63,12 +64,18 @@ public class Player extends Client {
     }
 
         public void showHandCards() {
-            for (int i = 0; i < myCards.size(); i++) {
-                myHand.add(getMyButtons().get(i));
-                // این متد با همفکری کامل خواهد شد...
-            }
+            // باید با کد buttons.getLast به اخرین کارتی که دست بازیکن اومده دسترسی پیدا کنین
+            // بعدش کار های گرافیکی رو مثل سایز و جانمایی و... بر کارت انجام بدین
+            // و در نهایت به پنل myHand افزوده میشود
+            myHand.add(buttons.getLast());
             myHand.revalidate();
             myHand.repaint();
+        }
+        public void myHandPanelSetting(){
+        // این قسمت هم برای انجام کار های گرافیکی بر پنل دست بازیکن
+            // این متد در کانستراکتور فراخوانی میشود
+            // هر بار که یک player ایجاد شود یک panel با ویژگی های گرافیکی تعریف شده براش ساخته میشود
+            // کارت ها هم با متد بالایی به پنل دست بازیکن افزوده میشود
         }
 
 
