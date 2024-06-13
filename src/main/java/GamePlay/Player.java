@@ -28,6 +28,10 @@ public class Player extends Client {
         return buttons;
     }
 
+    public JPanel getMyHand() {
+        return myHand;
+    }
+
     public int getWinSets() {
         return winSets;
     }
