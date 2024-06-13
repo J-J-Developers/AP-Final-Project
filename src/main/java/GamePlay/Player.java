@@ -8,18 +8,24 @@ import java.util.ArrayList;
 public class Player extends Client {
     private int winSets;
     private boolean turn;
+    private JPanel myHand;
     private ArrayList<Card> myCards ;
     private ArrayList<JButton> buttons ;
     public Player(String name,String id){
         super(name,id);
         this.winSets = 0;
         this.turn = false;
+        myHand = new JPanel();
         this.myCards = new ArrayList<>(13);
         this.buttons = new ArrayList<>(13);
     }
 
     public ArrayList<Card> getMyCards() {
         return myCards;
+    }
+
+    public ArrayList<JButton> getMyButtons() {
+        return buttons;
     }
 
     public int getWinSets() {
@@ -37,31 +43,31 @@ public class Player extends Client {
         this.winSets ++;
     }
 
-    public void putCard(String path){
+    public String putCard(String rooPath){
+        String output = "";
         for (int i = 0; i < myCards.size(); i++) {
-            if (myCards.get(i).getPoshtPath().equalsIgnoreCase(path)){
+            if (myCards.get(i).getPoshtPath().equalsIgnoreCase(rooPath)){
                 //فراخوانی متد ارسال پیام اینکه چی زده
                 // پاک شدن عکس کارت از صفحه بازی
                 // حذف کارت از اری لیست
+                output += myCards.get(i).getType();
                 myCards.remove(i);
                 break;
             }
         }
+        return output;
     }
 
-    //وظیفه این متد فقط فقط ساخت دکمه که همون کارت بازیکنا هستش
-    //یه متد میخوایم برای اینکه هر کارتی که  اندخته شد setvisible اون دکمه false بشه
-        public void showCards(JPanel panel) {
-            // ایجاد و اضافه کردن دکمه‌ها به لیست و پنل
+        public void showHandCards() {
             for (int i = 0; i < myCards.size(); i++) {
-                JButton button = new JButton();
-                button.setIcon(new ImageIcon(myCards.get(i).getRoo().getImage()));
-                buttons.add(button); // اضافه کردن دکمه به لیست دکمه‌ها
-                panel.add(button); // اضافه کردن دکمه به پنل
+                myHand.add(getMyButtons().get(i));
+                // این متد با همفکری کامل خواهد شد...
             }
-            panel.revalidate();
-            panel.repaint();
+            myHand.revalidate();
+            myHand.repaint();
         }
+
+
         //سیستم پیشنهادی بازی
         /*private JButton recommendCard(){
         //الگوریتم سیستم پیشنهادی که نوشته شد این بخش پر میشه
