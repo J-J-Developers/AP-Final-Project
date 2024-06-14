@@ -3,32 +3,7 @@ package GamePlay;
 import javax.swing.*;
 import java.awt.*;
 
-public class GamePage {
-   public GamePage() {
-      JFrame frame = new JFrame("Game Frame");
-      Color customColor = new Color(97, 150, 134);
-      frame.getContentPane().setBackground(customColor);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      Squares squares = new Squares();
-      frame.getContentPane().add(squares);
-
-      squares.addSquare(50, 50, 400, 400);
-      frame.pack();
-      frame.setLocationRelativeTo(null);
-      frame.setResizable(false);
-      frame.setVisible(true);
-   }
-
-   public static void main(String[] args) {
-      SwingUtilities.invokeLater(GamePage::new);
-
-   }
-}
-
-class Squares extends JPanel {
-   private static final int PREF_W = 500;
-   private static final int PREF_H = PREF_W;
-
+public class GamePage extends JPanel {
    @Override
    protected void paintComponent(Graphics g) {
       super.paintComponent(g);
@@ -55,13 +30,4 @@ class Squares extends JPanel {
       g.setColor(Color.cyan);
       g.drawOval(360 , 220, 55, 55);
    }
-
-   @Override
-   public Dimension getPreferredSize() {
-      return new Dimension(PREF_W, PREF_H);
-   }
-
-   public void addSquare(int i, int i1, int i2, int i3) {
-   }
 }
-
