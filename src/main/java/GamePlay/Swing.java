@@ -81,11 +81,16 @@ public class Swing {
                             frame.remove(lbl2);
                             frame.remove(txt2);
                             frame.remove(exit1);
-
-                            frame.setTitle("Game Room");
-
-                            frame.revalidate();
                             frame.repaint();
+                            frame.revalidate();
+
+
+                            GamePage panel = new GamePage();
+                            panel.setBounds(0,0 , 500,500);
+                            frame.add(panel);
+
+
+
                         } else {
                             JOptionPane.showMessageDialog(null,
                                     "please sure you write the nickname",
@@ -93,7 +98,6 @@ public class Swing {
                         }
                     }
                 });
-
                 frame.add(lbl2);
                 frame.add(txt2);
                 frame.add(btn5);
@@ -117,15 +121,15 @@ public class Swing {
                 btn4.setBounds(175, 200, 150, 70);
                 exit.setBounds(175, 300, 150, 70);
 
-                btn3.setBackground(customColor1);
+//                btn3.setBackground(customColor1);
                 btn3.setOpaque(true);
                 btn3.setForeground(new Color(131, 75, 166));
-
-                btn4.setBackground(customColor1);
+//
+//                btn4.setBackground(customColor1);
                 btn4.setOpaque(true);
                 btn4.setForeground(new Color(131, 75, 166));
 
-                exit.setBackground(customColor1);
+//                exit.setBackground(customColor1);
                 exit.setOpaque(true);
                 exit.setForeground(new Color(131, 75, 166));
 
@@ -148,11 +152,11 @@ public class Swing {
                         JButton btn5 = new JButton("Go");
                         JButton exit1 = new JButton("Back");
 
-                        btn5.setBackground(customColor1);
+//                        btn5.setBackground(customColor1);
                         btn5.setOpaque(true);
                         btn5.setForeground(new Color(131, 75, 166));
 
-                        exit1.setBackground(customColor1);
+//                        exit1.setBackground(customColor1);
                         exit1.setOpaque(true);
                         exit1.setForeground(new Color(131, 75, 166));
 
@@ -177,6 +181,9 @@ public class Swing {
 
                                     frame.setTitle("Game Room");
 
+                                    GamePage panel = new GamePage();
+                                    panel.setBounds(0,0 , 500,500);
+                                    frame.add(panel);
                                     frame.revalidate();
                                     frame.repaint();
                                 } else {
