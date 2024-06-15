@@ -3,6 +3,9 @@ package GamePlay;
 import Client.Client;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Player extends Client {
@@ -16,7 +19,7 @@ public class Player extends Client {
         this.winSets = 0;
         this.turn = false;
         myHand = new JPanel();
-        myHandPanelSetting();
+//        myHandPanelSetting();
         this.myCards = new ArrayList<>(13);
         this.buttons = new ArrayList<>(13);
     }
@@ -71,12 +74,58 @@ public class Player extends Client {
             myHand.revalidate();
             myHand.repaint();
         }
-        public void myHandPanelSetting(){
+        public static JPanel myHandPanelSetting(JPanel mainPanel, Color bgColor){
         // این قسمت هم برای انجام کار های گرافیکی بر پنل دست بازیکن
             // این متد در کانستراکتور فراخوانی میشود
             // هر بار که یک player ایجاد شود یک panel با ویژگی های گرافیکی تعریف شده براش ساخته میشود
             // کارت ها هم با متد بالایی به پنل دست بازیکن افزوده میشود
+
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            JPanel myHandPanel = new JPanel();
+            myHandPanel.setBackground(new Color(140, 64, 64));
+            myHandPanel.setBounds(0, 650, screenSize.width, 800);
+            Dimension buttonSize = new Dimension(100, 120);
+
+            int d=0;
+            JPanel centerPanel = new JPanel();
+            centerPanel.setPreferredSize(new Dimension(1070, 400));
+            centerPanel.setBounds(190, 120, 1070, 400);
+            centerPanel.setBackground(bgColor);
+            centerPanel.setVisible(true);
+
+            for(int i = 1; i <= 13; ++i) {
+
+                JButton button = new JButton("Button " + i);
+                button.setPreferredSize(buttonSize);
+//                button.setBounds(20+d,420,90,90);
+//                d+=30;
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        myHandPanel.remove(button);
+
+                        centerPanel.add(button, BorderLayout.CENTER);
+                        myHandPanel.repaint();
+                        mainPanel.repaint();
+                    }
+                });
+                myHandPanel.add(button);
+            }
+
+            mainPanel.add(centerPanel);
+
+
+
+
+
+            return myHandPanel;
         }
+
+    public JButton cardButton(String btnName, ActionListener actionListener){
+        JButton btn = new JButton(btnName);
+        btn.addActionListener(actionListener);
+        return btn;
+    }
 
 
         //سیستم پیشنهادی بازی
