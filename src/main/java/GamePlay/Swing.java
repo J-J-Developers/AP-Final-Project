@@ -9,7 +9,7 @@ public class Swing {
     public static void main(String[] args) {
         Token TOKEN = new Token();
         JFrame frame = new JFrame("Hokm");
-        frame.setBounds(500, 150, 500, 500);
+        frame.setBounds(350, 0, 700, 700);
         frame.setLayout(null);
         frame.getContentPane();
 
@@ -20,8 +20,8 @@ public class Swing {
 
         JButton btn1 = new JButton("Random");
         JButton btn2 = new JButton("Friends");
-        btn1.setBounds(175, 150, 150, 70);
-        btn2.setBounds(175, 250, 150, 70);
+        btn1.setBounds(260, 200, 150, 70);
+        btn2.setBounds(260, 350, 150, 70);
 
         btn1.setBackground(customColor1);
         btn1.setOpaque(true);
@@ -51,10 +51,10 @@ public class Swing {
                 exit1.setOpaque(true);
                 exit1.setForeground(new Color(131, 75, 166));
 
-                lbl2.setBounds(50, 200, 110, 30);
-                txt2.setBounds(170, 200, 200, 30);
-                btn5.setBounds(260, 300, 50, 30);
-                exit1.setBounds(170, 300, 80, 30);
+                lbl2.setBounds(140, 200, 110, 30);
+                txt2.setBounds(260, 200, 200, 30);
+                btn5.setBounds(360, 300, 50, 30);
+                exit1.setBounds(270, 300, 80, 30);
 
                 exit1.addActionListener(new ActionListener() {
                     @Override
@@ -86,7 +86,7 @@ public class Swing {
 
 
                             GamePage panel = new GamePage();
-                            panel.setBounds(0,0 , 500,500);
+                            panel.setBounds(100,60 , 500,500);
                             frame.add(panel);
 
 
@@ -117,19 +117,19 @@ public class Swing {
                 JButton btn4 = new JButton("Create");
                 JButton exit = new JButton("Back");
 
-                btn3.setBounds(175, 100, 150, 70);
-                btn4.setBounds(175, 200, 150, 70);
-                exit.setBounds(175, 300, 150, 70);
+                btn3.setBounds(260, 200, 150, 70);
+                btn4.setBounds(260, 300, 150, 70);
+                exit.setBounds(260, 400, 150, 70);
 
-//                btn3.setBackground(customColor1);
+                btn3.setBackground(customColor1);
                 btn3.setOpaque(true);
                 btn3.setForeground(new Color(131, 75, 166));
-//
-//                btn4.setBackground(customColor1);
+
+                btn4.setBackground(customColor1);
                 btn4.setOpaque(true);
                 btn4.setForeground(new Color(131, 75, 166));
 
-//                exit.setBackground(customColor1);
+                exit.setBackground(customColor1);
                 exit.setOpaque(true);
                 exit.setForeground(new Color(131, 75, 166));
 
@@ -152,20 +152,20 @@ public class Swing {
                         JButton btn5 = new JButton("Go");
                         JButton exit1 = new JButton("Back");
 
-//                        btn5.setBackground(customColor1);
+                        btn5.setBackground(customColor1);
                         btn5.setOpaque(true);
                         btn5.setForeground(new Color(131, 75, 166));
 
-//                        exit1.setBackground(customColor1);
+                        exit1.setBackground(customColor1);
                         exit1.setOpaque(true);
                         exit1.setForeground(new Color(131, 75, 166));
 
-                        lbl2.setBounds(50, 100, 110, 30);
-                        txt2.setBounds(170, 100, 200, 30);
-                        lbl1.setBounds(50, 200, 110, 30);
-                        txt1.setBounds(170, 200, 200, 30);
-                        btn5.setBounds(260, 300, 50, 30);
-                        exit1.setBounds(170, 300, 80, 30);
+                        lbl2.setBounds(160, 200, 110, 30);
+                        txt2.setBounds(280, 200, 200, 30);
+                        lbl1.setBounds(160, 300, 110, 30);
+                        txt1.setBounds(280, 300, 200, 30);
+                        btn5.setBounds(360, 400, 50, 30);
+                        exit1.setBounds(270, 400, 80, 30);
                         btn5.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -178,14 +178,15 @@ public class Swing {
                                     frame.remove(lbl2);
                                     frame.remove(txt2);
                                     frame.remove(exit1);
-
+                                    frame.repaint();
+                                    frame.revalidate();
                                     frame.setTitle("Game Room");
 
                                     GamePage panel = new GamePage();
-                                    panel.setBounds(0,0 , 500,500);
+                                    panel.setBounds(100,60 , 700,700);
                                     frame.add(panel);
-                                    frame.revalidate();
-                                    frame.repaint();
+
+
                                 } else {
                                     JOptionPane.showMessageDialog(null,
                                             "please sure you write the nickname and token",
@@ -231,7 +232,13 @@ public class Swing {
                         frame.remove(btn3);
                         frame.remove(btn4);
                         frame.remove(exit);
+                        frame.repaint();
+                        frame.revalidate();
                         frame.setTitle("Game Room");
+
+                        GamePage panel = new GamePage();
+                        panel.setBounds(100,60 , 700,700);
+
 
                         JLabel lbl2 = new JLabel("Token:");
                         JTextField txt3 = new JTextField(TOKEN.getTokenId());
@@ -239,14 +246,14 @@ public class Swing {
                         txt3.setBackground(null);
                         txt3.setBorder(null);
 
-                        lbl2.setBounds(135, 30, 55, 30);
-                        txt3.setBounds(190, 30, 240, 30);
+
+                        lbl2.setBounds(185, 30, 55, 30);
+                        txt3.setBounds(250, 30, 240, 30);
 
                         frame.add(lbl2);
                         frame.add(txt3);
+                        frame.add(panel);
 
-                        frame.revalidate();
-                        frame.repaint();
 
                     }
                 });
