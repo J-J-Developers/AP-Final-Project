@@ -66,60 +66,72 @@ public class Player extends Client {
         return output;
     }
 
-        public void showHandCards() {
-            // باید با کد buttons.getLast به اخرین کارتی که دست بازیکن اومده دسترسی پیدا کنین
-            // بعدش کار های گرافیکی رو مثل سایز و جانمایی و... بر کارت انجام بدین
-            // و در نهایت به پنل myHand افزوده میشود
-            myHand.add(buttons.getLast());
-            myHand.revalidate();
-            myHand.repaint();
-        }
-        public static JPanel myHandPanelSetting(JPanel mainPanel, Color bgColor){
+    public void showHandCards() {
+        // باید با کد buttons.getLast به اخرین کارتی که دست بازیکن اومده دسترسی پیدا کنین
+        // بعدش کار های گرافیکی رو مثل سایز و جانمایی و... بر کارت انجام بدین
+        // و در نهایت به پنل myHand افزوده میشود
+        myHand.add(buttons.getLast());
+        myHand.revalidate();
+        myHand.repaint();
+    }
+    public static JPanel myHandPanelSetting(){
         // این قسمت هم برای انجام کار های گرافیکی بر پنل دست بازیکن
-            // این متد در کانستراکتور فراخوانی میشود
-            // هر بار که یک player ایجاد شود یک panel با ویژگی های گرافیکی تعریف شده براش ساخته میشود
-            // کارت ها هم با متد بالایی به پنل دست بازیکن افزوده میشود
+        // این متد در کانستراکتور فراخوانی میشود
+        // هر بار که یک player ایجاد شود یک panel با ویژگی های گرافیکی تعریف شده براش ساخته میشود
+        // کارت ها هم با متد بالایی به پنل دست بازیکن افزوده میشود
 
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            JPanel myHandPanel = new JPanel();
-            myHandPanel.setBackground(new Color(140, 64, 64));
-            myHandPanel.setBounds(0, 650, screenSize.width, 800);
-            Dimension buttonSize = new Dimension(100, 120);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-            int d=0;
-            JPanel centerPanel = new JPanel();
-            centerPanel.setPreferredSize(new Dimension(1070, 400));
-            centerPanel.setBounds(190, 120, 1070, 400);
-            centerPanel.setBackground(bgColor);
-            centerPanel.setVisible(true);
+        GamePlay.GamePage mainPanel = new GamePlay.GamePage();
+        mainPanel.setBounds(0, 0, screenSize.width, 900);
 
-            for(int i = 1; i <= 13; ++i) {
-
-                JButton button = new JButton("Button " + i);
-                button.setPreferredSize(buttonSize);
-//                button.setBounds(20+d,420,90,90);
-//                d+=30;
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        myHandPanel.remove(button);
-
-                        centerPanel.add(button, BorderLayout.CENTER);
-                        myHandPanel.repaint();
-                        mainPanel.repaint();
-                    }
-                });
-                myHandPanel.add(button);
-            }
-
-            mainPanel.add(centerPanel);
+        JPanel myHandPanel = new JPanel();
+        myHandPanel.setBackground(new Color(119, 62, 62));
+        myHandPanel.setBounds(0, 650, screenSize.width, 700);
+        Dimension buttonSize = new Dimension(100, 120);
 
 
 
 
+        JPanel centerPanel = new JPanel();
+        centerPanel.setPreferredSize(new Dimension(1070, 400));
+        centerPanel.setBounds(190, 120, 1070, 400);
+        centerPanel.setBackground(new Color(50, 87, 80));
+        centerPanel.setVisible(true);
 
-            return myHandPanel;
+        for(int i = 1; i <= 13; ++i) {
+
+            JButton button = new JButton("Button " + i);
+            button.setPreferredSize(buttonSize);
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    myHandPanel.remove(button);
+
+                    String text = button.getText();
+
+                    JButton button = new JButton(text);
+                    button.setBounds(480,270,90,90);
+
+
+
+
+                    centerPanel.add(button);
+                    myHandPanel.repaint();
+                    mainPanel.repaint();
+                }
+            });
+            myHandPanel.add(button);
         }
+        mainPanel.add(centerPanel);
+        mainPanel.add(myHandPanel);
+
+
+
+
+
+        return mainPanel;
+    }
 
     public JButton cardButton(String btnName, ActionListener actionListener){
         JButton btn = new JButton(btnName);
@@ -128,7 +140,7 @@ public class Player extends Client {
     }
 
 
-        //سیستم پیشنهادی بازی
+    //سیستم پیشنهادی بازی
         /*private JButton recommendCard(){
         //الگوریتم سیستم پیشنهادی که نوشته شد این بخش پر میشه
             //این متد کارت پیشنهادی را بر میگرداند
@@ -137,3 +149,4 @@ public class Player extends Client {
         }*/
 
 }
+
