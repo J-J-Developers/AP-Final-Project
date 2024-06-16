@@ -1,5 +1,4 @@
 package Server;
-
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -52,14 +51,32 @@ public class Server {
                     if (input == null) {
                         return;
                     }
-                    // ارسال پیام دریافتی به تمام کلاینت‌های متصل
-                    for (PrintWriter writer : clients) {
-                        writer.println(input);
+
+                    // تشخیص دستور خاص از کلاینت
+                    if (input.equals("card")) {
+                        // ارسال 10 عدد تصادفی به کلاینت
+                        Random rand = new Random();
+                        for (int i = 0; i < 10; i++) {
+                            int randomNumber = rand.nextInt(50); // مثلاً تولید عدد تصادفی بین 0 تا 49
+                            out.println("عدد تصادفی: " + randomNumber);
+                            // مکث برای 0.5 ثانیه
+                            Thread.sleep(500);
+                        }
+                    } else {
+                        // ارسال پیام به تمام کلاینت‌ها
+                        for (PrintWriter writer : clients) {
+                            writer.println(input);
+                        }
                     }
+
+                    // ارسال پیام دریافتی به تمام کلاینت‌های متصل
+
                 }
             } catch (IOException e) {
                 // چاپ خطا در صورت وجود مشکل
                 System.out.println(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             } finally {
                 // در صورت قطع اتصال، خروجی کلاینت را از مجموعه حذف کن
                 if (out != null) {
@@ -75,4 +92,3 @@ public class Server {
         }
     }
 }
-
