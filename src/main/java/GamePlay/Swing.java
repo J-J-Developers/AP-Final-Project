@@ -1,7 +1,4 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
+
 
 package GamePlay;
 
@@ -74,11 +71,8 @@ public class Swing {
                             frame.remove(lbl2);
                             frame.remove(txt2);
                             frame.remove(exit1);
-                            GamePage panel = new GamePage();
+                            frame.add(Player.myHandPanelSetting());
 
-                            panel.setBounds(0, 0, screenSize.width, 650);
-                            frame.add(panel);
-                            frame.add(Player.myHandPanelSetting(panel,customColor1));
                             frame.revalidate();
                             frame.repaint();
                         } else {
@@ -152,13 +146,9 @@ public class Swing {
                                     frame.remove(txt2);
                                     frame.remove(exit1);
                                     frame.setTitle("Game Room");
-                                    GamePage panel = new GamePage();
-                                    panel.setBounds(0, 0, screenSize.width, 650);
-                                    frame.add(panel);
-//                                    JPanel tablePanel = new JPanel();
-//                                    tablePanel.setBounds(190, 120, 1070, 400);
-//                                    panel.add(tablePanel);
-                                    frame.add(Player.myHandPanelSetting(panel, customColor1));
+
+
+                                    frame.add(Player.myHandPanelSetting());
                                     frame.revalidate();
                                     frame.repaint();
                                 } else {
@@ -205,15 +195,12 @@ public class Swing {
                         txt3.setBorder((Border)null);
                         lbl2.setBounds(520, 50, 110, 50);
                         txt3.setBounds(650, 50, 250, 50);
-                        GamePage panel = new GamePage();
-                        panel.setBounds(0, 0, screenSize.width, 650);
-                        frame.add(panel);
-                        frame.add(Player.myHandPanelSetting(panel,customColor1));
-                        panel.add(lbl2);
-                        panel.add(txt3);
+                        frame.add(Player.myHandPanelSetting());
+
                         frame.revalidate();
                         frame.repaint();
                     }
+
                 });
                 exit.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
