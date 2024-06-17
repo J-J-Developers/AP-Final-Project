@@ -1,5 +1,3 @@
-
-
 package GamePlay;
 
 import java.awt.*;
@@ -16,7 +14,7 @@ public class Swing {
         final Token TOKEN = new Token();
         final JFrame frame = new JFrame("Hokm");
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize(screenSize.width, 800);
+        frame.setSize(screenSize.width, screenSize.height);
         frame.setLayout((LayoutManager)null);
         frame.getContentPane();
         Color customColor = new Color(97, 150, 134);
@@ -71,7 +69,7 @@ public class Swing {
                             frame.remove(lbl2);
                             frame.remove(txt2);
                             frame.remove(exit1);
-                            frame.add(Player.myHandPanelSetting());
+                            //frame.add(Player.myHandPanelSetting());
 
                             frame.revalidate();
                             frame.repaint();
@@ -101,6 +99,14 @@ public class Swing {
                 btn3.setBounds(625, 200, 150, 70);
                 btn4.setBounds(625, 300, 150, 70);
                 exit.setBounds(625, 400, 150, 70);
+                btn3.setBackground(customColor1);
+                btn3.setOpaque(true);
+                btn3.setForeground(new Color(131, 75, 166));
+                btn4.setBackground(customColor1);
+                btn4.setOpaque(true);
+                btn4.setForeground(new Color(131, 75, 166));
+                exit.setBackground(customColor1);
+                exit.setOpaque(true);
                 btn3.setOpaque(true);
                 btn3.setForeground(new Color(131, 75, 166));
                 btn4.setOpaque(true);
@@ -148,7 +154,7 @@ public class Swing {
                                     frame.setTitle("Game Room");
 
 
-                                    frame.add(Player.myHandPanelSetting());
+                                    //frame.add(Player.myHandPanelSetting());
                                     frame.revalidate();
                                     frame.repaint();
                                 } else {
@@ -188,15 +194,71 @@ public class Swing {
                         frame.remove(btn4);
                         frame.remove(exit);
                         frame.setTitle("Game Room");
-                        JLabel lbl2 = new JLabel("Token:");
-                        JTextField txt3 = new JTextField(TOKEN.getTokenId());
-                        txt3.setEditable(false);
-                        txt3.setBackground((Color)null);
-                        txt3.setBorder((Border)null);
-                        lbl2.setBounds(520, 50, 110, 50);
-                        txt3.setBounds(650, 50, 250, 50);
-                        frame.add(Player.myHandPanelSetting());
+                        Token TOKEN = new Token();
 
+                        final JLabel lbl2 = new JLabel("Nickname:");
+                        final JLabel lbl1 = new JLabel("Token:");
+                        final JTextField txt1 = new JTextField(String.valueOf(TOKEN));
+                        final JTextField txt2 = new JTextField();
+                        final JButton btn5 = new JButton("Go");
+                        final JButton exit1 = new JButton("Back");
+
+                        txt1.setEditable(false);
+
+                        btn5.setBackground(customColor1);
+                        btn5.setOpaque(true);
+                        btn5.setForeground(new Color(131, 75, 166));
+                        exit1.setBackground(customColor1);
+                        exit1.setOpaque(true);
+                        exit1.setForeground(new Color(131, 75, 166));
+                        lbl2.setBounds(520, 300, 110, 50);
+                        txt2.setBounds(650, 300, 250, 50);
+                        lbl1.setBounds(520, 200, 110, 50);
+                        txt1.setBounds(650, 200, 250, 50);
+                        btn5.setBounds(800, 400, 90, 50);
+                        exit1.setBounds(670, 400, 90, 50);
+
+                        exit1.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                frame.remove(btn5);
+                                frame.remove(lbl2);
+                                frame.remove(txt2);
+                                frame.remove(lbl1);
+                                frame.remove(txt1);
+                                frame.remove(exit1);
+                                frame.add(btn1);
+                                frame.add(btn2);
+                                frame.revalidate();
+                                frame.repaint();
+                            }
+                        });
+                        btn5.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                String text1 = txt2.getText();
+                                if (!text1.isEmpty()) {
+                                    frame.remove(btn5);
+                                    frame.remove(lbl2);
+                                    frame.remove(txt2);
+                                    frame.remove(exit1);
+                                    frame.remove(lbl1);
+                                    frame.remove(txt1);
+                                    //frame.add(Player.myHandPanelSetting());
+
+                                    frame.revalidate();
+                                    frame.repaint();
+                                } else {
+                                    JOptionPane.showMessageDialog((Component)null, "please sure you write the nickname", "Error", 2);
+                                }
+
+                            }
+                        });
+                        frame.add(lbl1);
+                        frame.add(txt1);
+                        frame.add(lbl2);
+                        frame.add(txt2);
+                        frame.add(btn5);
+                        frame.add(exit1);
+                        frame.setVisible(true);
                         frame.revalidate();
                         frame.repaint();
                     }
