@@ -33,6 +33,12 @@ public class Client {
     JPanel pan2;
     JPanel pan3;
     JPanel pan4;
+    JPanel hokmPan;
+
+    JButton Heart;
+    JButton Diamonds;
+    JButton Clubs;
+    JButton Spades;
     private ArrayList<Card> myCards ;
     private ArrayList<JButton> buttons ;
 
@@ -59,7 +65,12 @@ public class Client {
         pan3=new JPanel();
         pan4=new JPanel();
 
+        hokmPan=new JPanel();
 
+        Heart = new JButton("H");
+        Spades = new JButton("S");
+        Diamonds = new JButton("D");
+        Clubs = new JButton("C");
 
 
 
@@ -115,6 +126,31 @@ public class Client {
         mainPanel.add(lblNik4);
         mainPanel.add(centerPanel);
         mainPanel.add(myHand);
+
+
+        hokmPan.setBounds(10,120,80,400);
+        hokmPan.setBackground(new Color(50, 87, 80));
+        hokmPan.setLayout(null);
+        hokmPan.setVisible(true);
+
+        Clubs.setBounds(0,15,80,80);
+        Spades.setBounds(0,105,80,80);
+        Diamonds.setBounds(0,195,80,80);
+        Heart.setBounds(0,285,80,80);
+
+        Diamonds.setVisible(true);
+        Spades.setVisible(true);
+        Clubs.setVisible(true);
+        Heart.setVisible(true);
+
+        hokmPan.add(Diamonds);
+        hokmPan.add(Clubs);
+        hokmPan.add(Spades);
+        hokmPan.add(Heart);
+        mainPanel.add(hokmPan);
+
+
+
         initializeUI();
     }
 
