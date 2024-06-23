@@ -24,6 +24,15 @@ public class Client {
     private JPanel myHand;
     JPanel centerPanel;
     GamePlay.GamePage mainPanel;
+    JLabel lblNik1;
+    JLabel lblNik2;
+    JLabel lblNik3;
+    JLabel lblNik4;
+
+    JPanel pan1;
+    JPanel pan2;
+    JPanel pan3;
+    JPanel pan4;
     private ArrayList<Card> myCards ;
     private ArrayList<JButton> buttons ;
 
@@ -39,14 +48,26 @@ public class Client {
         this.myHand = new JPanel();
         this.centerPanel = new JPanel();
         this.mainPanel = new GamePlay.GamePage();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        lblNik1 = new JLabel();
+        lblNik2 = new JLabel("eeee");
+        lblNik3 = new JLabel("kkkk");
+        lblNik4 = new JLabel("vvv");
+
+        pan1=new JPanel();
+        pan2=new JPanel();
+        pan3=new JPanel();
+        pan4=new JPanel();
 
 
-        mainPanel.setBounds(0, 0, screenSize.width, 900);
+
+
+
+        mainPanel.setBounds(0, 0, 1500, 900);
 
 
         myHand.setBackground(new Color(119, 62, 62));
-        myHand.setBounds(0, 650, screenSize.width, 700);
+        myHand.setBounds(0, 650, 1500, 700);
 
 
         centerPanel.setPreferredSize(new Dimension(1070, 400));
@@ -54,6 +75,44 @@ public class Client {
         centerPanel.setBackground(new Color(50, 87, 80));
         centerPanel.setVisible(true);
 
+
+        pan1.setBackground(new Color(119, 62, 62));
+        pan2.setBackground(new Color(119, 62, 62));
+        pan3.setBackground(new Color(119, 62, 62));
+        pan4.setBackground(new Color(119, 62, 62));
+
+        pan4.setBounds(200,215,200,200);
+        pan2.setBounds(1050,215,200,200);
+        pan1.setBounds(640,320,200,200);
+        pan3.setBounds(640,120,200,200);
+
+        pan1.setVisible(true);
+        pan2.setVisible(true);
+        pan3.setVisible(true);
+        pan4.setVisible(true);
+
+        mainPanel.add(pan1);
+        mainPanel.add(pan2);
+        mainPanel.add(pan3);
+        mainPanel.add(pan4);
+
+
+
+        lblNik1.setBounds(720,500,100,100);
+        lblNik2.setBounds(1300,270,100,100);
+        lblNik3.setBounds(720,50,100,100);
+        lblNik4.setBounds(120,270,100,100);
+
+
+
+        lblNik1.setVisible(true);
+        lblNik2.setVisible(true);
+        lblNik3.setVisible(true);
+        lblNik4.setVisible(true);
+        mainPanel.add(lblNik1);
+        mainPanel.add(lblNik2);
+        mainPanel.add(lblNik3);
+        mainPanel.add(lblNik4);
         mainPanel.add(centerPanel);
         mainPanel.add(myHand);
         initializeUI();
@@ -91,10 +150,6 @@ public class Client {
 
                 JButton button = new JButton(text);
                 button.setBounds(480,270,90,90);
-
-
-
-
                 centerPanel.add(button);
                 myHand.repaint();
                 mainPanel.repaint();
@@ -125,7 +180,6 @@ public class Client {
                 out.println(scanner.nextLine());
             }
         }).start();
-
         // خواندن پیام‌های دریافتی از سرور و چاپ آن‌ها
         String message;
         while ((message = in.readLine()) != null) {
@@ -191,14 +245,15 @@ public class Client {
                             frame.remove(lbl2);
                             frame.remove(txt2);
                             frame.remove(exit1);
-                           frame.add(getMainPanel());
+                            frame.add(getMainPanel());
+                            lblNik1.setText(txt2.getText());
+
 
                             frame.revalidate();
                             frame.repaint();
                         } else {
                             JOptionPane.showMessageDialog((Component)null, "please sure you write the nickname", "Error", 2);
                         }
-
                     }
                 });
                 frame.add(lbl2);
@@ -274,8 +329,6 @@ public class Client {
                                     frame.remove(txt2);
                                     frame.remove(exit1);
                                     frame.setTitle("Game Room");
-
-
                                     frame.add(getMainPanel());
                                     frame.revalidate();
                                     frame.repaint();
@@ -339,7 +392,6 @@ public class Client {
                         txt1.setBounds(650, 200, 250, 50);
                         btn5.setBounds(800, 400, 90, 50);
                         exit1.setBounds(670, 400, 90, 50);
-
                         exit1.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
                                 frame.remove(btn5);
