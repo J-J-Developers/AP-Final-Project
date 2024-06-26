@@ -1,92 +1,185 @@
 package Server;
+import org.json.* ;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
 public class Server {
-    private static final int PORT = 1234;
-    private static Set<PrintWriter> clients = Collections.synchronizedSet(new HashSet<>());
+    private static final int PORT = 6666; // پورت سرور
+    private static Map<String, ClientHandler> clients = new HashMap<>(); // لیست کلاینت‌ها
+    private static List<ClientHandler> randomPlayers = new ArrayList<>(); // لیست بازیکنان رندوم
+    private static Map<String, List<ClientHandler>> friendGroups = new HashMap<>(); // گروه‌های دوستانه
 
-    public static void main(String[] args) throws Exception {
-        System.out.println("The chat server is running...");
-        ServerSocket listener = new ServerSocket(PORT);
-
-        try {
-            // حلقه بی‌پایان برای پذیرش اتصالات جدید
+    public static void main(String[] args) {
+        System.out.println("Server started...");
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (true) {
-                // برای هر اتصال جدید، یک نخ Handler جدید ایجاد و راه‌اندازی می‌شود
-                new Handler(listener.accept()).start();
+                // منتظر اتصال کلاینت‌های جدید می‌ماند
+                Socket clientSocket = serverSocket.accept();
+                ClientHandler handler = new ClientHandler(clientSocket);
+                new Thread(handler).start(); // شروع ترد جدید برای مدیریت کلاینت
             }
-        } finally {
-            // بستن سوکت سرور در صورت خروج از حلقه
-            listener.close();
+        } catch (IOException e) {
+            e.printStackTrace(); // چاپ خطا در صورت مشکل در اتصال
         }
     }
 
-    // کلاس داخلی Handler که برای مدیریت اتصالات کلاینت‌ها استفاده می‌شود
-    private static class Handler extends Thread {
+    // کلاس مدیریت کلاینت‌ها
+    private static class ClientHandler implements Runnable {
         private Socket socket;
         private BufferedReader in;
         private PrintWriter out;
+        private String nickname;
 
-        // سازنده کلاس Handler که یک سوکت کلاینت را می‌گیرد
-        public Handler(Socket socket) {
+        public ClientHandler(Socket socket) {
             this.socket = socket;
         }
 
-        // متد run که کارهای مربوط به هر کلاینت را انجام می‌دهد
+        @Override
         public void run() {
             try {
+                // تنظیم ورودی و خروجی برای ارتباط با کلاینت
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
 
-                // اضافه کردن خروجی کلاینت به مجموعه کلاینت‌ها
-                clients.add(out);
-
-                // حلقه بی‌پایان برای خواندن و ارسال پیام‌ها
                 while (true) {
-                    // خواندن یک خط پیام از کلاینت
-                    String input = in.readLine();
-                    // اگر پیامی وجود نداشت، اتصال را قطع کن
-                    if (input == null) {
-                        return;
+                    // دریافت پیام از کلاینت
+                    String message = in.readLine();
+                    if (message == null) {
+                        break; // قطع ارتباط در صورت دریافت پیام null
                     }
+                    System.out.println("Received: " + message);
+                    String[] parts = message.split(" "); // جدا کردن دستورات و پارامترها
+                    String command = parts[0]; // اولین قسمت پیام به عنوان دستور
 
-                    // تشخیص دستور خاص از کلاینت
-                    if (input.equals("card")) {
-                        // ارسال 10 عدد تصادفی به کلاینت
-                        Random rand = new Random();
-                        for (int i = 0; i < 10; i++) {
-                            int randomNumber = rand.nextInt(50); // مثلاً تولید عدد تصادفی بین 0 تا 49
-                            out.println("عدد تصادفی: " + randomNumber);
-                            // مکث برای 0.5 ثانیه
-                            Thread.sleep(500);
-                        }
+                    // پردازش دستورها
+                    if (command.equals("create")) {
+                        handleCreate(parts); // فراخوانی تابع ایجاد بازی دوستانه
+                    } else if (command.equals("join")) {
+                        handleJoin(parts); // فراخوانی تابع پیوستن به گروه
+                    } else if (command.equals("random")) {
+                        handleRandom(parts); // فراخوانی تابع پیوستن به گروه تصادفی
+                    } else if (command.equals("message")) {
+                        handleMessage(parts); // فراخوانی تابع ارسال پیام به گروه
                     } else {
-                        // ارسال پیام به تمام کلاینت‌ها
-                        for (PrintWriter writer : clients) {
-                            writer.println(input);
-                        }
+                        out.println("Unknown command: " + command); // پیام خطا برای دستور ناشناخته
                     }
-
-                    // ارسال پیام دریافتی به تمام کلاینت‌های متصل
-
                 }
             } catch (IOException e) {
-                // چاپ خطا در صورت وجود مشکل
-                System.out.println(e);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace(); // چاپ خطا در صورت بروز مشکل در ارتباط
             } finally {
-                // در صورت قطع اتصال، خروجی کلاینت را از مجموعه حذف کن
-                if (out != null) {
-                    clients.remove(out);
+                // حذف کلاینت از لیست در صورت قطع ارتباط
+                if (nickname != null) {
+                    clients.remove(nickname);
+                    System.out.println("Client disconnected: " + nickname);
                 }
-                // سوکت کلاینت را ببند
                 try {
-                    socket.close();
+                    socket.close(); // بستن سوکت
                 } catch (IOException e) {
-                    System.out.println(e);
+                    e.printStackTrace(); // چاپ خطا در صورت بروز مشکل در بستن سوکت
+                }
+            }
+        }
+
+        // پردازش دستور create برای ایجاد بازی دوستانه
+        private void handleCreate(String[] parts) {
+            if (parts.length < 3) {
+                out.println("Error: Missing nickname or token"); // پیام خطا در صورت نبودن نام مستعار یا توکن
+                return;
+            }
+            this.nickname = parts[1]; // دریافت نام مستعار
+            String token = parts[2]; // دریافت توکن از کلاینت
+
+            clients.put(nickname, this); // اضافه کردن کلاینت به لیست
+            List<ClientHandler> newGroup = new ArrayList<>();
+            newGroup.add(this); // ایجاد گروه جدید دوستانه با توکن
+            friendGroups.put(token, newGroup); // اضافه کردن گروه به لیست گروه‌ها
+            out.println("Success: Game created with token " + token); // ارسال پیام موفقیت به کلاینت همراه با توکن
+        }
+
+        // پردازش دستور join برای پیوستن به بازی دوستانه
+        private void handleJoin(String[] parts) {
+            if (parts.length < 3) {
+                out.println("Error: Missing nickname or token"); // پیام خطا در صورت نبودن نام مستعار یا توکن
+                return;
+            }
+            this.nickname = parts[1]; // دریافت نام مستعار
+            String token = parts[2]; // دریافت توکن از کلاینت
+
+            synchronized (friendGroups) { // استفاده از synchronized برای جلوگیری از شرایط رقابتی
+                if (!friendGroups.containsKey(token)) {
+                    out.println("Error: Invalid token"); // پیام خطا در صورت نبودن توکن
+                    return;
+                }
+
+                List<ClientHandler> group = friendGroups.get(token);
+                group.add(this); // اضافه کردن کلاینت به گروه
+
+                if (group.size() >= 4) { // اگر تعداد اعضای گروه به ۴ نفر رسید
+                    startGame(group); // شروع بازی با گروه
+                    friendGroups.remove(token); // حذف گروه پس از شروع بازی
+                } else {
+                    out.println("Waiting for more friends to join..."); // پیام انتظار برای دوستان بیشتر
+                }
+            }
+        }
+
+        // پردازش دستور random برای پیوستن به گروه تصادفی
+        private void handleRandom(String[] parts) {
+            this.nickname = parts[1]; // دریافت نام مستعار
+            clients.put(nickname, this); // اضافه کردن کلاینت به لیست
+            joinRandomGroup(); // پیوستن به گروه تصادفی
+        }
+
+        // پیوستن به گروه تصادفی
+        private void joinRandomGroup() {
+            randomPlayers.add(this); // اضافه کردن کلاینت به لیست بازیکنان تصادفی
+            if (randomPlayers.size() >= 4) { // اگر تعداد بازیکنان به ۴ نفر رسید
+                List<ClientHandler> newGroup = new ArrayList<>(); // ساخت گروه جدید
+                for (int i = 0; i < 4; i++) {
+                    newGroup.add(randomPlayers.remove(0)); // اضافه کردن ۴ کلاینت به گروه جدید
+                }
+                startGame(newGroup); // شروع بازی با گروه جدید
+            } else {
+                out.println("Waiting for more players to join..."); // پیام انتظار برای بازیکنان بیشتر
+            }
+        }
+
+        // شروع بازی با گروه
+        private void startGame(List<ClientHandler> group) {
+            // انتخاب تصادفی یک نفر به عنوان حاکم
+            Random random = new Random();
+            int rulerIndex = random.nextInt(group.size());
+            String rulerName = group.get(rulerIndex).nickname; // دریافت نام مستعار حاکم
+
+            for (ClientHandler player : group) {
+                player.out.println("Game started with players: " + Arrays.toString(group.stream().map(p -> p.nickname).toArray()));
+                player.out.println("Ruler is: " + rulerName); // ارسال پیام حاکم به کل اعضای گروه
+            }
+        }
+
+        // ارسال پیام به اعضای گروه
+        private void sendMessageToGroup(String message, List<ClientHandler> group) {
+            for (ClientHandler player : group) {
+                player.out.println(message);
+            }
+        }
+
+        // پردازش دستور message برای ارسال پیام به گروه
+        private void handleMessage(String[] parts) {
+            if (parts.length < 3) {
+                out.println("Error: Missing message or token");
+                return;
+            }
+            String token = parts[1];
+            String message = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
+
+            synchronized (friendGroups) {
+                if (friendGroups.containsKey(token)) {
+                    List<ClientHandler> group = friendGroups.get(token);
+                    sendMessageToGroup(nickname + ": " + message, group);
+                } else {
+                    out.println("Error: Invalid token");
                 }
             }
         }
