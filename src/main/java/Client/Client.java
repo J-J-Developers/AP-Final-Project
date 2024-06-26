@@ -17,13 +17,16 @@ public class Client {
     // آدرس سرور چت
     private static final String SERVER_ADDRESS = "127.0.0.1";
     // پورتی که سرور چت بر روی آن گوش می‌دهد
-    private static final int SERVER_PORT = 1234;
+    private static final int SERVER_PORT = 6666;
 
     private String name;
     private String id;
     private JPanel myHand;
     JPanel centerPanel;
     GamePlay.GamePage mainPanel;
+    private ArrayList<Card> myCards;
+    private ArrayList<JButton> buttons;
+    private PrintWriter out;
     JLabel lblNik1;
     JLabel lblNik2;
     JLabel lblNik3;
@@ -39,8 +42,6 @@ public class Client {
     JButton Diamonds;
     JButton Clubs;
     JButton Spades;
-    private ArrayList<Card> myCards ;
-    private ArrayList<JButton> buttons ;
 
     public GamePage getMainPanel() {
         return mainPanel;
@@ -54,6 +55,7 @@ public class Client {
         this.myHand = new JPanel();
         this.centerPanel = new JPanel();
         this.mainPanel = new GamePlay.GamePage();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         lblNik1 = new JLabel();
         lblNik2 = new JLabel("eeee");
@@ -148,10 +150,6 @@ public class Client {
         hokmPan.add(Spades);
         hokmPan.add(Heart);
         mainPanel.add(hokmPan);
-
-
-
-        initializeUI();
     }
 
     public String getName() {
@@ -195,7 +193,9 @@ public class Client {
     }
 
     public static void main(String[] args) throws Exception {
-        new Client(" " , " ").startClient();
+        Client client = new Client(" ", " ");
+        client.initializeUI();
+        client.startClient();
     }
 
     // متد startClient برای شروع اتصال به سرور چت
@@ -205,28 +205,44 @@ public class Client {
         // برای خواندن پیام‌های دریافتی از سرور
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         // برای نوشتن پیام‌ها به سرور
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        out = new PrintWriter(socket.getOutputStream(), true);
+
+        // Start a thread to read messages from the server
+        new Thread(() -> {
+            try {
+                String message;
+                while ((message = in.readLine()) != null) {
+                    System.out.println(message);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
         // برای خواندن ورودی از کاربر
         Scanner scanner = new Scanner(System.in);
         System.out.println("Connected to chat server");
 
-        // ایجاد یک رشته جدید برای خواندن ورودی کاربر و ارسال آن به سرور
+        // Thread to read user input and send it to server
         new Thread(() -> {
             while (scanner.hasNextLine()) {
-                out.println(scanner.nextLine());
+                String userInput = scanner.nextLine();
+                sendMessageToServer(userInput);
             }
         }).start();
-        // خواندن پیام‌های دریافتی از سرور و چاپ آن‌ها
-        String message;
-        while ((message = in.readLine()) != null) {
-            System.out.println(message);
+    }
+
+    public void sendMessageToServer(String message) {
+        if (out != null) {
+            out.println(message);
         }
     }
+
     public void initializeUI(){
         final Token TOKEN = new Token();
         final JFrame frame = new JFrame("Hokm");
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize(screenSize.width, screenSize.height);
+        frame.setSize(1500, 1600);
         frame.setLayout((LayoutManager)null);
         frame.getContentPane();
         Color customColor = new Color(97, 150, 134);
@@ -275,16 +291,15 @@ public class Client {
                 });
                 btn5.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        String text1 = txt2.getText();
-                        if (!text1.isEmpty()) {
+                        String nickname = txt2.getText();
+                        if (!nickname.isEmpty()) {
+                            sendMessageToServer("random " + nickname);
                             frame.remove(btn5);
                             frame.remove(lbl2);
                             frame.remove(txt2);
                             frame.remove(exit1);
                             frame.add(getMainPanel());
                             lblNik1.setText(txt2.getText());
-
-
                             frame.revalidate();
                             frame.repaint();
                         } else {
@@ -355,9 +370,10 @@ public class Client {
                         exit1.setBounds(670, 400, 90, 50);
                         btn5.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                String text1 = txt2.getText();
-                                String text = txt1.getText();
-                                if (!text.isEmpty() && !text1.isEmpty()) {
+                                String nickname= txt2.getText();
+                                String token = txt1.getText();
+                                if (!nickname.isEmpty() && !token.isEmpty()) {
+                                    sendMessageToServer("join " + nickname + " " + token);
                                     frame.remove(lbl1);
                                     frame.remove(txt1);
                                     frame.remove(btn5);
@@ -444,8 +460,10 @@ public class Client {
                         });
                         btn5.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                String text1 = txt2.getText();
-                                if (!text1.isEmpty()) {
+                                String nickname= txt2.getText();
+                                String token = txt1.getText() ;
+                                if (!nickname.isEmpty()) {
+                                    sendMessageToServer("create " + nickname + " " + token);
                                     frame.remove(btn5);
                                     frame.remove(lbl2);
                                     frame.remove(txt2);
@@ -493,5 +511,7 @@ public class Client {
         frame.add(btn2);
         frame.setResizable(false);
         frame.setVisible(true);
+        frame.revalidate();
+        frame.repaint();
     }
 }
