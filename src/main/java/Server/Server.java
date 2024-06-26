@@ -1,5 +1,9 @@
 package Server;
+import GamePlay.Card;
+import GamePlay.CardBox;
 import org.json.* ;
+
+import javax.swing.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -9,6 +13,19 @@ public class Server {
     private static Map<String, ClientHandler> clients = new HashMap<>(); // لیست کلاینت‌ها
     private static List<ClientHandler> randomPlayers = new ArrayList<>(); // لیست بازیکنان رندوم
     private static Map<String, List<ClientHandler>> friendGroups = new HashMap<>(); // گروه‌های دوستانه
+    private CardBox cardBox;
+    public static ArrayList<Card> roomCards = new ArrayList<>(getCardBox().cards);
+    public Server(){
+        this.cardBox = new CardBox();
+    }
+
+    public CardBox getCardBox() {
+        return cardBox;
+    }
+
+    public ArrayList<Card> getRoomCards() {
+        return roomCards;
+    }
 
     public static void main(String[] args) {
         System.out.println("Server started...");
@@ -134,7 +151,7 @@ public class Server {
         // پیوستن به گروه تصادفی
         private void joinRandomGroup() {
             randomPlayers.add(this); // اضافه کردن کلاینت به لیست بازیکنان تصادفی
-            if (randomPlayers.size() >= 4) { // اگر تعداد بازیکنان به ۴ نفر رسید
+            if (randomPlayers.size() % 4 == 0) { // اگر تعداد بازیکنان به ۴ نفر رسید
                 List<ClientHandler> newGroup = new ArrayList<>(); // ساخت گروه جدید
                 for (int i = 0; i < 4; i++) {
                     newGroup.add(randomPlayers.remove(0)); // اضافه کردن ۴ کلاینت به گروه جدید
@@ -147,10 +164,92 @@ public class Server {
 
         // شروع بازی با گروه
         private void startGame(List<ClientHandler> group) {
+
             // انتخاب تصادفی یک نفر به عنوان حاکم
-            Random random = new Random();
-            int rulerIndex = random.nextInt(group.size());
+            Random rand = new Random();
+            int rulerIndex = rand.nextInt(group.size());
             String rulerName = group.get(rulerIndex).nickname; // دریافت نام مستعار حاکم
+            int randomCard;
+            // دادن 5 کارت به حاکم و نفر بعدیش
+            for (int j = 0; j < 5; j++) {
+                randomCard = rand.nextInt(roomCards.size());
+                sendMessageToOne("TAKE CARD:",group,rulerIndex);
+                roomPlayers.get(kingIndex).getMyButtons().add(new JButton());
+                roomPlayers.get(kingIndex).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get(kingIndex).getMyCards().getLast().getRoo().getImage()));
+                roomPlayers.get(kingIndex).showHandCards();
+                roomCards.remove(randomCard);
+            }
+            for (int j = 0; j < 5; j++) {
+                randomCard = rand.nextInt(roomCards.size());
+                roomPlayers.get((kingIndex+1)%4).getMyCards().add(roomCards.get(randomCard));
+                roomPlayers.get((kingIndex+1)%4).getMyButtons().add(new JButton());
+                roomPlayers.get((kingIndex+1)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+1)%4).getMyCards().getLast().getRoo().getImage()));
+                roomPlayers.get((kingIndex+1)%4).showHandCards();
+                roomCards.remove(randomCard);
+            }
+            waitForRulerCardSelection();
+            divideCards();
+            // start game method...
+
+
+        }
+        private void waitForRulerCardSelection() {
+            synchronized (lock) {
+                while (!isRulerCardSelected) {
+                    try {
+                        lock.wait(); // منتظر می‌ماند تا حاکم کارت را انتخاب کند
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        }
+
+        // put this method in each actionListeners of Cards button to check hokm is selected or not...
+        public void rulerCardSelected() {
+            synchronized (lock) {
+                isRulerCardSelected = true;
+                lock.notifyAll(); // اطلاع به نخ منتظر که کارت انتخاب شده است
+            }
+        }
+
+        public void divideCards(){
+            int randomCard;
+            // دادن 5 کارت به 2 نفر بعدی
+            for (int j = 0; j < 5; j++) {
+                randomCard = rand.nextInt(roomCards.size());
+                roomPlayers.get((kingIndex+2)%4).getMyCards().add(roomCards.get(randomCard));
+                roomPlayers.get((kingIndex+2)%4).getMyButtons().add(new JButton());
+                roomPlayers.get((kingIndex+2)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+2)%4).getMyCards().getLast().getRoo().getImage()));
+                roomPlayers.get((kingIndex+2)%4).showHandCards();
+                roomCards.remove(randomCard);
+            }
+            for (int j = 0; j < 5; j++) {
+                randomCard = rand.nextInt(roomCards.size());
+                roomPlayers.get((kingIndex+3)%4).getMyCards().add(roomCards.get(randomCard));
+                roomPlayers.get((kingIndex+3)%4).getMyButtons().add(new JButton());
+                roomPlayers.get((kingIndex+3)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+3)%4).getMyCards().getLast().getRoo().getImage()));
+                roomPlayers.get((kingIndex+3)%4).showHandCards();
+                roomCards.remove(randomCard);
+            }
+            // دادن 2 دور 4 کارت به هر 4 نفر
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 4; j++) {
+                    int playerIndex = (kingIndex + j) % 4;
+                    for (int k = 0; k < 4; k++) {
+                        randomCard = rand.nextInt(roomCards.size());
+                        roomPlayers.get(playerIndex).getMyCards().add(roomCards.get(rand.nextInt(roomCards.size())));
+                        roomPlayers.get(playerIndex).getMyButtons().add(new JButton());
+                        roomPlayers.get(playerIndex).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get(playerIndex).getMyCards().getLast().getRoo().getImage()));
+                        roomPlayers.get(playerIndex).showHandCards();
+                        roomCards.remove(randomCard);
+                    }
+                }
+
+            }
+
+
+
 
             for (ClientHandler player : group) {
                 player.out.println("Game started with players: " + Arrays.toString(group.stream().map(p -> p.nickname).toArray()));
@@ -164,6 +263,10 @@ public class Server {
                 player.out.println(message);
             }
         }
+        private void sendMessageToOne(String message, List<ClientHandler> group,int index) {
+            group.get(index).out.println(message);
+        }
+
 
         // پردازش دستور message برای ارسال پیام به گروه
         private void handleMessage(String[] parts) {

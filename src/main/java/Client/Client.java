@@ -3,6 +3,7 @@ package Client;
 import GamePlay.Card;
 import GamePlay.GamePage;
 import GamePlay.Token;
+import org.json.* ;
 
 import javax.swing.*;
 import java.awt.*;
@@ -212,6 +213,19 @@ public class Client {
             try {
                 String message;
                 while ((message = in.readLine()) != null) {
+                    if (message.startsWith("TAKE CARD:") ){
+                        String jsonCardString = message.substring(10);
+                        try {
+                            ObjectMapper mapper = new ObjectMapper();
+                            // Card card = mapper.readValue(jsonCardString,Card.class);
+                            getMyCards().add(mapper.readValue(jsonCardString,Card.class));
+                            getMyButtons().add(new JButton());
+                            getMyButtons().getLast().setIcon(new ImageIcon(getMyCards().getLast().getRoo().getImage()));
+                            showHandCards();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
                     System.out.println(message);
                 }
             } catch (IOException e) {
