@@ -64,7 +64,7 @@ public class Game{
                 randomCard = rand.nextInt(roomCards.size());
                 roomPlayers.get(kingIndex).getMyCards().add(roomCards.get(randomCard));
                 roomPlayers.get(kingIndex).getMyButtons().add(new JButton());
-                roomPlayers.get(kingIndex).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get(kingIndex).getMyCards().getLast().getRoo().getImage()));
+               // roomPlayers.get(kingIndex).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get(kingIndex).getMyCards().getLast().getRoo().getImage()));
                 roomPlayers.get(kingIndex).showHandCards();
                 roomCards.remove(randomCard);
             }
@@ -72,7 +72,7 @@ public class Game{
                 randomCard = rand.nextInt(roomCards.size());
                 roomPlayers.get((kingIndex+1)%4).getMyCards().add(roomCards.get(randomCard));
                 roomPlayers.get((kingIndex+1)%4).getMyButtons().add(new JButton());
-                roomPlayers.get((kingIndex+1)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+1)%4).getMyCards().getLast().getRoo().getImage()));
+              //  roomPlayers.get((kingIndex+1)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+1)%4).getMyCards().getLast().getRoo().getImage()));
                 roomPlayers.get((kingIndex+1)%4).showHandCards();
                 roomCards.remove(randomCard);
             }
@@ -109,7 +109,7 @@ public class Game{
             randomCard = rand.nextInt(roomCards.size());
             roomPlayers.get((kingIndex+2)%4).getMyCards().add(roomCards.get(randomCard));
             roomPlayers.get((kingIndex+2)%4).getMyButtons().add(new JButton());
-            roomPlayers.get((kingIndex+2)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+2)%4).getMyCards().getLast().getRoo().getImage()));
+            //roomPlayers.get((kingIndex+2)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+2)%4).getMyCards().getLast().getRoo().getImage()));
             roomPlayers.get((kingIndex+2)%4).showHandCards();
             roomCards.remove(randomCard);
         }
@@ -117,7 +117,7 @@ public class Game{
             randomCard = rand.nextInt(roomCards.size());
             roomPlayers.get((kingIndex+3)%4).getMyCards().add(roomCards.get(randomCard));
             roomPlayers.get((kingIndex+3)%4).getMyButtons().add(new JButton());
-            roomPlayers.get((kingIndex+3)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+3)%4).getMyCards().getLast().getRoo().getImage()));
+          //  roomPlayers.get((kingIndex+3)%4).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get((kingIndex+3)%4).getMyCards().getLast().getRoo().getImage()));
             roomPlayers.get((kingIndex+3)%4).showHandCards();
             roomCards.remove(randomCard);
         }
@@ -129,7 +129,7 @@ public class Game{
                     randomCard = rand.nextInt(roomCards.size());
                     roomPlayers.get(playerIndex).getMyCards().add(roomCards.get(rand.nextInt(roomCards.size())));
                     roomPlayers.get(playerIndex).getMyButtons().add(new JButton());
-                    roomPlayers.get(playerIndex).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get(playerIndex).getMyCards().getLast().getRoo().getImage()));
+                    //roomPlayers.get(playerIndex).getMyButtons().getLast().setIcon(new ImageIcon(roomPlayers.get(playerIndex).getMyCards().getLast().getRoo().getImage()));
                     roomPlayers.get(playerIndex).showHandCards();
                     roomCards.remove(randomCard);
                 }

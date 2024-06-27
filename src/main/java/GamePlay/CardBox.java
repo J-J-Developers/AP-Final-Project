@@ -5,7 +5,6 @@ import java.util.List;
 
 public class CardBox {
     public List<Card> cards = new ArrayList<>();
-    public final String poshtPath = "poshtPath";
     public CardBox(){
         initializeFullDeck();
     }
@@ -14,22 +13,21 @@ public class CardBox {
     public void initializeFullDeck() {
         // اضافه کردن کارت‌های قلب
         for (int i = 1; i <= 13; i++) {
-            cards.add(new Card(i, "Hearts", "roopath" + i + "hearts", "poshtPath"));
+            cards.add(new Card(i, "Hearts", "C:\\Users\\IR-TECH\\Desktop\\Hokm\\QD.png"));
         }
         // اضافه کردن کارت‌های خشت
         for (int i = 1; i <= 13; i++) {
-            cards.add(new Card(i, "Diamonds", "roopath" + i + "diamonds", "poshtPath"));
+            cards.add(new Card(i, "Diamonds", "C:\\Users\\IR-TECH\\Desktop\\Hokm\\QG.png"));
         }
         // اضافه کردن کارت‌های گشنیز
         for (int i = 1; i <= 13; i++) {
-            cards.add(new Card(i, "Clubs", "roopath" + i + "clubs", "poshtPath"));
+            cards.add(new Card(i, "Clubs", "C:\\Users\\IR-TECH\\Desktop\\Hokm\\QG.png"));
         }
         // اضافه کردن کارت‌های پیک
         for (int i = 1; i <= 13; i++) {
-            cards.add(new Card(i, "Spades", "roopath" + i + "spades", "poshtPath"));
+            cards.add(new Card(i, "Spades", "C:\\Users\\IR-TECH\\Desktop\\Hokm\\QG.png"));
         }
     }
-
 
     public List<Card> getCards() {
         return cards;

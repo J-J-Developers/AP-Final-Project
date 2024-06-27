@@ -14,7 +14,7 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Client2 {
+public class Client3 {
     // آدرس سرور چت
     private static final String SERVER_ADDRESS = "127.0.0.1";
     // پورتی که سرور چت بر روی آن گوش می‌دهد
@@ -49,7 +49,7 @@ public class Client2 {
         return mainPanel;
     }
 
-    public Client2(String name, String id) {
+    public Client3(String name, String id) {
         this.name = name;
         this.id = id;
         this.myCards = new ArrayList<>(13);

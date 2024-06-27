@@ -1,21 +1,18 @@
 package GamePlay;
 
 import javax.swing.*;
+import java.io.Serializable;
 
-public class Card {
+public class Card implements Serializable {
     private int number;
     private String type;
-    private ImageIcon rooImage;
+    private transient ImageIcon rooImage;
     private String rooPath;
-    private ImageIcon poshtImage;
-    private String poshtPath;
-    public Card(int number,String type,String rooPath,String poshtPath){
+
+    public Card(int number,String type,String rooPath){
         this.number = number;
         this.type = type;
-        this.rooImage = new ImageIcon(rooPath);
         this.rooPath = rooPath;
-        this.poshtImage = new ImageIcon(poshtPath);
-        this.poshtPath = poshtPath;
     }
 
     public int getNumber() {
@@ -26,17 +23,13 @@ public class Card {
         return type;
     }
 
-    public ImageIcon getRoo() {
+    public ImageIcon getRooImage() {
+        if (rooImage == null){
+            rooImage = new ImageIcon(rooPath);
+        }
         return rooImage;
     }
     public String getRooPath(){
         return rooPath;
-    }
-
-    public ImageIcon getPosht() {
-        return poshtImage;
-    }
-    public String getPoshtPath(){
-        return poshtPath;
     }
 }

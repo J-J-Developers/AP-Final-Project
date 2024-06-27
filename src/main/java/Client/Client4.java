@@ -14,7 +14,7 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Client2 {
+public class Client4 {
     // آدرس سرور چت
     private static final String SERVER_ADDRESS = "127.0.0.1";
     // پورتی که سرور چت بر روی آن گوش می‌دهد
@@ -49,7 +49,7 @@ public class Client2 {
         return mainPanel;
     }
 
-    public Client2(String name, String id) {
+    public Client4(String name, String id){
         this.name = name;
         this.id = id;
         this.myCards = new ArrayList<>(13);
@@ -64,17 +64,18 @@ public class Client2 {
         lblNik3 = new JLabel("kkkk");
         lblNik4 = new JLabel("vvv");
 
-        pan1 = new JPanel();
-        pan2 = new JPanel();
-        pan3 = new JPanel();
-        pan4 = new JPanel();
+        pan1=new JPanel();
+        pan2=new JPanel();
+        pan3=new JPanel();
+        pan4=new JPanel();
 
-        hokmPan = new JPanel();
+        hokmPan=new JPanel();
 
         Heart = new JButton("H");
         Spades = new JButton("S");
         Diamonds = new JButton("D");
         Clubs = new JButton("C");
+
 
 
         mainPanel.setBounds(0, 0, 1500, 900);
@@ -95,10 +96,10 @@ public class Client2 {
         pan3.setBackground(new Color(119, 62, 62));
         pan4.setBackground(new Color(119, 62, 62));
 
-        pan4.setBounds(200, 215, 200, 200);
-        pan2.setBounds(1050, 215, 200, 200);
-        pan1.setBounds(640, 320, 200, 200);
-        pan3.setBounds(640, 120, 200, 200);
+        pan4.setBounds(200,215,200,200);
+        pan2.setBounds(1050,215,200,200);
+        pan1.setBounds(640,320,200,200);
+        pan3.setBounds(640,120,200,200);
 
         pan1.setVisible(true);
         pan2.setVisible(true);
@@ -111,10 +112,12 @@ public class Client2 {
         mainPanel.add(pan4);
 
 
-        lblNik1.setBounds(720, 500, 100, 100);
-        lblNik2.setBounds(1300, 270, 100, 100);
-        lblNik3.setBounds(720, 50, 100, 100);
-        lblNik4.setBounds(120, 270, 100, 100);
+
+        lblNik1.setBounds(720,500,100,100);
+        lblNik2.setBounds(1300,270,100,100);
+        lblNik3.setBounds(720,50,100,100);
+        lblNik4.setBounds(120,270,100,100);
+
 
 
         lblNik1.setVisible(true);
@@ -129,15 +132,15 @@ public class Client2 {
         mainPanel.add(myHand);
 
 
-        hokmPan.setBounds(10, 120, 80, 400);
+        hokmPan.setBounds(10,120,80,400);
         hokmPan.setBackground(new Color(50, 87, 80));
         hokmPan.setLayout(null);
         hokmPan.setVisible(true);
 
-        Clubs.setBounds(0, 15, 80, 80);
-        Spades.setBounds(0, 105, 80, 80);
-        Diamonds.setBounds(0, 195, 80, 80);
-        Heart.setBounds(0, 285, 80, 80);
+        Clubs.setBounds(0,15,80,80);
+        Spades.setBounds(0,105,80,80);
+        Diamonds.setBounds(0,195,80,80);
+        Heart.setBounds(0,285,80,80);
 
         Diamonds.setVisible(true);
         Spades.setVisible(true);
@@ -158,11 +161,9 @@ public class Client2 {
     public String getId() {
         return id;
     }
-
     public JPanel getMyHand() {
         return myHand;
     }
-
     public ArrayList<Card> getMyCards() {
         return myCards;
     }
@@ -170,7 +171,6 @@ public class Client2 {
     public ArrayList<JButton> getMyButtons() {
         return buttons;
     }
-
     public void showHandCards() {
         // باید با کد buttons.getLast به اخرین کارتی که دست بازیکن اومده دسترسی پیدا کنین
         // بعدش کار های گرافیکی رو مثل سایز و جانمایی و... بر کارت انجام بدین
@@ -185,7 +185,7 @@ public class Client2 {
                 String text = buttons.getLast().getText();
 
                 JButton button = new JButton(text);
-                button.setBounds(480, 270, 90, 90);
+                button.setBounds(480,270,90,90);
                 centerPanel.add(button);
                 myHand.repaint();
                 mainPanel.repaint();
@@ -214,7 +214,7 @@ public class Client2 {
             try {
                 String message;
                 while ((message = in.readLine()) != null) {
-                    if (message.startsWith("TAKE CARD:")) {
+                    if (message.startsWith("TAKE CARD:") ){
                         String jsonCardString = message.substring(10);
                         getMyCards().add(gson.fromJson(jsonCardString, Card.class));
                         getMyButtons().add(new JButton());
@@ -248,12 +248,12 @@ public class Client2 {
         }
     }
 
-    public void initializeUI() {
+    public void initializeUI(){
         final Token TOKEN = new Token();
         final JFrame frame = new JFrame("Hokm");
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize(1500, 1600);
-        frame.setLayout((LayoutManager) null);
+        frame.setLayout((LayoutManager)null);
         frame.getContentPane();
         Color customColor = new Color(97, 150, 134);
         final Color customColor1 = new Color(50, 87, 80);
@@ -313,7 +313,7 @@ public class Client2 {
                             frame.revalidate();
                             frame.repaint();
                         } else {
-                            JOptionPane.showMessageDialog((Component) null, "please sure you write the nickname", "Error", 2);
+                            JOptionPane.showMessageDialog((Component)null, "please sure you write the nickname", "Error", 2);
                         }
                     }
                 });
@@ -380,7 +380,7 @@ public class Client2 {
                         exit1.setBounds(670, 400, 90, 50);
                         btn5.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                String nickname = txt2.getText();
+                                String nickname= txt2.getText();
                                 String token = txt1.getText();
                                 if (!nickname.isEmpty() && !token.isEmpty()) {
                                     sendMessageToServer("join " + nickname + " " + token);
@@ -395,7 +395,7 @@ public class Client2 {
                                     frame.revalidate();
                                     frame.repaint();
                                 } else {
-                                    JOptionPane.showMessageDialog((Component) null, "please sure you write the nickname and token", "Error", 2);
+                                    JOptionPane.showMessageDialog((Component)null, "please sure you write the nickname and token", "Error", 2);
                                 }
 
                             }
@@ -470,8 +470,8 @@ public class Client2 {
                         });
                         btn5.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                String nickname = txt2.getText();
-                                String token = txt1.getText();
+                                String nickname= txt2.getText();
+                                String token = txt1.getText() ;
                                 if (!nickname.isEmpty()) {
                                     sendMessageToServer("create " + nickname + " " + token);
                                     frame.remove(btn5);
@@ -485,7 +485,7 @@ public class Client2 {
                                     frame.revalidate();
                                     frame.repaint();
                                 } else {
-                                    JOptionPane.showMessageDialog((Component) null, "please sure you write the nickname", "Error", 2);
+                                    JOptionPane.showMessageDialog((Component)null, "please sure you write the nickname", "Error", 2);
                                 }
 
                             }

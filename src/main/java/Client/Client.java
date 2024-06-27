@@ -3,7 +3,7 @@ package Client;
 import GamePlay.Card;
 import GamePlay.GamePage;
 import GamePlay.Token;
-import org.json.* ;
+import com.google.gson.Gson;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +19,7 @@ public class Client {
     private static final String SERVER_ADDRESS = "127.0.0.1";
     // پورتی که سرور چت بر روی آن گوش می‌دهد
     private static final int SERVER_PORT = 6666;
+    static Gson gson = new Gson();
 
     private String name;
     private String id;
@@ -58,7 +59,7 @@ public class Client {
         this.mainPanel = new GamePlay.GamePage();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-        lblNik1 = new JLabel();
+        lblNik1 = new JLabel("my name");
         lblNik2 = new JLabel("eeee");
         lblNik3 = new JLabel("kkkk");
         lblNik4 = new JLabel("vvv");
@@ -213,22 +214,17 @@ public class Client {
             try {
                 String message;
                 while ((message = in.readLine()) != null) {
-                    if (message.startsWith("TAKE CARD:") ){
+                   if (message.startsWith("TAKE CARD:") ){
                         String jsonCardString = message.substring(10);
-                        try {
-                            ObjectMapper mapper = new ObjectMapper();
-                            // Card card = mapper.readValue(jsonCardString,Card.class);
-                            getMyCards().add(mapper.readValue(jsonCardString,Card.class));
-                            getMyButtons().add(new JButton());
-                            getMyButtons().getLast().setIcon(new ImageIcon(getMyCards().getLast().getRoo().getImage()));
-                            showHandCards();
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
+                        getMyCards().add(gson.fromJson(jsonCardString, Card.class));
+                       getMyButtons().add(new JButton());
+                       getMyButtons().getLast().setIcon(new ImageIcon(getMyCards().getLast().getRooImage().getImage()));
+                       showHandCards();
                     }
                     System.out.println(message);
                 }
             } catch (IOException e) {
+                e.getMessage();
                 e.printStackTrace();
             }
         }).start();
