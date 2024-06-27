@@ -63,10 +63,19 @@ public class Server {
                     if (message == null) {
                         break; // قطع ارتباط در صورت دریافت پیام null
                     }
+                    /*if (message.startsWith("I PUT:")){
+                        String JsonCardString = message.substring(7);
+                        Card card = gson.fromJson(JsonCardString, Card.class);
+                    }*/
+
+
+
                     System.out.println("Received: " + message);
+
+
+                    //دستورات مربوط به جوین شدن در بازی
                     String[] parts = message.split(" "); // جدا کردن دستورات و پارامترها
                     String command = parts[0]; // اولین قسمت پیام به عنوان دستور
-
                     // پردازش دستورها
                     if (command.equals("create")) {
                         handleCreate(parts); // فراخوانی تابع ایجاد بازی دوستانه
@@ -82,7 +91,8 @@ public class Server {
                 }
             } catch (IOException e) {
                 e.printStackTrace(); // چاپ خطا در صورت بروز مشکل در ارتباط
-            } finally {
+            }
+            /*finally {
                 // حذف کلاینت از لیست در صورت قطع ارتباط
                 if (nickname != null) {
                     clients.remove(nickname);
@@ -93,7 +103,7 @@ public class Server {
                 } catch (IOException e) {
                     e.printStackTrace(); // چاپ خطا در صورت بروز مشکل در بستن سوکت
                 }
-            }
+            }*/
         }
 
         // پردازش دستور create برای ایجاد بازی دوستانه

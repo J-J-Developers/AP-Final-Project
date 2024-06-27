@@ -171,26 +171,39 @@ public class Client {
     public ArrayList<JButton> getMyButtons() {
         return buttons;
     }
+    ActionListener actionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton clickedButton = (JButton) e.getSource();
+            int clickedButtonIndex = 0;
+            for (int i = 0; i < buttons.size(); i++) {
+                if (buttons.get(i) == clickedButton){
+                    clickedButtonIndex = i;
+                    break;
+                }
+            }
+            String CodedPutCard = gson.toJson(myCards.get(clickedButtonIndex));
+            sendMessageToServer("I PUT:" + CodedPutCard);
+
+            myCards.remove(clickedButtonIndex);
+            buttons.remove(clickedButtonIndex);
+            myHand.remove(clickedButton);
+
+            myHand.repaint();
+            mainPanel.repaint();
+            // String text = buttons.get(buttonIndex).getText();
+            //JButton button = new JButton();
+            //button.setBounds(480,270,90,90);
+            //button.setIcon(new ImageIcon(getMyCards().get(buttonIndex).getRooImage().getImage()));
+            //centerPanel.add(button);
+        }
+    };
     public void showHandCards() {
         // باید با کد buttons.getLast به اخرین کارتی که دست بازیکن اومده دسترسی پیدا کنین
         // بعدش کار های گرافیکی رو مثل سایز و جانمایی و... بر کارت انجام بدین
         // و در نهایت به پنل myHand افزوده میشود
         Dimension buttonSize = new Dimension(100, 120);
         buttons.getLast().setPreferredSize(buttonSize);
-        buttons.getLast().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                myHand.remove(buttons.getLast());
-
-                String text = buttons.getLast().getText();
-
-                JButton button = new JButton(text);
-                button.setBounds(480,270,90,90);
-                centerPanel.add(button);
-                myHand.repaint();
-                mainPanel.repaint();
-            }
-        });
         myHand.add(buttons.getLast());
     }
 
@@ -219,6 +232,7 @@ public class Client {
                         getMyCards().add(gson.fromJson(jsonCardString, Card.class));
                        getMyButtons().add(new JButton());
                        getMyButtons().getLast().setIcon(new ImageIcon(getMyCards().getLast().getRooImage().getImage()));
+                       getMyButtons().getLast().addActionListener(actionListener);
                        showHandCards();
                     }
                     System.out.println(message);
