@@ -28,6 +28,7 @@ public class Client {
     GamePlay.GamePage mainPanel;
     private ArrayList<Card> myCards;
     private ArrayList<JButton> buttons;
+    private ArrayList<String> nameOfPlayers = new ArrayList<>() ;
     private PrintWriter out;
     JLabel lblNik1;
     JLabel lblNik2;
@@ -235,7 +236,25 @@ public class Client {
                        getMyButtons().getLast().addActionListener(actionListener);
                        showHandCards();
                     }
-                    System.out.println(message);
+                   if (message.startsWith("YOUR NAME:")){
+                       lblNik1.setText(message.substring(10));
+                   }
+                   if (message.startsWith("LEFT NAME:")){
+                       lblNik4.setText(message.substring(10));
+                   }
+                   if (message.startsWith("FRONT NAME:")){
+                       lblNik3.setText(message.substring(11));
+                   }
+                   if (message.startsWith("RIGHT NAME:")){
+                       lblNik2.setText(message.substring(11));
+                   }
+                   if (message.contains("Players")){
+                        String[]nameOfPlayer = message.split(" ");
+                        for (int i = 0 ; i< nameOfPlayer.length ; i++) {
+                            nameOfPlayers.add(nameOfPlayer[i]);
+                        }
+                    }
+                   System.out.println(message);
                 }
             } catch (IOException e) {
                 e.getMessage();

@@ -1,6 +1,8 @@
 package Server;
+import Client.Client;
 import GamePlay.Card;
 import GamePlay.CardBox;
+//import GamePlay.Team;
 import com.google.gson.Gson;
 import java.io.*;
 import java.net.*;
@@ -40,7 +42,7 @@ public class Server {
     }
 
     // کلاس مدیریت کلاینت‌ها
-    private static class ClientHandler implements Runnable {
+    public static class ClientHandler  implements Runnable {
         private Socket socket;
         private BufferedReader in;
         private PrintWriter out;
@@ -172,6 +174,53 @@ public class Server {
 
         // شروع بازی با گروه
         private void startGame(List<ClientHandler> group) {
+            /*Team team1 = new Team(group.get(0),group.get(2));
+            Team team2 = new Team(group.get(1),group.get(3));*/
+            for (int i = 0; i <4; i++){
+                sendMessageToOne("YOUR NAME:" + group.get(0).nickname,group,i);
+                sendMessageToOne("LEFT NAME:" + group.get(1).nickname,group,i);
+                sendMessageToOne("FRONT NAME:" + group.get(2).nickname,group,i);
+                sendMessageToOne("RIGHT NAME:" + group.get(3).nickname,group,i);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             // انتخاب تصادفی یک نفر به عنوان حاکم
             Random rand = new Random();
@@ -217,10 +266,24 @@ public class Server {
                     }
                 }
             }
+
+
+
+
+
+            int governingNumber = 0;
             for (ClientHandler player : group) {
-                player.out.println("Game started with players: " + Arrays.toString(group.stream().map(p -> p.nickname).toArray()));
-                player.out.println("Ruler is: " + rulerName); // ارسال پیام حاکم به کل اعضای گروه
+                player.out.println( "Players " +group.get(0).nickname + " 0 " + group.get(1).nickname + " 1 " + group.get(2).nickname + " 2 " + group.get(3).nickname + " 3");
+                if (governingNumber == rulerIndex) {
+                    player.out.println("You are ruler ");
+                } else {
+                    player.out.println("Ruler is " + rulerName); // ارسال پیام حاکم به کل اعضای گروه
+                }
+                governingNumber++ ;
+
             }
+
+
         }
     }
 
