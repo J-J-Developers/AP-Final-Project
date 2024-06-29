@@ -6,6 +6,8 @@ import GamePlay.Token;
 import com.google.gson.Gson;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,6 +47,8 @@ public class Client {
     JButton Diamonds;
     JButton Clubs;
     JButton Spades;
+    JTable resultTlb;
+    JScrollPane scrollPane;
 
     public GamePage getMainPanel() {
         return mainPanel;
@@ -70,6 +74,63 @@ public class Client {
         pan3=new JPanel();
         pan4=new JPanel();
 
+
+        // داده‌های جدول: نام تیم و امتیاز
+        Object[][] data = {
+                {"Team1", 0},
+                {"Team2", 0}
+        };
+
+        // نام ستون‌ها
+        String[] columnNames = {"Team Name", "Score"};
+
+        // مدل جدول سفارشی با داده‌ها و نام ستون‌ها
+        DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // همه سلول‌ها غیرقابل ویرایش هستند
+                return false;
+            }
+        };
+
+
+        resultTlb = new JTable(model) {
+            @Override
+            public Component prepareRenderer(javax.swing.table.TableCellRenderer renderer, int row, int column) {
+                Component cell = super.prepareRenderer(renderer, row, column);
+
+                // تنظیم رنگ پس‌زمینه سلول با استفاده از RGB
+                cell.setBackground(new Color(50, 87, 80)); // به عنوان مثال رنگ آبی روشن
+
+                // تنظیم رنگ متن سلول با استفاده از RGB
+                cell.setForeground(new Color(255, 255, 255)); // رنگ سیاه برای متن
+
+                return cell;
+            }
+        };
+
+        // تنظیم رندر سفارشی برای سربرگ جدول
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(new Color(119, 62, 62)); // رنگ پس‌زمینه سربرگ
+        headerRenderer.setForeground(Color.WHITE); // رنگ متن سربرگ
+        headerRenderer.setHorizontalAlignment(JLabel.CENTER); // تنظیم تراز متن به وسط
+
+        for (int i = 0; i < resultTlb.getColumnModel().getColumnCount(); i++) {
+            resultTlb.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
+
+
+        scrollPane = new JScrollPane(resultTlb);
+        scrollPane.getViewport().setBackground(new Color(50, 87, 80)); // رنگ پس‌زمینه ویوپورت
+        scrollPane.setBackground(new Color(50, 87, 80)); // رنگ پس‌زمینه خود ScrollPane
+
+        // تنظیم رنگ نوارهای اسکرول
+        scrollPane.getHorizontalScrollBar().setBackground(new Color(33, 56, 44));
+        scrollPane.getVerticalScrollBar().setBackground(new Color(33, 56, 44));
+
+        scrollPane.setBounds(1200, 28, 150, 55);
+
+        mainPanel.add(scrollPane);
         hokmPan=new JPanel();
 
         Heart = new JButton("H");
