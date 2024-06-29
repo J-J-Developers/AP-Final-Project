@@ -177,10 +177,10 @@ public class Server {
             /*Team team1 = new Team(group.get(0),group.get(2));
             Team team2 = new Team(group.get(1),group.get(3));*/
             for (int i = 0; i <4; i++){
-                sendMessageToOne("YOUR NAME:" + group.get(0).nickname,group,i);
-                sendMessageToOne("LEFT NAME:" + group.get(1).nickname,group,i);
-                sendMessageToOne("FRONT NAME:" + group.get(2).nickname,group,i);
-                sendMessageToOne("RIGHT NAME:" + group.get(3).nickname,group,i);
+                sendMessageToOne("YOUR NAME:" + group.get(i).nickname,group,i);
+                sendMessageToOne("LEFT NAME:" + group.get((i+1)%4).nickname,group,i);
+                sendMessageToOne("FRONT NAME:" + group.get((i+2)%4).nickname,group,i);
+                sendMessageToOne("RIGHT NAME:" + group.get((i+3)%4).nickname,group,i);
             }
 
 

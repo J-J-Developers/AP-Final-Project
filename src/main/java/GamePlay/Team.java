@@ -1,4 +1,4 @@
-package GamePlay;
+/*package GamePlay;
 
 import Server.Server;
 
@@ -22,3 +22,5 @@ public class Team {
         this.winedRounds ++;
     }
 }
+
+ */

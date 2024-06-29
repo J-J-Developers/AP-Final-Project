@@ -60,10 +60,10 @@ public class Client {
         this.mainPanel = new GamePlay.GamePage();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-        lblNik1 = new JLabel("my name");
-        lblNik2 = new JLabel("eeee");
-        lblNik3 = new JLabel("kkkk");
-        lblNik4 = new JLabel("vvv");
+        lblNik1 = new JLabel("player1");
+        lblNik2 = new JLabel("player2");
+        lblNik3 = new JLabel("player3");
+        lblNik4 = new JLabel("player4");
 
         pan1=new JPanel();
         pan2=new JPanel();

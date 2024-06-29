@@ -14,7 +14,7 @@ public class Game{
     private final Object lock = new Object();
     private boolean isRulerCardSelected = false;
 
-    public ArrayList<Team> roomTeams = new ArrayList<>(2);
+    //public ArrayList<Team> roomTeams = new ArrayList<>(2);
     public ArrayList<Card> roomCards = new ArrayList<>(getCardBox().cards);
     public ArrayList<Player> roomPlayers = new ArrayList<>();
     // Constructor
@@ -23,8 +23,8 @@ public class Game{
         roomPlayers.add(new Player(p2.getName(),p2.getId()));
         roomPlayers.add(new Player(p3.getName(),p3.getId()));
         roomPlayers.add(new Player(p4.getName(),p4.getId()));
-        roomTeams.add(new Team(p1,p3));
-        roomTeams.add(new Team(p2,p4));
+        //roomTeams.add(new Team(p1,p3));
+        //roomTeams.add(new Team(p2,p4));
         this.cardBox = new CardBox();
         this.king = roomPlayers.get(rand.nextInt(roomPlayers.size()));
     }

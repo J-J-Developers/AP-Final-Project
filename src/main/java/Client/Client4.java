@@ -28,6 +28,7 @@ public class Client4 {
     GamePlay.GamePage mainPanel;
     private ArrayList<Card> myCards;
     private ArrayList<JButton> buttons;
+    private ArrayList<String> nameOfPlayers = new ArrayList<>() ;
     private PrintWriter out;
     JLabel lblNik1;
     JLabel lblNik2;
@@ -59,10 +60,10 @@ public class Client4 {
         this.mainPanel = new GamePlay.GamePage();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-        lblNik1 = new JLabel("my name");
-        lblNik2 = new JLabel("eeee");
-        lblNik3 = new JLabel("kkkk");
-        lblNik4 = new JLabel("vvv");
+        lblNik1 = new JLabel("player1");
+        lblNik2 = new JLabel("player2");
+        lblNik3 = new JLabel("player3");
+        lblNik4 = new JLabel("player4");
 
         pan1=new JPanel();
         pan2=new JPanel();
@@ -234,6 +235,24 @@ public class Client4 {
                         getMyButtons().getLast().setIcon(new ImageIcon(getMyCards().getLast().getRooImage().getImage()));
                         getMyButtons().getLast().addActionListener(actionListener);
                         showHandCards();
+                    }
+                    if (message.startsWith("YOUR NAME:")){
+                        lblNik1.setText(message.substring(10));
+                    }
+                    if (message.startsWith("LEFT NAME:")){
+                        lblNik4.setText(message.substring(10));
+                    }
+                    if (message.startsWith("FRONT NAME:")){
+                        lblNik3.setText(message.substring(11));
+                    }
+                    if (message.startsWith("RIGHT NAME:")){
+                        lblNik2.setText(message.substring(11));
+                    }
+                    if (message.contains("Players")){
+                        String[]nameOfPlayer = message.split(" ");
+                        for (int i = 0 ; i< nameOfPlayer.length ; i++) {
+                            nameOfPlayers.add(nameOfPlayer[i]);
+                        }
                     }
                     System.out.println(message);
                 }
