@@ -72,10 +72,10 @@ public class Client2 {
 
         hokmPan=new JPanel();
 
-        Heart = new JButton("H");
-        Spades = new JButton("S");
-        Diamonds = new JButton("D");
-        Clubs = new JButton("C");
+        Heart = new JButton("Heart");
+        Spades = new JButton("Spade");
+        Diamonds = new JButton("Diamond");
+        Clubs = new JButton("Club");
 
 
 
@@ -152,6 +152,7 @@ public class Client2 {
         hokmPan.add(Clubs);
         hokmPan.add(Spades);
         hokmPan.add(Heart);
+        hokmPan.setVisible(false);
         mainPanel.add(hokmPan);
     }
 
@@ -192,17 +193,9 @@ public class Client2 {
 
             myHand.repaint();
             mainPanel.repaint();
-            // String text = buttons.get(buttonIndex).getText();
-            //JButton button = new JButton();
-            //button.setBounds(480,270,90,90);
-            //button.setIcon(new ImageIcon(getMyCards().get(buttonIndex).getRooImage().getImage()));
-            //centerPanel.add(button);
         }
     };
     public void showHandCards() {
-        // باید با کد buttons.getLast به اخرین کارتی که دست بازیکن اومده دسترسی پیدا کنین
-        // بعدش کار های گرافیکی رو مثل سایز و جانمایی و... بر کارت انجام بدین
-        // و در نهایت به پنل myHand افزوده میشود
         Dimension buttonSize = new Dimension(100, 120);
         buttons.getLast().setPreferredSize(buttonSize);
         myHand.add(buttons.getLast());
@@ -247,6 +240,31 @@ public class Client2 {
                     }
                     if (message.startsWith("RIGHT NAME:")){
                         lblNik2.setText(message.substring(11));
+                    }
+                    if (message.startsWith("YOU ARE RULER.")){
+                       /*Heart.setVisible(true);
+                       Diamonds.setVisible(true);
+                       Spades.setVisible(true);
+                       Clubs.setVisible(true);*/
+                        hokmPan.setVisible(true);
+                        ActionListener al = new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                JButton clicked = (JButton) e.getSource();
+                                sendMessageToServer("RUL IS:" + clicked.getText());
+                            }
+                        };
+                        Heart.addActionListener(al);
+                        Diamonds.addActionListener(al);
+                        Spades.addActionListener(al);
+                        Clubs.addActionListener(al);
+                    }
+                    if (message.startsWith("YOU RULED.")){
+                        hokmPan.setVisible(false);
+                       /*Heart.setVisible(false);
+                       Diamonds.setVisible(false);
+                       Spades.setVisible(false);
+                       Clubs.setVisible(false);*/
                     }
                     if (message.contains("Players")){
                         String[]nameOfPlayer = message.split(" ");

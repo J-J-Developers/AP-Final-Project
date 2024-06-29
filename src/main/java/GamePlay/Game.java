@@ -33,6 +33,14 @@ public class Game {
         return roomCards;
     }
 
+    public boolean getIsRulerCardSelected() {
+        return isRulerCardSelected;
+    }
+
+    public void setRulerCardSelected(boolean rulerCardSelected) {
+        isRulerCardSelected = rulerCardSelected;
+    }
+
     // Constructor
     public Game(List<ClientHandler> GameMembers) {
         this.roomPlayers = GameMembers;
@@ -89,7 +97,6 @@ public class Game {
             governingNumber++;
 
         }
-
         int randomCard;
         // دادن 5 کارت به حاکم و نفر بعدیش
         for (int j = 0; j < 5; j++) {
@@ -104,6 +111,10 @@ public class Game {
             roomPlayers.get((rulerIndex + 1) % 4).sendMessage("TAKE CARD:" + CodedRandomCard);
             roomCards.remove(randomCard);
         }
+
+        roomPlayers.get(rulerIndex).sendMessage("YOU ARE RULER.");
+        waitForRulerCardSelection();
+        roomPlayers.get(rulerIndex).sendMessage("YOU RULED.");
 
         // دادن 5 کارت به 2 نفر بعدی
         for (int j = 0; j < 5; j++) {

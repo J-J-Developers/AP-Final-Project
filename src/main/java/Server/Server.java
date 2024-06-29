@@ -14,6 +14,7 @@ public class Server {
     private static Map<String, ClientHandler> clients = new HashMap<>(); // لیست کلاینت‌ها
     private static List<ClientHandler> randomPlayers = new ArrayList<>(); // لیست بازیکنان رندوم
     private static Map<String, List<ClientHandler>> friendGroups = new HashMap<>(); // گروه‌های دوستانه
+    private static ArrayList<Game> AllGames = new ArrayList<>();
 
     static Gson gson = new Gson();
 
@@ -33,6 +34,14 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace(); // چاپ خطا در صورت مشکل در اتصال
         }
+    }
+
+    public static ArrayList<Game> getAllGames() {
+        return AllGames;
+    }
+
+    public static void setAllGames(ArrayList<Game> allGames) {
+        AllGames = allGames;
     }
 
     // کلاس مدیریت کلاینت‌ها
@@ -69,6 +78,9 @@ public class Server {
                         String JsonCardString = message.substring(7);
                         Card card = gson.fromJson(JsonCardString, Card.class);
                     }*/
+                    if (message.startsWith("RUL IS:")){
+                        AllGames.getLast().rulerCardSelected();
+                    }
 
 
 
@@ -174,9 +186,10 @@ public class Server {
 
         // شروع بازی با گروه
         private void startGame(List<ClientHandler> group) {
-            Game game = new Game(group);
-            game.initializingNames();
-            game.CardDividing();
+            AllGames.add(new Game(group));
+            AllGames.getLast().initializingNames();
+            AllGames.getLast().CardDividing();
+
         }
     }
 
