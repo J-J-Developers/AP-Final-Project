@@ -3,6 +3,7 @@ import Client.Client;
 import GamePlay.Card;
 import GamePlay.CardBox;
 //import GamePlay.Team;
+import GamePlay.Game;
 import com.google.gson.Gson;
 import java.io.*;
 import java.net.*;
@@ -13,19 +14,12 @@ public class Server {
     private static Map<String, ClientHandler> clients = new HashMap<>(); // لیست کلاینت‌ها
     private static List<ClientHandler> randomPlayers = new ArrayList<>(); // لیست بازیکنان رندوم
     private static Map<String, List<ClientHandler>> friendGroups = new HashMap<>(); // گروه‌های دوستانه
-    private static  CardBox cardBox = new CardBox();
+
     static Gson gson = new Gson();
-    public static ArrayList<Card> roomCards = new ArrayList<>(getCardBox().cards);
+
     public Server(){
     }
 
-    public static CardBox getCardBox() {
-        return cardBox;
-    }
-
-    public ArrayList<Card> getRoomCards() {
-        return roomCards;
-    }
 
     public static void main(String[] args) {
         System.out.println("Server started...");
@@ -50,6 +44,12 @@ public class Server {
 
         public ClientHandler(Socket socket) {
             this.socket = socket;
+        }
+        public String getNickname(){
+            return nickname;
+        }
+        public void sendMessage(String message){
+            out.println(message);
         }
 
         @Override
@@ -174,131 +174,24 @@ public class Server {
 
         // شروع بازی با گروه
         private void startGame(List<ClientHandler> group) {
-            /*Team team1 = new Team(group.get(0),group.get(2));
-            Team team2 = new Team(group.get(1),group.get(3));*/
-            for (int i = 0; i <4; i++){
-                sendMessageToOne("YOUR NAME:" + group.get(i).nickname,group,i);
-                sendMessageToOne("LEFT NAME:" + group.get((i+1)%4).nickname,group,i);
-                sendMessageToOne("FRONT NAME:" + group.get((i+2)%4).nickname,group,i);
-                sendMessageToOne("RIGHT NAME:" + group.get((i+3)%4).nickname,group,i);
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // انتخاب تصادفی یک نفر به عنوان حاکم
-            Random rand = new Random();
-            int rulerIndex = rand.nextInt(group.size());
-            String rulerName = group.get(rulerIndex).nickname; // دریافت نام مستعار حاکم
-            int randomCard;
-            // دادن 5 کارت به حاکم و نفر بعدیش
-            for (int j = 0; j < 5; j++) {
-                randomCard = rand.nextInt(roomCards.size());
-                String CodedRandomCard = gson.toJson(roomCards.get(randomCard));
-                sendMessageToOne("TAKE CARD:" + CodedRandomCard,group,rulerIndex);
-                roomCards.remove(randomCard);
-            }
-            for (int j = 0; j < 5; j++) {
-                randomCard = rand.nextInt(roomCards.size());
-                String CodedRandomCard = gson.toJson(roomCards.get(randomCard));
-                sendMessageToOne("TAKE CARD:" + CodedRandomCard,group,(rulerIndex+1)%4);
-                roomCards.remove(randomCard);
-            }
-
-            // دادن 5 کارت به 2 نفر بعدی
-            for (int j = 0; j < 5; j++) {
-                randomCard = rand.nextInt(roomCards.size());
-                String CodedRandomCard = gson.toJson(roomCards.get(randomCard));
-                sendMessageToOne("TAKE CARD:" + CodedRandomCard,group,(rulerIndex+2)%4);
-                roomCards.remove(randomCard);
-            }
-            for (int j = 0; j < 5; j++) {
-                randomCard = rand.nextInt(roomCards.size());
-                String CodedRandomCard = gson.toJson(roomCards.get(randomCard));
-                sendMessageToOne("TAKE CARD:" + CodedRandomCard,group,(rulerIndex+3)%4);
-                roomCards.remove(randomCard);
-            }
-            // دادن 2 دور 4 کارت به هر 4 نفر
-            for (int i = 0; i < 2; i++) {
-                for (int j = 0; j < 4; j++) {
-                    int playerIndex = (rulerIndex + j) % 4;
-                    for (int k = 0; k < 4; k++) {
-                        randomCard = rand.nextInt(roomCards.size());
-                        String CodedRandomCard = gson.toJson(roomCards.get(randomCard));
-                        sendMessageToOne("TAKE CARD:" + CodedRandomCard,group,playerIndex);
-                        roomCards.remove(randomCard);
-                    }
-                }
-            }
-
-
-
-
-
-            int governingNumber = 0;
-            for (ClientHandler player : group) {
-                player.out.println( "Players " +group.get(0).nickname + " 0 " + group.get(1).nickname + " 1 " + group.get(2).nickname + " 2 " + group.get(3).nickname + " 3");
-                if (governingNumber == rulerIndex) {
-                    player.out.println("You are ruler ");
-                } else {
-                    player.out.println("Ruler is " + rulerName); // ارسال پیام حاکم به کل اعضای گروه
-                }
-                governingNumber++ ;
-
-            }
-
-
+            Game game = new Game(group);
+            game.initializingNames();
+            game.CardDividing();
         }
     }
 
-        // ارسال پیام به اعضای گروه
-        private void sendMessageToGroup(String message, List<ClientHandler> group) {
-            for (ClientHandler player : group) {
-                player.out.println(message);
-            }
+    // ارسال پیام به اعضای گروه
+    private void sendMessageToGroup(String message, List<ClientHandler> group) {
+        for (ClientHandler player : group) {
+            player.out.println(message);
         }
-        private static void sendMessageToOne(String message, List<ClientHandler> group, int index) {
-            group.get(index).out.println(message);
-        }
+    }
+    public static void sendMessageToOne(String message, List<ClientHandler> group, int index) {
+        group.get(index).out.println(message);
+    }
 
 
-        // پردازش دستور message برای ارسال پیام به گروه
+    // پردازش دستور message برای ارسال پیام به گروه
        /* private void handleMessage(String[] parts) {
             if (parts.length < 3) {
                 out.println("Error: Missing message or token");
