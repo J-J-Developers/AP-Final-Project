@@ -23,7 +23,9 @@ public class Game {
     Random rand = new Random();
     Gson gson = new Gson();
     private final Object lock = new Object();
+    private final Object lock2 = new Object();
     private boolean isRulerCardSelected = false;
+    private boolean isPlayerSelected = false;
 
     public ArrayList<Team> roomTeams = new ArrayList<>(2);
     public static ArrayList<Card> roomCards = new ArrayList<>(getCardBox().cards);
@@ -52,6 +54,14 @@ public class Game {
 
     public void setRulerCardSelected(boolean rulerCardSelected) {
         isRulerCardSelected = rulerCardSelected;
+    }
+
+    public boolean isPlayerSelected() {
+        return isPlayerSelected;
+    }
+
+    public void setPlayerSelected(boolean playerSelected) {
+        isPlayerSelected = playerSelected;
     }
 
     // Constructor
@@ -197,6 +207,29 @@ public class Game {
         }
     }
 
+    private void waitForPlayerCardSelection() {
+        synchronized (lock2) {
+            while (!isPlayerSelected) {
+                try {
+                    lock2.wait(); // منتظر می‌ماند تا حاکم کارت را انتخاب کند
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    }
+    public void playerCardSelected() {
+        synchronized (lock2) {
+            isPlayerSelected = true;
+            lock2.notifyAll(); // اطلاع به نخ منتظر که کارت انتخاب شده است
+        }
+    }
+    public void playing(){
+        while (true){
+            roomPlayers.get(ruler.getPlayerIndex()).sendMessage("YOUR TURN.");
+            waitForPlayerCardSelection();
 
+        }
+    }
 
 }
