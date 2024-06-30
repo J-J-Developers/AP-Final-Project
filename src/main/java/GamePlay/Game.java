@@ -2,8 +2,12 @@ package GamePlay;
 import Server.Server.ClientHandler;
 import Server.Server;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 import com.google.gson.Gson;
@@ -24,6 +28,7 @@ public class Game {
     public ArrayList<Team> roomTeams = new ArrayList<>(2);
     public static ArrayList<Card> roomCards = new ArrayList<>(getCardBox().cards);
     public List<ClientHandler> roomPlayers;
+    public static ArrayList<Card> bordCards = new ArrayList<>();
 
     public static CardBox getCardBox() {
         return cardBox;
@@ -31,6 +36,14 @@ public class Game {
 
     public ArrayList<Card> getRoomCards() {
         return roomCards;
+    }
+
+    public static ArrayList<Card> getBordCards() {
+        return bordCards;
+    }
+
+    public static void addToBordCards(Card putCard) {
+        bordCards.add(putCard);
     }
 
     public boolean getIsRulerCardSelected() {
@@ -69,7 +82,7 @@ public class Game {
 
     public void initializingNames() {
         for (int i = 0; i < 4; i++) {
-            roomPlayers.get(i).sendMessage("LEFT NAME:" + roomPlayers.get(i).getNickname());
+            roomPlayers.get(i).sendMessage("YOUR NAME:" + roomPlayers.get(i).getNickname());
             roomPlayers.get(i).sendMessage("LEFT NAME:" + roomPlayers.get((i + 1) % 4).getNickname());
             roomPlayers.get(i).sendMessage("FRONT NAME:" + roomPlayers.get((i + 2) % 4).getNickname());
             roomPlayers.get(i).sendMessage("RIGHT NAME:" + roomPlayers.get((i + 3) % 4).getNickname());
@@ -163,4 +176,27 @@ public class Game {
             lock.notifyAll(); // اطلاع به نخ منتظر که کارت انتخاب شده است
         }
     }
+    public void updateBordCards(Card putCard,int puterIndex){
+        bordCards.add(putCard);
+        roomPlayers.get(puterIndex).sendMessage("NOT TURN.");
+        roomPlayers.get(puterIndex).sendMessage("YOUR CARD:" + imageIconToString(putCard.getRooImage()));
+        roomPlayers.get((puterIndex+1)%4).sendMessage("LEFT CARD:" + imageIconToString(putCard.getRooImage()));
+        roomPlayers.get((puterIndex+2)%4).sendMessage("FRONT CARD:" + imageIconToString(putCard.getRooImage()));
+        roomPlayers.get((puterIndex+3)%4).sendMessage("RIGHT CARD:" + imageIconToString(putCard.getRooImage()));
+    }
+    public static String imageIconToString(ImageIcon icon) {
+        try {
+            BufferedImage bufferedImage = (BufferedImage) icon.getImage();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", baos);
+            byte[] imageBytes = baos.toByteArray();
+            return Base64.getEncoder().encodeToString(imageBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
 }

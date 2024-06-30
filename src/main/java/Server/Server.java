@@ -83,10 +83,12 @@ public class Server {
                     if (message == null) {
                         break; // قطع ارتباط در صورت دریافت پیام null
                     }
-                    /*if (message.startsWith("I PUT:")){
-                        String JsonCardString = message.substring(7);
+                    if (message.startsWith("I PUT:")){
+                        String JsonCardString = message.substring(6);
                         Card card = gson.fromJson(JsonCardString, Card.class);
-                    }*/
+                        AllGames.getLast().updateBordCards(card,playerIndex);
+
+                    }
                     if (message.startsWith("RUL IS:")){
                         AllGames.getLast().rulerCardSelected();
                     }

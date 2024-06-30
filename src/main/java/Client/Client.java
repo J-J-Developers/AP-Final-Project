@@ -5,15 +5,18 @@ import GamePlay.GamePage;
 import GamePlay.Token;
 import com.google.gson.Gson;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Scanner;
 
 public class Client {
@@ -327,6 +330,42 @@ public class Client {
                        Spades.setVisible(false);
                        Clubs.setVisible(false);*/
                    }
+                   if (message.startsWith("YOUR CARD:")){
+                       String icon = message.substring(10);
+                       //پنل خودم.setIon(stringToImageIcon(icon));
+                   }
+                    if (message.startsWith("LEFT CARD:")){
+                        String icon = message.substring(10);
+                       // پنل چپی.setIon(stringToImageIcon(icon));
+                    }
+                    if (message.startsWith("FRONT CARD:")){
+                        String icon = message.substring(10);
+                        //پنل رو به رویی.setIon(stringToImageIcon(icon));
+                    }
+                    if (message.startsWith("RIGHT CARD:")){
+                        String icon = message.substring(10);
+                        //پنل راستی.setIon(stringToImageIcon(icon));
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                    if (message.contains("Players")){
                         String[]nameOfPlayer = message.split(" ");
                         for (int i = 0 ; i< nameOfPlayer.length ; i++) {
@@ -359,6 +398,24 @@ public class Client {
             out.println(message);
         }
     }
+    public static ImageIcon stringToImageIcon(String imageString) {
+        try {
+            byte[] imageBytes = Base64.getDecoder().decode(imageString);
+            ByteArrayInputStream bais = new ByteArrayInputStream(imageBytes);
+            BufferedImage bufferedImage = ImageIO.read(bais);
+            return new ImageIcon(bufferedImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+
+
+
+
 
     public void initializeUI(){
         final Token TOKEN = new Token();
