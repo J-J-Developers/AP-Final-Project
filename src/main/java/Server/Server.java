@@ -50,6 +50,15 @@ public class Server {
         private BufferedReader in;
         private PrintWriter out;
         private String nickname;
+        private int playerIndex;
+
+        public int getPlayerIndex() {
+            return playerIndex;
+        }
+
+        public void setPlayerIndex(int playerIndex) {
+            this.playerIndex = playerIndex;
+        }
 
         public ClientHandler(Socket socket) {
             this.socket = socket;
@@ -84,7 +93,7 @@ public class Server {
 
 
 
-                    System.out.println("Received: " + message);
+                    System.out.println("Player " + playerIndex+ " :" + message);
 
 
                     //دستورات مربوط به جوین شدن در بازی
@@ -186,6 +195,10 @@ public class Server {
 
         // شروع بازی با گروه
         private void startGame(List<ClientHandler> group) {
+            group.get(0).setPlayerIndex(0);
+            group.get(1).setPlayerIndex(1);
+            group.get(2).setPlayerIndex(2);
+            group.get(3).setPlayerIndex(3);
             AllGames.add(new Game(group));
             AllGames.getLast().initializingNames();
             AllGames.getLast().CardDividing();
