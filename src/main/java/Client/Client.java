@@ -244,6 +244,7 @@ public class Client {
             int clickedButtonIndex = 0;
             for (int i = 0; i < buttons.size(); i++) {
                 if (buttons.get(i) == clickedButton){
+                    System.out.println( myCards.get(clickedButtonIndex).getType() + " " + myCards.get(clickedButtonIndex).getNumber());
                     clickedButtonIndex = i;
                     break;
                 }
@@ -291,6 +292,7 @@ public class Client {
                        getMyButtons().add(new JButton());
                        getMyButtons().getLast().setIcon(new ImageIcon(getMyCards().getLast().getRooImage().getImage()));
                        getMyButtons().getLast().addActionListener(actionListener);
+                       getMyButtons().getLast().setEnabled(false);
                        showHandCards();
                     }
                    if (message.startsWith("YOUR NAME:")){
@@ -330,6 +332,14 @@ public class Client {
                        Spades.setVisible(false);
                        Clubs.setVisible(false);*/
                    }
+
+                    if (message.startsWith("YOUR TURN.")){
+                        for (int i = 0; i < getMyButtons().size(); i++) {
+                            getMyButtons().get(i).setEnabled(true);
+                        }
+
+                    }
+
                    if (message.startsWith("YOUR CARD:")){
                        String icon = message.substring(10);
                        //پنل خودم.setIon(stringToImageIcon(icon));
@@ -346,26 +356,6 @@ public class Client {
                         String icon = message.substring(10);
                         //پنل راستی.setIon(stringToImageIcon(icon));
                     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                    if (message.contains("Players")){
                         String[]nameOfPlayer = message.split(" ");
                         for (int i = 0 ; i< nameOfPlayer.length ; i++) {
