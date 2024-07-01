@@ -33,7 +33,6 @@ public class Client4 {
     GamePlay.GamePage mainPanel;
     private ArrayList<Card> myCards;
     private ArrayList<JButton> buttons;
-    private ArrayList<String> nameOfPlayers = new ArrayList<>() ;
     private PrintWriter out;
     JLabel lblNik1;
     JLabel lblNik2;
@@ -330,8 +329,11 @@ public class Client4 {
                     }
 
                     if (message.startsWith("YOUR TURN.")){
-                        for (int i = 0; i < getMyButtons().size(); i++) {
-                            getMyButtons().get(i).setEnabled(true);
+                        String correctType = message.substring(10);
+                        for (int i = 0; i < getMyCards().size(); i++) {
+                            if (getMyCards().get(i).getType().equalsIgnoreCase(correctType)){
+                                getMyButtons().get(i).setEnabled(true);
+                            }
                         }
                     }
                     if (message.startsWith("NOT TURN.")){
@@ -359,7 +361,7 @@ public class Client4 {
                     if (message.contains("Players")){
                         String[]nameOfPlayer = message.split(" ");
                         for (int i = 0 ; i< nameOfPlayer.length ; i++) {
-                            nameOfPlayers.add(nameOfPlayer[i]);
+                            //nameOfPlayers.add(nameOfPlayer[i]);
                         }
                     }
                     System.out.println(message);

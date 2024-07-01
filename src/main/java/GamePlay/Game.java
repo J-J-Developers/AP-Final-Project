@@ -31,6 +31,9 @@ public class Game {
     public static ArrayList<Card> roomCards = new ArrayList<>(getCardBox().cards);
     public List<ClientHandler> roomPlayers;
     public static ArrayList<Card> bordCards = new ArrayList<>();
+    //***********************************
+    private String bordType = "Diamond" ;
+
 
     public static CardBox getCardBox() {
         return cardBox;
@@ -215,19 +218,19 @@ public class Game {
     }
     public void playing(){
         while (true){
-            roomPlayers.get(ruler.getPlayerIndex()).sendMessage("YOUR TURN.");
+            roomPlayers.get(ruler.getPlayerIndex()).sendMessage("YOUR TURN." + bordType);
             waitForPlayerCardSelection();
             roomPlayers.get(ruler.getPlayerIndex()).sendMessage("NOT TURN.");
             isPlayerSelected = false;
-            roomPlayers.get((ruler.getPlayerIndex()+1)%4).sendMessage("YOUR TURN.");
+            roomPlayers.get((ruler.getPlayerIndex()+1)%4).sendMessage("YOUR TURN." + bordType);
             waitForPlayerCardSelection();
             roomPlayers.get((ruler.getPlayerIndex()+1)%4).sendMessage("NOT TURN.");
             isPlayerSelected =false;
-            roomPlayers.get((ruler.getPlayerIndex()+2)%4).sendMessage("YOUR TURN.");
+            roomPlayers.get((ruler.getPlayerIndex()+2)%4).sendMessage("YOUR TURN." + bordType);
             waitForPlayerCardSelection();
             roomPlayers.get((ruler.getPlayerIndex()+2)%4).sendMessage("NOT TURN.");
             isPlayerSelected = false;
-            roomPlayers.get((ruler.getPlayerIndex()+3)%4).sendMessage("YOUR TURN.");
+            roomPlayers.get((ruler.getPlayerIndex()+3)%4).sendMessage("YOUR TURN." + bordType);
             waitForPlayerCardSelection();
             roomPlayers.get((ruler.getPlayerIndex()+3)%4).sendMessage("NOT TURN.");
             isPlayerSelected = false;
