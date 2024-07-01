@@ -86,6 +86,9 @@ public class Server {
                     if (message.startsWith("I PUT:")){
                         String JsonCardString = message.substring(6);
                         Card card = gson.fromJson(JsonCardString, Card.class);
+                        if (AllGames.getLast().getBordCards().isEmpty()){
+                            AllGames.getLast().setBordType(card.getType());
+                        }
                         AllGames.getLast().updateBordCards(card,playerIndex);
                         AllGames.getLast().playerCardSelected();
                     }

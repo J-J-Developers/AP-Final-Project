@@ -1,5 +1,6 @@
 package Client;
 
+
 import GamePlay.Card;
 import GamePlay.GamePage;
 import GamePlay.Token;
@@ -329,13 +330,20 @@ public class Client4 {
                     }
 
                     if (message.startsWith("YOUR TURN.")){
-                        String correctType = message.substring(10);
-                        for (int i = 0; i < getMyCards().size(); i++) {
-                            if (getMyCards().get(i).getType().equalsIgnoreCase(correctType)){
+                        if (message.equalsIgnoreCase("YOUR TURN.FREE")){
+                            for (int i = 0; i < getMyButtons().size(); i++) {
                                 getMyButtons().get(i).setEnabled(true);
+                            }
+                        } else {
+                            String correctType = message.substring(10);
+                            for (int i = 0; i < getMyCards().size(); i++) {
+                                if (getMyCards().get(i).getType().equalsIgnoreCase(correctType)){
+                                    getMyButtons().get(i).setEnabled(true);
+                                }
                             }
                         }
                     }
+
                     if (message.startsWith("NOT TURN.")){
                         for (int i = 0; i < getMyButtons().size(); i++) {
                             getMyButtons().get(i).setEnabled(false);

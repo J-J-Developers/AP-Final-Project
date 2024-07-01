@@ -32,8 +32,19 @@ public class Game {
     public List<ClientHandler> roomPlayers;
     public static ArrayList<Card> bordCards = new ArrayList<>();
     //***********************************
-    private String bordType = "Diamond" ;
+    private String bordType ;
 
+    public void setBordType(String bordType) {
+        this.bordType = bordType;
+    }
+
+    public String getBordType() {
+        return bordType;
+    }
+
+    public static void setBordCards(Card card) {
+        bordCards.add(card);
+    }
 
     public static CardBox getCardBox() {
         return cardBox;
@@ -43,7 +54,7 @@ public class Game {
         return roomCards;
     }
 
-    public static ArrayList<Card> getBordCards() {
+    public ArrayList<Card> getBordCards() {
         return bordCards;
     }
 
@@ -218,7 +229,7 @@ public class Game {
     }
     public void playing(){
         while (true){
-            roomPlayers.get(ruler.getPlayerIndex()).sendMessage("YOUR TURN." + bordType);
+            roomPlayers.get(ruler.getPlayerIndex()).sendMessage("YOUR TURN." + "FREE");
             waitForPlayerCardSelection();
             roomPlayers.get(ruler.getPlayerIndex()).sendMessage("NOT TURN.");
             isPlayerSelected = false;
