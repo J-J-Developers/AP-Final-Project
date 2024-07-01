@@ -93,6 +93,10 @@ public class Server {
                         AllGames.getLast().playerCardSelected();
                     }
                     if (message.startsWith("RUL IS:")){
+                        String rul = message.substring(7);
+                        for (int i = 0; i < 4; i++) {
+                            AllGames.getLast().roomPlayers.get(i).sendMessage("RUL IS:" + rul);
+                        }
                         AllGames.getLast().rulerCardSelected();
                     }
 
