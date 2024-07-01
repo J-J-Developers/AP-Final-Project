@@ -52,7 +52,11 @@ public class Client3 {
     JButton Spades;
     JTable resultTlb;
     JScrollPane scrollPane;
-
+    JButton HokmButton;
+    ImageIcon HeartIcon;
+    ImageIcon ClubsIcon;
+    ImageIcon DiamondsIcon;
+    ImageIcon SpadesIcon;
     public GamePage getMainPanel() {
         return mainPanel;
     }
@@ -136,10 +140,16 @@ public class Client3 {
         mainPanel.add(scrollPane);
         hokmPan=new JPanel();
 
-        Heart = new JButton("Heart");
-        Spades = new JButton("Spade");
-        Diamonds = new JButton("Diamond");
-        Clubs = new JButton("Club");
+        HeartIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Heart.jpg");
+        SpadesIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Spade.jpg");
+        DiamondsIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Diamond.jpg");
+        ClubsIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Club.jpg");
+
+        Heart = new JButton(HeartIcon);
+        Spades = new JButton(SpadesIcon);
+        Diamonds = new JButton(DiamondsIcon);
+        Clubs = new JButton(ClubsIcon);
+        HokmButton = new JButton();
 
 
 
@@ -206,17 +216,20 @@ public class Client3 {
         Spades.setBounds(0,105,80,80);
         Diamonds.setBounds(0,195,80,80);
         Heart.setBounds(0,285,80,80);
+        HokmButton.setBounds(700,0,80,80);
 
         Diamonds.setVisible(true);
         Spades.setVisible(true);
         Clubs.setVisible(true);
         Heart.setVisible(true);
+        HokmButton.setVisible(true);
 
         hokmPan.add(Diamonds);
         hokmPan.add(Clubs);
         hokmPan.add(Spades);
         hokmPan.add(Heart);
         hokmPan.setVisible(false);
+        mainPanel.add(HokmButton);
         mainPanel.add(hokmPan);
     }
 
@@ -267,7 +280,7 @@ public class Client3 {
     }
 
     public static void main(String[] args) throws Exception {
-        Client client = new Client(" ", " ");
+        Client3 client = new Client3(" ", " ");
         client.initializeUI();
         client.startClient();
     }
@@ -366,6 +379,21 @@ public class Client3 {
                         String icon = message.substring(10);
                         //پنل راستی.setIon(stringToImageIcon(icon));
                     }
+                    if (message.startsWith("RUL IS:")){
+                        String rul = message.substring(7);
+                        if (rul.equals("Heart")){
+                            HokmButton.setIcon(HeartIcon);
+                        }
+                        if(rul.equals("Diamonds")){
+                            HokmButton.setIcon(DiamondsIcon);
+                        }
+                        if(rul.equals("Clubs")){
+                            HokmButton.setIcon(ClubsIcon);
+                        }
+                        if(rul.equals("Spades")){
+                            HokmButton.setIcon(SpadesIcon);
+                        }
+                    }
                     if (message.contains("Players")){
                         String[]nameOfPlayer = message.split(" ");
                         for (int i = 0 ; i< nameOfPlayer.length ; i++) {
@@ -409,12 +437,6 @@ public class Client3 {
             return null;
         }
     }
-
-
-
-
-
-
 
 
     public void initializeUI(){
