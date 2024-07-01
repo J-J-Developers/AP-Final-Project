@@ -96,7 +96,10 @@ public class Server {
                         AllGames.getLast().rulerCardSelected();
                     }
 
-
+                    if (message.startsWith("TYPE is: ")){
+                        AllGames.getLast().checkCards(message.substring(9));
+                        System.out.println(message);
+                    }
 
                     System.out.println("Player " + playerIndex+ " :" + message);
 

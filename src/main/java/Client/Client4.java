@@ -244,7 +244,7 @@ public class Client4 {
             int clickedButtonIndex = 0;
             for (int i = 0; i < buttons.size(); i++) {
                 if (buttons.get(i) == clickedButton){
-                    System.out.println( myCards.get(clickedButtonIndex).getType() + " " + myCards.get(clickedButtonIndex).getNumber());
+                    sendMessageToServer(lblNik1.getText() + " " + myCards.get(clickedButtonIndex).getType() + " " + myCards.get(clickedButtonIndex).getNumber());
                     clickedButtonIndex = i;
                     break;
                 }

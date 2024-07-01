@@ -6,10 +6,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+
 import com.google.gson.Gson;
 
 import static Server.Server.sendMessageToOne;
@@ -18,6 +16,13 @@ public class Game {
     private String token;
     private static CardBox cardBox = new CardBox();
     private int round;
+
+    //    ===========================================================================================
+    private int input ;
+    private int set ;
+    private String typeHokm = "Heart" ;
+    //    ===========================================================================================
+
     private ClientHandler ruler;
     private Card hokm;
     Random rand = new Random();
@@ -31,6 +36,11 @@ public class Game {
     public static ArrayList<Card> roomCards = new ArrayList<>(getCardBox().cards);
     public List<ClientHandler> roomPlayers;
     public static ArrayList<Card> bordCards = new ArrayList<>();
+
+    //    ========================================================================
+    private static ArrayList<String> scoreCards = new ArrayList<>();
+//    ========================================================================
+
     //***********************************
     private String bordType ;
 
@@ -102,6 +112,16 @@ public class Game {
     public void setKing(ClientHandler king) {
         this.ruler = king;
     }
+
+    //===============================================================================
+    public void setTypeHokm(String hokm) {
+        this.typeHokm = hokm;
+    }
+
+    public void setTypeCard(String typeCard) {
+        this.bordType = typeCard;
+    }
+    //===============================================================================
 
 
     public void initializingNames() {
@@ -247,6 +267,56 @@ public class Game {
             isPlayerSelected = false;
         }
     }
+
+
+    //=========================================================================================
+    public void checkCards(String card) {
+        String[] score = card.split(" ");
+        scoreCards.addAll(Arrays.asList(score));
+        input++;
+        if (input == 4) {
+            scoreCalculation();
+        }
+    }
+
+    private void scoreCalculation() {
+        int max = 0;
+        int similarity = 0;
+        int finalScore = 0;
+        String winner = "";
+
+        // اصلاح شرط برای جلوگیری از IndexOutOfBoundsException
+        for (int i = 0; i < scoreCards.size() - 1; i += 2) {
+            if (scoreCards.get(i + 1).equals(bordType)) {
+                similarity++;
+            } else if (scoreCards.get(i + 1).equals(typeHokm)) {
+                int score = Integer.parseInt(scoreCards.get(i + 2));
+                if (finalScore < score) {
+                    finalScore = score;
+                    winner = scoreCards.get(i);
+
+                }
+            }
+        }
+
+        if (similarity > 0 && finalScore == 0) {
+            for (int i = 0; i < scoreCards.size() - 1; i += 2) {
+                int score = Integer.parseInt(scoreCards.get(i + 2));
+                if (score > max) {
+                    max = score;
+                    winner = scoreCards.get(i);
+                }
+            }
+
+            for (int i = 0; i < scoreCards.size() - 1; i += 2) {
+                if (max == Integer.parseInt(scoreCards.get(i + 2))) {
+                    roomPlayers.get(i).sendMessage("WINNER IN SET IS :" + winner);
+
+                }
+            }
+        }
+    }
+    //=============================================================================================
 
 }
 /*
