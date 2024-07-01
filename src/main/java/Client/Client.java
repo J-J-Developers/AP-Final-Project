@@ -308,11 +308,6 @@ public class Client {
                        lblNik2.setText(message.substring(11));
                    }
                    if (message.startsWith("YOU ARE RULER.")){
-                       /*Heart.setVisible(true);
-                       Diamonds.setVisible(true);
-                       Spades.setVisible(true);
-                       Clubs.setVisible(true);*/
-                       hokmPan.setVisible(true);
                        ActionListener al = new ActionListener() {
                            @Override
                            public void actionPerformed(ActionEvent e) {
@@ -324,6 +319,7 @@ public class Client {
                        Diamonds.addActionListener(al);
                        Spades.addActionListener(al);
                        Clubs.addActionListener(al);
+                       hokmPan.setVisible(true);
                    }
                    if (message.startsWith("YOU RULED.")){
                        hokmPan.setVisible(false);
@@ -337,7 +333,11 @@ public class Client {
                         for (int i = 0; i < getMyButtons().size(); i++) {
                             getMyButtons().get(i).setEnabled(true);
                         }
-
+                    }
+                    if (message.startsWith("NOT TURN.")){
+                        for (int i = 0; i < getMyButtons().size(); i++) {
+                            getMyButtons().get(i).setEnabled(false);
+                        }
                     }
 
                    if (message.startsWith("YOUR CARD:")){

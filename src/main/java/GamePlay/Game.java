@@ -109,17 +109,6 @@ public class Game {
             }
         }
 
-        int governingNumber = 0;
-        for (ClientHandler player : roomPlayers) {
-            player.sendMessage("Players " + roomPlayers.get(0).getNickname() + " 0 " + roomPlayers.get(1).getNickname() + " 1 " + roomPlayers.get(2).getNickname() + " 2 " + roomPlayers.get(3).getNickname() + " 3");
-            if (governingNumber == rulerIndex) {
-                player.sendMessage("You are ruler ");
-            } else {
-                player.sendMessage("Ruler is " + roomPlayers.get(rulerIndex).getNickname()); // ارسال پیام حاکم به کل اعضای گروه
-            }
-            governingNumber++;
-
-        }
         int randomCard;
         // دادن 5 کارت به حاکم و نفر بعدیش
         for (int j = 0; j < 5; j++) {
@@ -211,7 +200,7 @@ public class Game {
         synchronized (lock2) {
             while (!isPlayerSelected) {
                 try {
-                    lock2.wait(); // منتظر می‌ماند تا حاکم کارت را انتخاب کند
+                    lock2.wait();
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -221,15 +210,41 @@ public class Game {
     public void playerCardSelected() {
         synchronized (lock2) {
             isPlayerSelected = true;
-            lock2.notifyAll(); // اطلاع به نخ منتظر که کارت انتخاب شده است
+            lock2.notifyAll();
         }
     }
     public void playing(){
         while (true){
             roomPlayers.get(ruler.getPlayerIndex()).sendMessage("YOUR TURN.");
             waitForPlayerCardSelection();
-
+            roomPlayers.get(ruler.getPlayerIndex()).sendMessage("NOT TURN.");
+            isPlayerSelected = false;
+            roomPlayers.get((ruler.getPlayerIndex()+1)%4).sendMessage("YOUR TURN.");
+            waitForPlayerCardSelection();
+            roomPlayers.get((ruler.getPlayerIndex()+1)%4).sendMessage("NOT TURN.");
+            isPlayerSelected =false;
+            roomPlayers.get((ruler.getPlayerIndex()+2)%4).sendMessage("YOUR TURN.");
+            waitForPlayerCardSelection();
+            roomPlayers.get((ruler.getPlayerIndex()+2)%4).sendMessage("NOT TURN.");
+            isPlayerSelected = false;
+            roomPlayers.get((ruler.getPlayerIndex()+3)%4).sendMessage("YOUR TURN.");
+            waitForPlayerCardSelection();
+            roomPlayers.get((ruler.getPlayerIndex()+3)%4).sendMessage("NOT TURN.");
+            isPlayerSelected = false;
         }
     }
 
 }
+/*
+int governingNumber = 0;
+        for (ClientHandler player : roomPlayers) {
+            player.sendMessage("Players " + roomPlayers.get(0).getNickname() + " 0 " + roomPlayers.get(1).getNickname() + " 1 " + roomPlayers.get(2).getNickname() + " 2 " + roomPlayers.get(3).getNickname() + " 3");
+            if (governingNumber == rulerIndex) {
+                player.sendMessage("You are ruler ");
+            } else {
+                player.sendMessage("Ruler is " + roomPlayers.get(rulerIndex).getNickname()); // ارسال پیام حاکم به کل اعضای گروه
+            }
+            governingNumber++;
+
+        }
+ */

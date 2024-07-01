@@ -5,15 +5,18 @@ import GamePlay.GamePage;
 import GamePlay.Token;
 import com.google.gson.Gson;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Scanner;
 
 public class Client2 {
@@ -241,6 +244,7 @@ public class Client2 {
             int clickedButtonIndex = 0;
             for (int i = 0; i < buttons.size(); i++) {
                 if (buttons.get(i) == clickedButton){
+                    System.out.println( myCards.get(clickedButtonIndex).getType() + " " + myCards.get(clickedButtonIndex).getNumber());
                     clickedButtonIndex = i;
                     break;
                 }
@@ -288,6 +292,7 @@ public class Client2 {
                         getMyButtons().add(new JButton());
                         getMyButtons().getLast().setIcon(new ImageIcon(getMyCards().getLast().getRooImage().getImage()));
                         getMyButtons().getLast().addActionListener(actionListener);
+                        getMyButtons().getLast().setEnabled(false);
                         showHandCards();
                     }
                     if (message.startsWith("YOUR NAME:")){
@@ -303,11 +308,6 @@ public class Client2 {
                         lblNik2.setText(message.substring(11));
                     }
                     if (message.startsWith("YOU ARE RULER.")){
-                       /*Heart.setVisible(true);
-                       Diamonds.setVisible(true);
-                       Spades.setVisible(true);
-                       Clubs.setVisible(true);*/
-                        hokmPan.setVisible(true);
                         ActionListener al = new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -319,6 +319,7 @@ public class Client2 {
                         Diamonds.addActionListener(al);
                         Spades.addActionListener(al);
                         Clubs.addActionListener(al);
+                        hokmPan.setVisible(true);
                     }
                     if (message.startsWith("YOU RULED.")){
                         hokmPan.setVisible(false);
@@ -326,6 +327,34 @@ public class Client2 {
                        Diamonds.setVisible(false);
                        Spades.setVisible(false);
                        Clubs.setVisible(false);*/
+                    }
+
+                    if (message.startsWith("YOUR TURN.")){
+                        for (int i = 0; i < getMyButtons().size(); i++) {
+                            getMyButtons().get(i).setEnabled(true);
+                        }
+                    }
+                    if (message.startsWith("NOT TURN.")){
+                        for (int i = 0; i < getMyButtons().size(); i++) {
+                            getMyButtons().get(i).setEnabled(false);
+                        }
+                    }
+
+                    if (message.startsWith("YOUR CARD:")){
+                        String icon = message.substring(10);
+                        //پنل خودم.setIon(stringToImageIcon(icon));
+                    }
+                    if (message.startsWith("LEFT CARD:")){
+                        String icon = message.substring(10);
+                        // پنل چپی.setIon(stringToImageIcon(icon));
+                    }
+                    if (message.startsWith("FRONT CARD:")){
+                        String icon = message.substring(10);
+                        //پنل رو به رویی.setIon(stringToImageIcon(icon));
+                    }
+                    if (message.startsWith("RIGHT CARD:")){
+                        String icon = message.substring(10);
+                        //پنل راستی.setIon(stringToImageIcon(icon));
                     }
                     if (message.contains("Players")){
                         String[]nameOfPlayer = message.split(" ");
@@ -359,6 +388,24 @@ public class Client2 {
             out.println(message);
         }
     }
+    public static ImageIcon stringToImageIcon(String imageString) {
+        try {
+            byte[] imageBytes = Base64.getDecoder().decode(imageString);
+            ByteArrayInputStream bais = new ByteArrayInputStream(imageBytes);
+            BufferedImage bufferedImage = ImageIO.read(bais);
+            return new ImageIcon(bufferedImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+
+
+
+
 
     public void initializeUI(){
         final Token TOKEN = new Token();
