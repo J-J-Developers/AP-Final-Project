@@ -262,6 +262,7 @@ public class Client {
                     break;
                 }
             }
+
             String CodedPutCard = gson.toJson(myCards.get(clickedButtonIndex));
             sendMessageToServer("I PUT:" + CodedPutCard);
 

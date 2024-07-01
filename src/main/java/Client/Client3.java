@@ -233,6 +233,7 @@ public class Client3 {
         mainPanel.add(hokmPan);
     }
 
+
     public String getName() {
         return name;
     }

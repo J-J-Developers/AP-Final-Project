@@ -113,6 +113,7 @@ public class Game {
         this.ruler = king;
     }
 
+
     //===============================================================================
     public void setTypeHokm(String hokm) {
         this.typeHokm = hokm;

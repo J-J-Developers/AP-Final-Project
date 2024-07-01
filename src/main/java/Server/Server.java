@@ -105,6 +105,7 @@ public class Server {
                         System.out.println(message);
                     }
 
+
                     System.out.println("Player " + playerIndex+ " :" + message);
 
 
