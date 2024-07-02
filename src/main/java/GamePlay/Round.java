@@ -85,6 +85,7 @@ public class Round  {
     public Round(Game game,int roundNumber){
         this.game = game;
         this.roundNumber = roundNumber;
+        this.ruler = game.roomPlayers.get(rand.nextInt(game.roomPlayers.size()));//choosing the king randomly
     }
     //******************************************************************************************************************
     //Starting round method
@@ -172,36 +173,6 @@ public class Round  {
         game.roomPlayers.get((ruler.getPlayerIndex()+3)%4).sendMessage("NOT TURN.");
         isPlayerSelected = false;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //******************************************************************************************************************
     //Helping methods
     private void waitForRulerCardSelection() {
