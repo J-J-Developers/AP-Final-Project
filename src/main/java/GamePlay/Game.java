@@ -18,10 +18,10 @@ public class Game {
     private int round;
 
     //    ===========================================================================================
-    private int input ;
-    private int set ;
-    private String typeHokm = "Heart" ;
-    private String bordType ;
+    private int input;
+    private int set;
+    private String typeHokm = "Heart";
+    private String bordType;
     //    ===========================================================================================
 
     private ClientHandler ruler;
@@ -37,7 +37,7 @@ public class Game {
     public static ArrayList<Card> roomCards = new ArrayList<>(getCardBox().cards);
     public List<ClientHandler> roomPlayers;//list of players
     public static ArrayList<Card> bordCards = new ArrayList<>();//list of cards
-    HashMap<Integer,Card> bordMap = new HashMap<>();
+    HashMap<Integer, Card> bordMap = new HashMap<>();
     //    ========================================================================
     private static ArrayList<String> scoreCards = new ArrayList<>();//list of having point cards
 //    ========================================================================
@@ -211,14 +211,16 @@ public class Game {
             lock.notifyAll(); // اطلاع به نخ منتظر که کارت انتخاب شده است
         }
     }
-    public void updateBordCards(Card putCard,int puterIndex){//updating cards in desk
+
+    public void updateBordCards(Card putCard, int puterIndex) {//updating cards in desk
         bordCards.add(putCard);
         roomPlayers.get(puterIndex).sendMessage("NOT TURN.");
         roomPlayers.get(puterIndex).sendMessage("YOUR CARD:" + imageIconToString(putCard.getRooImage()));
-        roomPlayers.get((puterIndex+1)%4).sendMessage("LEFT CARD:" + imageIconToString(putCard.getRooImage()));
-        roomPlayers.get((puterIndex+2)%4).sendMessage("FRONT CARD:" + imageIconToString(putCard.getRooImage()));
-        roomPlayers.get((puterIndex+3)%4).sendMessage("RIGHT CARD:" + imageIconToString(putCard.getRooImage()));
+        roomPlayers.get((puterIndex + 1) % 4).sendMessage("LEFT CARD:" + imageIconToString(putCard.getRooImage()));
+        roomPlayers.get((puterIndex + 2) % 4).sendMessage("FRONT CARD:" + imageIconToString(putCard.getRooImage()));
+        roomPlayers.get((puterIndex + 3) % 4).sendMessage("RIGHT CARD:" + imageIconToString(putCard.getRooImage()));
     }
+
     public static String imageIconToString(ImageIcon icon) {//writing string from images
         try {
             BufferedImage bufferedImage = (BufferedImage) icon.getImage();
@@ -243,29 +245,31 @@ public class Game {
             }
         }
     }
+
     public void playerCardSelected() {//when players choosing their cards
         synchronized (lock2) {
             isPlayerSelected = true;
             lock2.notifyAll();
         }
     }
-    public void playing(){//telling all players in bord it's their turn
-        while (true){
+
+    public void playing() {//telling all players in bord it's their turn
+        while (true) {
             roomPlayers.get(ruler.getPlayerIndex()).sendMessage("YOUR TURN." + "FREE");
             waitForPlayerCardSelection();
             roomPlayers.get(ruler.getPlayerIndex()).sendMessage("NOT TURN.");
             isPlayerSelected = false;
-            roomPlayers.get((ruler.getPlayerIndex()+1)%4).sendMessage("YOUR TURN." + bordType);
+            roomPlayers.get((ruler.getPlayerIndex() + 1) % 4).sendMessage("YOUR TURN." + bordType);
             waitForPlayerCardSelection();
-            roomPlayers.get((ruler.getPlayerIndex()+1)%4).sendMessage("NOT TURN.");
-            isPlayerSelected =false;
-            roomPlayers.get((ruler.getPlayerIndex()+2)%4).sendMessage("YOUR TURN." + bordType);
-            waitForPlayerCardSelection();
-            roomPlayers.get((ruler.getPlayerIndex()+2)%4).sendMessage("NOT TURN.");
+            roomPlayers.get((ruler.getPlayerIndex() + 1) % 4).sendMessage("NOT TURN.");
             isPlayerSelected = false;
-            roomPlayers.get((ruler.getPlayerIndex()+3)%4).sendMessage("YOUR TURN." + bordType);
+            roomPlayers.get((ruler.getPlayerIndex() + 2) % 4).sendMessage("YOUR TURN." + bordType);
             waitForPlayerCardSelection();
-            roomPlayers.get((ruler.getPlayerIndex()+3)%4).sendMessage("NOT TURN.");
+            roomPlayers.get((ruler.getPlayerIndex() + 2) % 4).sendMessage("NOT TURN.");
+            isPlayerSelected = false;
+            roomPlayers.get((ruler.getPlayerIndex() + 3) % 4).sendMessage("YOUR TURN." + bordType);
+            waitForPlayerCardSelection();
+            roomPlayers.get((ruler.getPlayerIndex() + 3) % 4).sendMessage("NOT TURN.");
             isPlayerSelected = false;
         }
     }
@@ -325,12 +329,13 @@ public class Game {
         }
 
         //System.out.println("Winner is player " + winner);
-        return  winner;
+        return winner;
     }
 
 
 
 }
+
 
 
 
