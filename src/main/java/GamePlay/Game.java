@@ -43,6 +43,9 @@ public class Game {
 
     //***********************************
     private String bordType ;
+    public ArrayList<Team> getRoomTeams() {
+        return roomTeams;
+    }
 
     public void setBordType(String bordType) {
         this.bordType = bordType;
@@ -222,7 +225,7 @@ public class Game {
         try {
             BufferedImage bufferedImage = (BufferedImage) icon.getImage();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "png", baos);
+            ImageIO.write(bufferedImage, "jpg", baos);
             byte[] imageBytes = baos.toByteArray();
             return Base64.getEncoder().encodeToString(imageBytes);
         } catch (Exception e) {
@@ -249,7 +252,7 @@ public class Game {
         }
     }
     public void playing(){
-        while (true){
+        for (int i =0; i < 13; i++){
             roomPlayers.get(ruler.getPlayerIndex()).sendMessage("YOUR TURN." + "FREE");
             waitForPlayerCardSelection();
             roomPlayers.get(ruler.getPlayerIndex()).sendMessage("NOT TURN.");

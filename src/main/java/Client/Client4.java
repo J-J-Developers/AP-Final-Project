@@ -233,7 +233,6 @@ public class Client4 {
         mainPanel.add(hokmPan);
     }
 
-
     public String getName() {
         return name;
     }
@@ -281,7 +280,7 @@ public class Client4 {
     }
 
     public static void main(String[] args) throws Exception {
-        Client4 client = new Client4(" ", " ");
+        Client client = new Client(" ", " ");
         client.initializeUI();
         client.startClient();
     }
