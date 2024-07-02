@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import static Server.Server.sendMessageToOne;
 
 public class Game {
-    private String token;
+    private String token; //saving tokens
     private static CardBox cardBox = new CardBox();
     private int round;
 
@@ -21,6 +21,7 @@ public class Game {
     private int input ;
     private int set ;
     private String typeHokm = "Heart" ;
+    private String bordType ;
     //    ===========================================================================================
 
     private ClientHandler ruler;
@@ -32,20 +33,17 @@ public class Game {
     private boolean isRulerCardSelected = false;
     private boolean isPlayerSelected = false;
 
-    public ArrayList<Team> roomTeams = new ArrayList<>(2);
+    public ArrayList<Team> roomTeams = new ArrayList<>(2);//making 2 team
     public static ArrayList<Card> roomCards = new ArrayList<>(getCardBox().cards);
-    public List<ClientHandler> roomPlayers;
-    public static ArrayList<Card> bordCards = new ArrayList<>();
-
+    public List<ClientHandler> roomPlayers;//list of players
+    public static ArrayList<Card> bordCards = new ArrayList<>();//list of cards
+    HashMap<Integer,Card> bordMap = new HashMap<>();
     //    ========================================================================
-    private static ArrayList<String> scoreCards = new ArrayList<>();
+    private static ArrayList<String> scoreCards = new ArrayList<>();//list of having point cards
 //    ========================================================================
 
     //***********************************
-    private String bordType ;
-    public ArrayList<Team> getRoomTeams() {
-        return roomTeams;
-    }
+
 
     public void setBordType(String bordType) {
         this.bordType = bordType;
@@ -92,17 +90,17 @@ public class Game {
     }
 
     // Constructor
-    public Game(List<ClientHandler> GameMembers) {
+    public Game(List<ClientHandler> GameMembers) {//getting members list
         this.roomPlayers = GameMembers;
-        roomTeams.add(new Team(roomPlayers.get(0), roomPlayers.get(2)));
-        roomTeams.add(new Team(roomPlayers.get(1), roomPlayers.get(3)));
-        this.ruler = roomPlayers.get(rand.nextInt(roomPlayers.size()));
+        roomTeams.add(new Team(roomPlayers.get(0), roomPlayers.get(2)));//creating team 1 with member 0 , 2
+        roomTeams.add(new Team(roomPlayers.get(1), roomPlayers.get(3)));//creating team 2 with member 1 , 3
+        this.ruler = roomPlayers.get(rand.nextInt(roomPlayers.size()));//choosing the king randomly
     }
 
     // Getter method for CardBox
     public Card getHokm() {
         return hokm;
-    }
+    }//returning the hokm
 
     public void setHokm(Card hokm) {
         this.hokm = hokm;
@@ -110,7 +108,7 @@ public class Game {
 
     public ClientHandler getKing() {
         return ruler;
-    }
+    }//returning the ruler
 
     public void setKing(ClientHandler king) {
         this.ruler = king;
@@ -128,7 +126,7 @@ public class Game {
     //===============================================================================
 
 
-    public void initializingNames() {
+    public void initializingNames() {//showing members name to other members
         for (int i = 0; i < 4; i++) {
             roomPlayers.get(i).sendMessage("YOUR NAME:" + roomPlayers.get(i).getNickname());
             roomPlayers.get(i).sendMessage("LEFT NAME:" + roomPlayers.get((i + 1) % 4).getNickname());
@@ -137,10 +135,10 @@ public class Game {
         }
     }
 
-    public void CardDividing() {
+    public void CardDividing() {//dividing cards btw members
 
-        int rulerIndex = 0;
-        for (int i = 0; i < roomPlayers.size(); i++) {
+        int rulerIndex = 0;//king index
+        for (int i = 0; i < roomPlayers.size(); i++) {//checking who is the ruler
             if (ruler == roomPlayers.get(i)) {
                 rulerIndex = i;
                 break;
@@ -163,12 +161,12 @@ public class Game {
         }
 
         roomPlayers.get(rulerIndex).sendMessage("YOU ARE RULER.");
-        waitForRulerCardSelection();
+        waitForRulerCardSelection();//stopping till ruler chose its card
         roomPlayers.get(rulerIndex).sendMessage("YOU RULED.");
 
         // دادن 5 کارت به 2 نفر بعدی
         for (int j = 0; j < 5; j++) {
-            randomCard = rand.nextInt(roomCards.size());
+            randomCard = rand.nextInt(roomCards.size());//choosing random card and make it gson
             String CodedRandomCard = gson.toJson(roomCards.get(randomCard));
             roomPlayers.get((rulerIndex + 2) % 4).sendMessage("TAKE CARD:" + CodedRandomCard);
             roomCards.remove(randomCard);
@@ -213,7 +211,7 @@ public class Game {
             lock.notifyAll(); // اطلاع به نخ منتظر که کارت انتخاب شده است
         }
     }
-    public void updateBordCards(Card putCard,int puterIndex){
+    public void updateBordCards(Card putCard,int puterIndex){//updating cards in desk
         bordCards.add(putCard);
         roomPlayers.get(puterIndex).sendMessage("NOT TURN.");
         roomPlayers.get(puterIndex).sendMessage("YOUR CARD:" + imageIconToString(putCard.getRooImage()));
@@ -221,11 +219,11 @@ public class Game {
         roomPlayers.get((puterIndex+2)%4).sendMessage("FRONT CARD:" + imageIconToString(putCard.getRooImage()));
         roomPlayers.get((puterIndex+3)%4).sendMessage("RIGHT CARD:" + imageIconToString(putCard.getRooImage()));
     }
-    public static String imageIconToString(ImageIcon icon) {
+    public static String imageIconToString(ImageIcon icon) {//writing string from images
         try {
             BufferedImage bufferedImage = (BufferedImage) icon.getImage();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "jpg", baos);
+            ImageIO.write(bufferedImage, "png", baos);
             byte[] imageBytes = baos.toByteArray();
             return Base64.getEncoder().encodeToString(imageBytes);
         } catch (Exception e) {
@@ -234,7 +232,7 @@ public class Game {
         }
     }
 
-    private void waitForPlayerCardSelection() {
+    private void waitForPlayerCardSelection() {// waiting for players to choose their cards
         synchronized (lock2) {
             while (!isPlayerSelected) {
                 try {
@@ -245,14 +243,14 @@ public class Game {
             }
         }
     }
-    public void playerCardSelected() {
+    public void playerCardSelected() {//when players choosing their cards
         synchronized (lock2) {
             isPlayerSelected = true;
             lock2.notifyAll();
         }
     }
-    public void playing(){
-        for (int i =0; i < 13; i++){
+    public void playing(){//telling all players in bord it's their turn
+        while (true){
             roomPlayers.get(ruler.getPlayerIndex()).sendMessage("YOUR TURN." + "FREE");
             waitForPlayerCardSelection();
             roomPlayers.get(ruler.getPlayerIndex()).sendMessage("NOT TURN.");
@@ -278,51 +276,84 @@ public class Game {
         String[] score = card.split(" ");
         scoreCards.addAll(Arrays.asList(score));
         input++;
-        if (input == 4) {
-            scoreCalculation();
+        if (input == 4) {//checking if all players adding their cards or not
+            judge();//getting score
         }
+
     }
 
-    private void scoreCalculation() {
+    public int judge() {
+        int winner = -1;
         int max = 0;
-        int similarity = 0;
-        int finalScore = 0;
-        String winner = "";
+        int rulerIndex = 0;
+        for (int i = 0; i < roomPlayers.size(); i++) {
+            if (ruler == roomPlayers.get(i)) {
+                rulerIndex = i;
+                break;
+            }
+        }
+        Card rulerCard = bordMap.get(rulerIndex);
+        String typeRuler = rulerCard.getType(); // get the type of the ruler's card
 
-        // اصلاح شرط برای جلوگیری از IndexOutOfBoundsException
-        for (int i = 0; i < scoreCards.size() - 1; i += 2) {
-            if (scoreCards.get(i + 1).equals(bordType)) {
-                similarity++;
-            } else if (scoreCards.get(i + 1).equals(typeHokm)) {
-                int score = Integer.parseInt(scoreCards.get(i + 2));
-                if (finalScore < score) {
-                    finalScore = score;
-                    winner = scoreCards.get(i);
-
+        // first, check if anyone has the Hokm card
+        for (Map.Entry<Integer, Card> entry : bordMap.entrySet()) {
+            int indexOfPerson = entry.getKey();
+            if (entry.getValue().getType().equals(typeHokm)) {
+                // if someone has the Hokm card, check if they have the highest number
+                int personScore = entry.getValue().getNumber();
+                if (personScore > max) {
+                    max = personScore;
+                    winner = indexOfPerson;
                 }
             }
         }
 
-        if (similarity > 0 && finalScore == 0) {
-            for (int i = 0; i < scoreCards.size() - 1; i += 2) {
-                int score = Integer.parseInt(scoreCards.get(i + 2));
-                if (score > max) {
-                    max = score;
-                    winner = scoreCards.get(i);
-                }
-            }
-
-            for (int i = 0; i < scoreCards.size() - 1; i += 2) {
-                if (max == Integer.parseInt(scoreCards.get(i + 2))) {
-                    roomPlayers.get(i).sendMessage("WINNER IN SET IS :" + winner);
-
+        // if no one has the Hokm card, check for the ruler's card type
+        if (winner == -1) {
+            max = 0;
+            for (Map.Entry<Integer, Card> entry : bordMap.entrySet()) {
+                int indexOfPerson = entry.getKey();
+                if (entry.getValue().getType().equals(typeRuler)) {
+                    // if someone has the same type as the ruler's card, check if they have the highest number
+                    int personScore = entry.getValue().getNumber();
+                    if (personScore > max) {
+                        max = personScore;
+                        winner = indexOfPerson;
+                    }
                 }
             }
         }
+
+        //System.out.println("Winner is player " + winner);
+        return  winner;
     }
-    //=============================================================================================
+
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 int governingNumber = 0;
         for (ClientHandler player : roomPlayers) {
@@ -336,3 +367,61 @@ int governingNumber = 0;
 
         }
  */
+
+
+
+//    private void scoreCalculation() {//counting scores
+//        int max = 0;
+//        int similarity = 0;
+//        int finalScore = 0;
+//        Card winningCard = null;
+//        String winner = "";
+//
+//        for(Map.Entry<Integer,Card> entry : scoreMap.entrySet()){
+//            int score = entry.getKey();
+//            Card card = entry.getValue();
+//            if(score > max){
+//                max = score;
+//                winningCard = card;
+//            }
+//        }
+//        if(winningCard != null){
+//            String Winner = "";
+//            for (ClientHandler player : roomPlayers){
+//                player.sendMessage("WINNER IS SET IS :" + Winner);
+//            }
+//
+//        }
+//
+//        // اصلاح شرط برای جلوگیری از IndexOutOfBoundsExceptiongt
+//        for (int i = 0; i < scoreCards.size() - 1; i += 2) {
+//            if (scoreCards.get(i + 1).equals(bordType)) {//checking if card is similar to bord card
+//                similarity++;
+//            } else if (scoreCards.get(i + 1).equals(typeHokm)) {//checking if card is similar to hokm type
+//                int score = Integer.parseInt(scoreCards.get(i + 2));//turning score to digit
+//                if (finalScore < score) { //check its more han the last score or not
+//                    finalScore = score;
+//                    winner = scoreCards.get(i);
+//
+//                }
+//            }
+//        }
+//
+//        if (similarity > 0 && finalScore == 0) {
+//            for (int i = 0; i < scoreCards.size() - 1; i += 2) {//checking witch score is more
+//                int score = Integer.parseInt(scoreCards.get(i + 2));
+//                if (score > max) {
+//                    max = score;
+//                    winner = scoreCards.get(i);
+//                }
+//            }
+//
+//            for (int i = 0; i < scoreCards.size() - 1; i += 2) {
+//                if (max == Integer.parseInt(scoreCards.get(i + 2))) {
+//                    roomPlayers.get(i).sendMessage("WINNER IN SET IS :" + winner);
+//
+//                }
+//            }
+//        }
+//    }
+//=============================================================================================
