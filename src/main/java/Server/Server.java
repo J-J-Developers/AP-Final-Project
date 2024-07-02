@@ -86,23 +86,18 @@ public class Server {
                     if (message.startsWith("I PUT:")){
                         String JsonCardString = message.substring(6);
                         Card card = gson.fromJson(JsonCardString, Card.class);
-                        if (AllGames.getLast().getBordCards().isEmpty()){
-                            AllGames.getLast().setBordType(card.getType());
+                        if (AllGames.getLast().gameRounds.getLast().getBordCards().isEmpty()){
+                            AllGames.getLast().gameRounds.getLast().setBordType(card.getType());
                         }
-                        AllGames.getLast().updateBordCards(card,playerIndex);
-                        AllGames.getLast().playerCardSelected();
+                        //AllGames.getLast().gameRounds.getLast().updateBordCards(card,playerIndex);
+                        AllGames.getLast().gameRounds.getLast().playerCardSelected();
                     }
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);
                         for (int i = 0; i < 4; i++) {
                             AllGames.getLast().roomPlayers.get(i).sendMessage("RUL IS:" + rul);
                         }
-                        AllGames.getLast().rulerCardSelected();
-                    }
-
-                    if (message.startsWith("TYPE is: ")){
-                        AllGames.getLast().checkCards(message.substring(9));
-                        System.out.println(message);
+                        AllGames.getLast().gameRounds.getLast().rulerCardSelected();
                     }
 
 
@@ -213,9 +208,8 @@ public class Server {
             group.get(2).setPlayerIndex(2);
             group.get(3).setPlayerIndex(3);
             AllGames.add(new Game(group));
-            AllGames.getLast().initializingNames();
-            AllGames.getLast().CardDividing();
-            AllGames.getLast().playing();
+           // AllGames.getLast().initializingNames();
+            AllGames.getLast().startMatch();
 
         }
     }

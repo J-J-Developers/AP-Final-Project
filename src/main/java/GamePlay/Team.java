@@ -23,5 +23,9 @@ public class Team {
     public void addPoint(){
         this.winedRounds ++;
     }
+
+    public int getWinedRounds() {
+        return winedRounds;
+    }
 }
 
