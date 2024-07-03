@@ -414,6 +414,15 @@ public class Client {
                     if (message.startsWith("CLEANING BORD.")){
                         cleaningBord();
                     }
+                    if (message.startsWith("YOU WINED THE SET.")){
+                        addToPlayerWinedSets();
+                    }
+                    if (message.startsWith("YOU WINED THE ROUND.")){
+                        addToPlayerWinedRounds();
+                    }
+                    if (message.startsWith("YOU WINED THE GAME.")){
+                        //COMING SOON...
+                    }
 
 
  // **************************************************************************************************************************
