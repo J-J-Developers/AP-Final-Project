@@ -14,14 +14,14 @@ public class Set {
     private static Round round;
     private int setNumber;
     private static ClientHandler firstPlayer;
-    private ClientHandler nextFirstPlayer;
+    private static ClientHandler nextFirstPlayer;
     private static String bordType = "Heart";
     private static final Object lock2 = new Object();
     private static boolean isPlayerSelected = false;
     //to make a turn
     public static ArrayList<Card> bordCards = new ArrayList<>();
     //For scoring
-    HashMap<Integer,Card> bordMap = new HashMap<>();
+    static HashMap<Integer,Card> bordMap = new HashMap<>();
     Gson gson = new Gson();
     //******************************************************************************************************************
     //Getter and Setters
@@ -60,13 +60,22 @@ public class Set {
         return nextFirstPlayer;
     }
 
-    public void setNextFirstPlayer(ClientHandler firstPlayer) {
-        this.nextFirstPlayer = nextFirstPlayer;
+    public static void setNextFirstPlayer(ClientHandler firstPlayer) {
+        nextFirstPlayer = nextFirstPlayer;
     }
 
     public static ArrayList<Card> getBordCards() {
         return bordCards;
     }
+
+    public HashMap<Integer, Card> getBordMap() {
+        return bordMap;
+    }
+
+    public static Round getRound() {
+        return round;
+    }
+
     //******************************************************************************************************************
     //Constructor
     public Set(Round round,int setNumber,ClientHandler firstPlayer){
@@ -78,6 +87,10 @@ public class Set {
     //Main methods
     public static void startSet(){
         puttingCard();
+        scoring();
+        cleaningBord();
+        setNextFirstPlayer(round.getGame().roomPlayers.get(winner()));
+
     }
     public static void puttingCard(){
         round.getGame().roomPlayers.get(firstPlayer.getPlayerIndex()).sendMessage("YOUR TURN." + "FREE");
@@ -106,7 +119,70 @@ public class Set {
         round.getGame().roomPlayers.get((puterIndex + 3) % 4).sendMessage("RIGHT CARD:" );
     }
 
-    public int judge() {
+
+    public static void scoring(){
+        switch (winner()) {
+            case 0:
+            case 2:
+                getRound().getGame().roomPlayers.get(0).addToPlayerWinedSets();
+                getRound().getGame().roomPlayers.get(2).addToPlayerWinedSets();
+                getRound().getGame().roomPlayers.get(0).sendMessage("YOU WINED THE SET.");
+                getRound().getGame().roomPlayers.get(2).sendMessage("YOU WINED THE SET.");
+                break;
+
+            case 1:
+            case 3:
+                getRound().getGame().roomPlayers.get(1).addToPlayerWinedSets();
+                getRound().getGame().roomPlayers.get(3).addToPlayerWinedSets();
+                getRound().getGame().roomPlayers.get(1).sendMessage("YOU WINED THE SET.");
+                getRound().getGame().roomPlayers.get(3).sendMessage("YOU WINED THE SET.");
+                break;
+            default:
+                System.out.println("ERROR in winning set");
+        }
+    }
+
+    public static void cleaningBord(){
+        for (int i = 0; i < 4; i++) {
+            getRound().getGame().roomPlayers.get(i).sendMessage("CLEANING BORD.");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //******************************************************************************************************************
+    //Helping methods
+    public static int winner() {
         int winner = -1;
         int max = 0;
         Card firstPlayerCard = bordMap.get(round.getRuler().getPlayerIndex());
@@ -140,8 +216,6 @@ public class Set {
         }
         return winner;
     }
-    //******************************************************************************************************************
-    //Helping methods
     private static void waitForPlayerCardSelection() {
         synchronized (lock2) {
             while (!isPlayerSelected) {
