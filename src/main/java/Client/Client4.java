@@ -29,7 +29,8 @@ public class Client4 {
 
     private String name;
     private String id;
-    private int winedSets;
+    private int winedSets = 0;
+    private int winedRounds = 0;
     private JPanel myHand;
     JPanel centerPanel;
     GamePlay.GamePage mainPanel;
@@ -41,10 +42,10 @@ public class Client4 {
     JLabel lblNik3;
     JLabel lblNik4;
 
-    JPanel pan1;
-    JPanel pan2;
-    JPanel pan3;
-    JPanel pan4;
+    static JButton pan1;
+    static JButton pan2;
+    static JButton pan3;
+    static JButton pan4;
     JPanel hokmPan;
 
     JButton Heart;
@@ -77,16 +78,16 @@ public class Client4 {
         lblNik3 = new JLabel("player3");
         lblNik4 = new JLabel("player4");
 
-        pan1=new JPanel();
-        pan2=new JPanel();
-        pan3=new JPanel();
-        pan4=new JPanel();
+        pan1=new JButton();
+        pan2=new JButton();
+        pan3=new JButton();
+        pan4=new JButton();
 
 
         // داده‌های جدول: نام تیم و امتیاز
         Object[][] data = {
-                {"Team1", 0,0},
-                {"Team2", 0,0}
+                {"Team1", getPlayerWinedRounds(),getPlayerWinedSets()},
+                {"Team2", getPlayerWinedRounds(),getPlayerWinedSets()}
         };
 
         // نام ستون‌ها
@@ -238,6 +239,20 @@ public class Client4 {
         return name;
     }
 
+    public int getPlayerWinedSets() {
+        return winedSets;
+    }
+    public void addToPlayerWinedSets(){
+        winedSets ++;
+    }
+
+    public int getPlayerWinedRounds() {
+        return winedRounds;
+    }
+    public void addToPlayerWinedRounds(){
+        winedRounds++;
+    }
+
     public String getId() {
         return id;
     }
@@ -263,6 +278,7 @@ public class Client4 {
                     break;
                 }
             }
+
             String CodedPutCard = gson.toJson(myCards.get(clickedButtonIndex));
             sendMessageToServer("I PUT:" + CodedPutCard);
 
@@ -337,11 +353,11 @@ public class Client4 {
                     }
                     if (message.startsWith("YOU RULED.")){
                         hokmPan.setVisible(false);
-                       /*Heart.setVisible(false);
-                       Diamonds.setVisible(false);
-                       Spades.setVisible(false);
-                       Clubs.setVisible(false);*/
                     }
+                    if (message.startsWith("YOU WINED THE SET.")){
+                        addToPlayerWinedSets();
+                    }
+
 
                     if (message.startsWith("YOUR TURN.")){
                         if (message.equalsIgnoreCase("YOUR TURN.FREE")){
@@ -395,6 +411,23 @@ public class Client4 {
                             HokmButton.setIcon(SpadesIcon);
                         }
                     }
+                    if (message.startsWith("CLEANING BORD.")){
+                        cleaningBord();
+                    }
+                    if (message.startsWith("YOU WINED THE SET.")){
+                        addToPlayerWinedSets();
+                    }
+                    if (message.startsWith("YOU WINED THE ROUND.")){
+                        addToPlayerWinedRounds();
+                    }
+                    if (message.startsWith("YOU WINED THE GAME.")){
+                        //COMING SOON...
+                    }
+
+
+                    // **************************************************************************************************************************
+
+
                     if (message.contains("Players")){
                         String[]nameOfPlayer = message.split(" ");
                         for (int i = 0 ; i< nameOfPlayer.length ; i++) {
@@ -425,6 +458,22 @@ public class Client4 {
     public void sendMessageToServer(String message) {
         if (out != null) {
             out.println(message);
+        }
+    }
+
+    public static void cleaningBord(){
+
+        if (pan1.getIcon() != null){
+            pan1.setIcon(null);
+        }
+        if (pan2.getIcon() != null){
+            pan2.setIcon(null);
+        }
+        if (pan3.getIcon() != null){
+            pan3.setIcon(null);
+        }
+        if (pan4.getIcon() != null){
+            pan4.setIcon(null);
         }
     }
     public static ImageIcon stringToImageIcon(String imageString) {
