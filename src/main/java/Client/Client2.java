@@ -452,7 +452,7 @@ public class Client2 {
         final Token TOKEN = new Token();
         final JFrame frame = new JFrame("Hokm");
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize(1500, 1600);
+        frame.setSize(1500, 900);
         frame.setLayout((LayoutManager)null);
         frame.getContentPane();
         Color customColor = new Color(97, 150, 134);
