@@ -85,12 +85,12 @@ public class Client {
 
         // داده‌های جدول: نام تیم و امتیاز
         Object[][] data = {
-                {"Team1", 0},
-                {"Team2", 0}
+                {"Team1", 0,0},
+                {"Team2", 0,0}
         };
 
         // نام ستون‌ها
-        String[] columnNames = {"Team Name", "Score"};
+        String[] columnNames = {"Team", "round","set"};
 
         // مدل جدول سفارشی با داده‌ها و نام ستون‌ها
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
@@ -136,7 +136,7 @@ public class Client {
         scrollPane.getHorizontalScrollBar().setBackground(new Color(33, 56, 44));
         scrollPane.getVerticalScrollBar().setBackground(new Color(33, 56, 44));
 
-        scrollPane.setBounds(1200, 28, 150, 55);
+        scrollPane.setBounds(1150, 28, 200, 55);
 
         mainPanel.add(scrollPane);
         hokmPan=new JPanel();
@@ -452,7 +452,7 @@ public class Client {
         final Token TOKEN = new Token();
         final JFrame frame = new JFrame("Hokm");
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize(1500, 1600);
+        frame.setSize(1500, 900);
         frame.setLayout((LayoutManager)null);
         frame.getContentPane();
         Color customColor = new Color(97, 150, 134);
