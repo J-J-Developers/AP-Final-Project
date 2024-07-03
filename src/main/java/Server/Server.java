@@ -10,6 +10,7 @@ import java.net.*;
 import java.util.*;
 
 public class Server {
+
     private static final int PORT = 6666; // پورت سرور
     private static Map<String, ClientHandler> clients = new HashMap<>(); // لیست کلاینت‌ها
     private static List<ClientHandler> randomPlayers = new ArrayList<>(); // لیست بازیکنان رندوم
