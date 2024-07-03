@@ -85,12 +85,12 @@ public class Client4 {
 
         // داده‌های جدول: نام تیم و امتیاز
         Object[][] data = {
-                {"Team1", 0},
-                {"Team2", 0}
+                {"Team1", 0,0},
+                {"Team2", 0,0}
         };
 
         // نام ستون‌ها
-        String[] columnNames = {"Team Name", "Score"};
+        String[] columnNames = {"Team", "round","set"};
 
         // مدل جدول سفارشی با داده‌ها و نام ستون‌ها
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
@@ -136,7 +136,7 @@ public class Client4 {
         scrollPane.getHorizontalScrollBar().setBackground(new Color(33, 56, 44));
         scrollPane.getVerticalScrollBar().setBackground(new Color(33, 56, 44));
 
-        scrollPane.setBounds(1200, 28, 150, 55);
+        scrollPane.setBounds(1150, 28, 200, 55);
 
         mainPanel.add(scrollPane);
         hokmPan=new JPanel();
