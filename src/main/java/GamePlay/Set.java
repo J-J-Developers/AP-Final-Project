@@ -7,6 +7,7 @@ import Server.Server.ClientHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Set {
     //Attributes
@@ -105,7 +106,51 @@ public class Set {
         round.getGame().roomPlayers.get((puterIndex + 3) % 4).sendMessage("RIGHT CARD:" );
     }
 
+    public int judge() {
+        int winner = -1;
+        int max = 0;
+        int rulerIndex = 0;
+        for (int i = 0; i < roomPlayers.size(); i++) {
+            if (ruler == roomPlayers.get(i)) {
+                rulerIndex = i;
+                break;
+            }
+        }
+        Card rulerCard = bordMap.get(rulerIndex);
+        String typeRuler = rulerCard.getType(); // get the type of the ruler's card
 
+        // first, check if anyone has the Hokm card
+        for (Map.Entry<Integer, Card> entry : bordMap.entrySet()) {
+            int indexOfPerson = entry.getKey();
+            if (entry.getValue().getType().equals(bordType)) {
+                // if someone has the Hokm card, check if they have the highest number
+                int personScore = entry.getValue().getNumber();
+                if (personScore > max) {
+                    max = personScore;
+                    winner = indexOfPerson;
+                }
+            }
+        }
+
+        // if no one has the Hokm card, check for the ruler's card type
+        if (winner == -1) {
+            max = 0;
+            for (Map.Entry<Integer, Card> entry : bordMap.entrySet()) {
+                int indexOfPerson = entry.getKey();
+                if (entry.getValue().getType().equals(typeRuler)) {
+                    // if someone has the same type as the ruler's card, check if they have the highest number
+                    int personScore = entry.getValue().getNumber();
+                    if (personScore > max) {
+                        max = personScore;
+                        winner = indexOfPerson;
+                    }
+                }
+            }
+        }
+
+        //System.out.println("Winner is player " + winner);
+        return winner;
+    }
 
 
 
