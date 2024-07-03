@@ -109,16 +109,8 @@ public class Set {
     public int judge() {
         int winner = -1;
         int max = 0;
-        int rulerIndex = 0;
-        for (int i = 0; i < roomPlayers.size(); i++) {
-            if (ruler == roomPlayers.get(i)) {
-                rulerIndex = i;
-                break;
-            }
-        }
-        Card rulerCard = bordMap.get(rulerIndex);
-        String typeRuler = rulerCard.getType(); // get the type of the ruler's card
-
+        Card firstPlayerCard = bordMap.get(round.getRuler().getPlayerIndex());
+        String typeRuler = firstPlayerCard.getType(); // get the type of the ruler's card
         // first, check if anyone has the Hokm card
         for (Map.Entry<Integer, Card> entry : bordMap.entrySet()) {
             int indexOfPerson = entry.getKey();
@@ -131,7 +123,6 @@ public class Set {
                 }
             }
         }
-
         // if no one has the Hokm card, check for the ruler's card type
         if (winner == -1) {
             max = 0;
@@ -147,20 +138,8 @@ public class Set {
                 }
             }
         }
-
-        //System.out.println("Winner is player " + winner);
         return winner;
     }
-
-
-
-
-
-
-
-
-
-
     //******************************************************************************************************************
     //Helping methods
     private static void waitForPlayerCardSelection() {
