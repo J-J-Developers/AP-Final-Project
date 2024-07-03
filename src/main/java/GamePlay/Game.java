@@ -215,6 +215,7 @@ public class Game {
 
     public void updateBordCards(String putCard, int puterIndex) {//updating cards in desk
         //bordCards.add(putCard);
+
         roomPlayers.get(puterIndex).sendMessage("YOUR CARD:" + putCard );
         roomPlayers.get((puterIndex + 1) % 4).sendMessage("LEFT CARD:" + putCard);
         roomPlayers.get((puterIndex + 2) % 4).sendMessage("FRONT CARD:" + putCard);

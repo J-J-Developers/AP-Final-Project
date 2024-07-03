@@ -233,7 +233,6 @@ public class Client3 {
         mainPanel.add(hokmPan);
     }
 
-
     public String getName() {
         return name;
     }
@@ -263,6 +262,7 @@ public class Client3 {
                     break;
                 }
             }
+
             String CodedPutCard = gson.toJson(myCards.get(clickedButtonIndex));
             sendMessageToServer("I PUT:" + CodedPutCard);
 
@@ -363,46 +363,22 @@ public class Client3 {
                     if (message.startsWith("YOUR CARD:")){
                         String puttedCard = message.substring(10);
                         Card card =gson.fromJson(puttedCard, Card.class);
-                        //card.setRooImageNull();
                         pan1.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                        /*SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                            }
-                        });*/
                     }
                     if (message.startsWith("LEFT CARD:")){
                         String puttedCard = message.substring(10);
                         Card card =gson.fromJson(puttedCard, Card.class);
-                        //card.setRooImageNull();
                         pan2.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                        /*SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                            }
-                        });*/
                     }
                     if (message.startsWith("FRONT CARD:")){
                         String puttedCard = message.substring(10);
                         Card card =gson.fromJson(puttedCard, Card.class);
-                        //card.setRooImageNull();
                         pan3.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                        /*SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                            }
-                        });*/
                     }
                     if (message.startsWith("RIGHT CARD:")){
                         String puttedCard = message.substring(10);
                         Card card =gson.fromJson(puttedCard, Card.class);
-                        //card.setRooImageNull();
                         pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                        /*SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                            }
-                        });*/
                     }
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);
