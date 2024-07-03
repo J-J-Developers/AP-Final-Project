@@ -87,7 +87,7 @@ public class Round  {
         Set set = new Set(this,setNumber,ruler);
         gameSets.add(set);
         Set.startSet();
-        while (game.roomTeams.get(0).getWinedSets() < 7 && game.roomTeams.get(1).getWinedSets() < 7) {
+        while (game.roomTeams.get(0).getTeamWinedSets() < 7 && game.roomTeams.get(1).getTeamWinedSets() < 7) {
             Set newSet = new Set(this,setNumber+1,gameSets.getLast().getNextFirstPlayer());
             gameSets.add(newSet);
             newSet.startSet();

@@ -10,33 +10,33 @@ public class Team {
     public List<ClientHandler> teamMembers ;
     public ClientHandler p1;
     public ClientHandler p2;
-    private int winedRounds;
-    private int winedSets;
+    private int teamWinedRounds;
+    private int teamWinedSets;
 
     public Team(ClientHandler p1,ClientHandler p2) {
         this.p1 = p1;
         this.p2 = p2;
-        this.winedRounds = 0;
-        this.winedSets = 0;
+        this.teamWinedRounds = 0;
+        this.teamWinedSets = 0;
         teamMembers = new ArrayList<>();
         teamMembers.add(p1);
         teamMembers.add(p2);
     }
 
     public void addWinedRounds(){
-        this.winedRounds ++;
+        this.teamWinedRounds ++;
     }
 
-    public int getWinedRounds() {
-        return winedRounds;
+    public int getTeamWinedRounds() {
+        return teamWinedRounds;
     }
 
     public void addWinedSets() {
-        this.winedSets ++;
+        this.teamWinedSets ++;
     }
 
-    public int getWinedSets() {
-        return winedSets;
+    public int getTeamWinedSets() {
+        return teamWinedSets;
     }
 
 }
