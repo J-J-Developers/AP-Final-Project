@@ -14,6 +14,7 @@ public class Round  {
     private int roundNumber;
     private static CardBox cardBox = new CardBox();
     private ClientHandler ruler;
+    private ClientHandler nextRuler;
     private String rulType = "Heart";
     Random rand = new Random();
     Gson gson = new Gson();
@@ -48,6 +49,14 @@ public class Round  {
         this.ruler = ruler;
     }
 
+    public ClientHandler getNextRuler() {
+        return nextRuler;
+    }
+
+    public void setNextRuler(ClientHandler nextRuler) {
+        this.nextRuler = nextRuler;
+    }
+
     public boolean isRulerCardSelected() {
         return isRulerCardSelected;
     }
@@ -65,10 +74,10 @@ public class Round  {
     }
     //******************************************************************************************************************
     //Constructor
-    public Round(Game game,int roundNumber){
+    public Round(Game game,int roundNumber,ClientHandler ruler){
         this.game = game;
         this.roundNumber = roundNumber;
-        this.ruler = game.roomPlayers.get(rand.nextInt(game.roomPlayers.size()));//choosing the king randomly
+        this.ruler = ruler;
     }
     //******************************************************************************************************************
     //Starting round method

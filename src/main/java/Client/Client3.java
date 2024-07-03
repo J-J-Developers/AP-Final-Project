@@ -29,6 +29,7 @@ public class Client3 {
 
     private String name;
     private String id;
+    private int winedSets;
     private JPanel myHand;
     JPanel centerPanel;
     GamePlay.GamePage mainPanel;
@@ -236,6 +237,13 @@ public class Client3 {
 
     public String getName() {
         return name;
+    }
+
+    public int getWinedSets() {
+        return winedSets;
+    }
+    public void addToPlayerWinedSets(){
+        winedSets ++;
     }
 
     public String getId() {

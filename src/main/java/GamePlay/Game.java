@@ -18,6 +18,7 @@ public class Game {
     public List<ClientHandler> roomPlayers;
     public ArrayList<Team> roomTeams = new ArrayList<>(2);
     public ArrayList<Round> gameRounds = new ArrayList<>();
+    Random rand = new Random();
     //******************************************************************************************************************
     //Getter and Setters
     public ArrayList<Round> getGameRounds() {
@@ -44,12 +45,13 @@ public class Game {
     }
     public void startMatch() {
         int roundNumber = gameRounds.size() + 1;
+        Round round = new Round(this, roundNumber,roomPlayers.get(rand.nextInt(roomPlayers.size())));
+        gameRounds.add(round);
         while (roomTeams.get(0).getWinedRounds() < 7 && roomTeams.get(1).getWinedRounds() < 7) {
-            Round round = new Round(this, roundNumber);
+            Round newRound = new Round(this, roundNumber,gameRounds.getLast().getNextRuler());
             gameRounds.add(round);
             round.startRound();
             roundNumber++;
         }
     }
-
 }

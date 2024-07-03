@@ -29,6 +29,7 @@ public class Client4 {
 
     private String name;
     private String id;
+    private int winedSets;
     private JPanel myHand;
     JPanel centerPanel;
     GamePlay.GamePage mainPanel;
