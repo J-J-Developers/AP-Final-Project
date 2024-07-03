@@ -15,15 +15,11 @@ public class Round  {
     private static CardBox cardBox = new CardBox();
     private ClientHandler ruler;
     private String rulType = "Heart";
-    //private String bordType = "Heart";
     Random rand = new Random();
     Gson gson = new Gson();
     private final Object lock = new Object();
-    //private final Object lock2 = new Object();
     private boolean isRulerCardSelected = false;
-    //private boolean isPlayerSelected = false;
     public static ArrayList<Card> roundCards = new ArrayList<>(getCardBox().cards);
-    //public static ArrayList<Card> bordCards = new ArrayList<>();
     public ArrayList<Set> gameSets = new ArrayList<>();
     //******************************************************************************************************************
     //Getter and Setters
@@ -39,17 +35,10 @@ public class Round  {
     public static CardBox getCardBox() {
         return cardBox;
     }
+
     public String getRulType(){
         return rulType;
     }
-
-    /*public String getBordType() {
-        return bordType;
-    }
-
-    public void setBordType(String bordType) {
-        this.bordType = bordType;
-    }*/
 
     public ClientHandler getRuler() {
         return ruler;
@@ -67,25 +56,10 @@ public class Round  {
         isRulerCardSelected = rulerCardSelected;
     }
 
-    /*public boolean isPlayerSelected() {
-        return isPlayerSelected;
-    }
-
-    public void setPlayerSelected(boolean playerSelected) {
-        isPlayerSelected = playerSelected;
-    }*/
-
     public static ArrayList<Card> getRoomCards() {
         return roundCards;
     }
 
-    /*public static void addToBordCards(Card newCard) {
-        getBordCards().add(newCard);
-    }
-
-    public static ArrayList<Card> getBordCards() {
-        return bordCards;
-    }*/
     public ArrayList<Set> getGameSets() {
         return gameSets;
     }
@@ -110,7 +84,6 @@ public class Round  {
             newSet.startSet();
             setNumber ++;
         }
-
     }
     //******************************************************************************************************************
     //Main methods
@@ -169,26 +142,6 @@ public class Round  {
             }
         }
     }
-
-
-    /*public void playing(){
-        game.roomPlayers.get(ruler.getPlayerIndex()).sendMessage("YOUR TURN." + "FREE");
-        waitForPlayerCardSelection();
-        game.roomPlayers.get(ruler.getPlayerIndex()).sendMessage("NOT TURN.");
-        isPlayerSelected = false;
-        game.roomPlayers.get((ruler.getPlayerIndex()+1)%4).sendMessage("YOUR TURN." + bordType);
-        waitForPlayerCardSelection();
-        game.roomPlayers.get((ruler.getPlayerIndex()+1)%4).sendMessage("NOT TURN.");
-        isPlayerSelected =false;
-        game.roomPlayers.get((ruler.getPlayerIndex()+2)%4).sendMessage("YOUR TURN." + bordType);
-        waitForPlayerCardSelection();
-        game.roomPlayers.get((ruler.getPlayerIndex()+2)%4).sendMessage("NOT TURN.");
-        isPlayerSelected = false;
-        game.roomPlayers.get((ruler.getPlayerIndex()+3)%4).sendMessage("YOUR TURN." + bordType);
-        waitForPlayerCardSelection();
-        game.roomPlayers.get((ruler.getPlayerIndex()+3)%4).sendMessage("NOT TURN.");
-        isPlayerSelected = false;
-    }*/
     //******************************************************************************************************************
     //Helping methods
     private void waitForRulerCardSelection() {
@@ -208,21 +161,4 @@ public class Round  {
             lock.notifyAll(); // اطلاع به نخ منتظر که کارت انتخاب شده است
         }
     }
-    /*private void waitForPlayerCardSelection() {
-        synchronized (lock2) {
-            while (!isPlayerSelected) {
-                try {
-                    lock2.wait();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
-    }*/
-    /*public void playerCardSelected() {
-        synchronized (lock2) {
-            isPlayerSelected = true;
-            lock2.notifyAll();
-        }
-    }*/
 }
