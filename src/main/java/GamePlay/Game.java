@@ -37,6 +37,7 @@ public class Game {
     public static ArrayList<Card> roomCards = new ArrayList<>(getCardBox().cards);
     public List<ClientHandler> roomPlayers;//list of players
     public static ArrayList<Card> bordCards = new ArrayList<>();//list of cards
+
     HashMap<Integer, Card> bordMap = new HashMap<>();
     //    ========================================================================
     private static ArrayList<String> scoreCards = new ArrayList<>();//list of having point cards
@@ -212,13 +213,12 @@ public class Game {
         }
     }
 
-    public void updateBordCards(Card putCard, int puterIndex) {//updating cards in desk
-        bordCards.add(putCard);
-        roomPlayers.get(puterIndex).sendMessage("NOT TURN.");
-        roomPlayers.get(puterIndex).sendMessage("YOUR CARD:" + imageIconToString(putCard.getRooImage()));
-        roomPlayers.get((puterIndex + 1) % 4).sendMessage("LEFT CARD:" + imageIconToString(putCard.getRooImage()));
-        roomPlayers.get((puterIndex + 2) % 4).sendMessage("FRONT CARD:" + imageIconToString(putCard.getRooImage()));
-        roomPlayers.get((puterIndex + 3) % 4).sendMessage("RIGHT CARD:" + imageIconToString(putCard.getRooImage()));
+    public void updateBordCards(String putCard, int puterIndex) {//updating cards in desk
+        //bordCards.add(putCard);
+        roomPlayers.get(puterIndex).sendMessage("YOUR CARD:" + putCard );
+        roomPlayers.get((puterIndex + 1) % 4).sendMessage("LEFT CARD:" + putCard);
+        roomPlayers.get((puterIndex + 2) % 4).sendMessage("FRONT CARD:" + putCard);
+        roomPlayers.get((puterIndex + 3) % 4).sendMessage("RIGHT CARD:" + putCard);
     }
 
     public static String imageIconToString(ImageIcon icon) {//writing string from images

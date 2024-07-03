@@ -5,6 +5,7 @@ import GamePlay.Card;
 import GamePlay.GamePage;
 import GamePlay.Token;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -40,10 +41,10 @@ public class Client4 {
     JLabel lblNik3;
     JLabel lblNik4;
 
-    JPanel pan1;
-    JPanel pan2;
-    JPanel pan3;
-    JPanel pan4;
+    JButton pan1;
+    JButton pan2;
+    JButton pan3;
+    JButton pan4;
     JPanel hokmPan;
 
     JButton Heart;
@@ -76,10 +77,10 @@ public class Client4 {
         lblNik3 = new JLabel("player3");
         lblNik4 = new JLabel("player4");
 
-        pan1=new JPanel();
-        pan2=new JPanel();
-        pan3=new JPanel();
-        pan4=new JPanel();
+        pan1=new JButton();
+        pan2=new JButton();
+        pan3=new JButton();
+        pan4=new JButton();
 
 
         // داده‌های جدول: نام تیم و امتیاز
@@ -336,10 +337,6 @@ public class Client4 {
                     }
                     if (message.startsWith("YOU RULED.")){
                         hokmPan.setVisible(false);
-                       /*Heart.setVisible(false);
-                       Diamonds.setVisible(false);
-                       Spades.setVisible(false);
-                       Clubs.setVisible(false);*/
                     }
 
                     if (message.startsWith("YOUR TURN.")){
@@ -364,20 +361,48 @@ public class Client4 {
                     }
 
                     if (message.startsWith("YOUR CARD:")){
-                        String icon = message.substring(10);
-                        //پنل خودم.setIon(stringToImageIcon(icon));
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        //card.setRooImageNull();
+                        pan1.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                        /*SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                            }
+                        });*/
                     }
                     if (message.startsWith("LEFT CARD:")){
-                        String icon = message.substring(10);
-                        // پنل چپی.setIon(stringToImageIcon(icon));
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        //card.setRooImageNull();
+                        pan2.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                        /*SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                            }
+                        });*/
                     }
                     if (message.startsWith("FRONT CARD:")){
-                        String icon = message.substring(10);
-                        //پنل رو به رویی.setIon(stringToImageIcon(icon));
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        //card.setRooImageNull();
+                        pan3.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                        /*SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                            }
+                        });*/
                     }
                     if (message.startsWith("RIGHT CARD:")){
-                        String icon = message.substring(10);
-                        //پنل راستی.setIon(stringToImageIcon(icon));
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        //card.setRooImageNull();
+                        pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                        /*SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                            }
+                        });*/
                     }
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);
