@@ -51,6 +51,8 @@ public class Server {
         private PrintWriter out;
         private String nickname;
         private int playerIndex;
+        private int winedSets = 0;
+        private int winedRounds = 0;
 
         public int getPlayerIndex() {
             return playerIndex;
@@ -70,6 +72,19 @@ public class Server {
             out.println(message);
         }
 
+        public int getPlayerWinedSets() {
+            return winedSets;
+        }
+        public void addToPlayerWinedSets(){
+            winedSets ++;
+        }
+        public int getPlayerWinedRounds() {
+            return winedRounds;
+        }
+        public void addToPlayerWinedRounds(){
+            winedRounds++;
+        }
+
         @Override
         public void run() {
             try {
@@ -86,6 +101,7 @@ public class Server {
                     if (message.startsWith("I PUT:")){
                         String JsonCardString = message.substring(6);
                         Card card = gson.fromJson(JsonCardString, Card.class);
+                        AllGames.getLast().gameRounds.getLast().gameSets.getLast().getBordMap().put(playerIndex,card);
                         if (AllGames.getLast().gameRounds.getLast().gameSets.getLast().getBordCards().isEmpty()){
                             AllGames.getLast().gameRounds.getLast().gameSets.getLast().setBordType(card.getType());
                         }
