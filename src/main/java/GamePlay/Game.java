@@ -47,7 +47,7 @@ public class Game {
         int roundNumber = gameRounds.size() + 1;
         Round round = new Round(this, roundNumber,roomPlayers.get(rand.nextInt(roomPlayers.size())));
         gameRounds.add(round);
-        while (roomTeams.get(0).getWinedRounds() < 7 && roomTeams.get(1).getWinedRounds() < 7) {
+        while (roomTeams.get(0).getTeamWinedRounds() < 7 && roomTeams.get(1).getTeamWinedRounds() < 7) {
             Round newRound = new Round(this, roundNumber,gameRounds.getLast().getNextRuler());
             gameRounds.add(round);
             round.startRound();
