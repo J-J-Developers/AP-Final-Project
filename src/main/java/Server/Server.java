@@ -86,11 +86,11 @@ public class Server {
                     if (message.startsWith("I PUT:")){
                         String JsonCardString = message.substring(6);
                         Card card = gson.fromJson(JsonCardString, Card.class);
-                        if (AllGames.getLast().gameRounds.getLast().getBordCards().isEmpty()){
-                            AllGames.getLast().gameRounds.getLast().setBordType(card.getType());
+                        if (AllGames.getLast().gameRounds.getLast().gameSets.getLast().getBordCards().isEmpty()){
+                            AllGames.getLast().gameRounds.getLast().gameSets.getLast().setBordType(card.getType());
                         }
                         //AllGames.getLast().gameRounds.getLast().updateBordCards(card,playerIndex);
-                        AllGames.getLast().gameRounds.getLast().playerCardSelected();
+                        AllGames.getLast().gameRounds.getLast().gameSets.getLast().playerCardSelected();
                     }
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);

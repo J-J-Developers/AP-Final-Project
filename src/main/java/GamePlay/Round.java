@@ -15,17 +15,23 @@ public class Round  {
     private static CardBox cardBox = new CardBox();
     private ClientHandler ruler;
     private String rulType = "Heart";
-    private String bordType = "Heart";
+    //private String bordType = "Heart";
     Random rand = new Random();
     Gson gson = new Gson();
     private final Object lock = new Object();
-    private final Object lock2 = new Object();
+    //private final Object lock2 = new Object();
     private boolean isRulerCardSelected = false;
-    private boolean isPlayerSelected = false;
+    //private boolean isPlayerSelected = false;
     public static ArrayList<Card> roundCards = new ArrayList<>(getCardBox().cards);
-    public static ArrayList<Card> bordCards = new ArrayList<>();
+    //public static ArrayList<Card> bordCards = new ArrayList<>();
+    public ArrayList<Set> gameSets = new ArrayList<>();
     //******************************************************************************************************************
     //Getter and Setters
+
+    public Game getGame() {
+        return game;
+    }
+
     public int getRoundNumber() {
         return roundNumber;
     }
@@ -37,13 +43,13 @@ public class Round  {
         return rulType;
     }
 
-    public String getBordType() {
+    /*public String getBordType() {
         return bordType;
     }
 
     public void setBordType(String bordType) {
         this.bordType = bordType;
-    }
+    }*/
 
     public ClientHandler getRuler() {
         return ruler;
@@ -61,24 +67,27 @@ public class Round  {
         isRulerCardSelected = rulerCardSelected;
     }
 
-    public boolean isPlayerSelected() {
+    /*public boolean isPlayerSelected() {
         return isPlayerSelected;
     }
 
     public void setPlayerSelected(boolean playerSelected) {
         isPlayerSelected = playerSelected;
-    }
+    }*/
 
     public static ArrayList<Card> getRoomCards() {
         return roundCards;
     }
 
-    public static void addToBordCards(Card newCard) {
+    /*public static void addToBordCards(Card newCard) {
         getBordCards().add(newCard);
     }
 
     public static ArrayList<Card> getBordCards() {
         return bordCards;
+    }*/
+    public ArrayList<Set> getGameSets() {
+        return gameSets;
     }
     //******************************************************************************************************************
     //Constructor
@@ -91,8 +100,15 @@ public class Round  {
     //Starting round method
     public void startRound(){
         CardDividing();
-        for (int i = 0; i < 13; i++) {
-            playing();
+        int setNumber = gameSets.size() + 1;
+        Set set = new Set(this,setNumber,ruler);
+        gameSets.add(set);
+        Set.startSet();
+        while (game.roomTeams.get(0).getWinedSets() < 7 && game.roomTeams.get(1).getWinedSets() < 7) {
+            Set newSet = new Set(this,setNumber+1,gameSets.getLast().getNextFirstPlayer());
+            gameSets.add(newSet);
+            newSet.startSet();
+            setNumber ++;
         }
 
     }
@@ -155,7 +171,7 @@ public class Round  {
     }
 
 
-    public void playing(){
+    /*public void playing(){
         game.roomPlayers.get(ruler.getPlayerIndex()).sendMessage("YOUR TURN." + "FREE");
         waitForPlayerCardSelection();
         game.roomPlayers.get(ruler.getPlayerIndex()).sendMessage("NOT TURN.");
@@ -172,7 +188,7 @@ public class Round  {
         waitForPlayerCardSelection();
         game.roomPlayers.get((ruler.getPlayerIndex()+3)%4).sendMessage("NOT TURN.");
         isPlayerSelected = false;
-    }
+    }*/
     //******************************************************************************************************************
     //Helping methods
     private void waitForRulerCardSelection() {
@@ -192,7 +208,7 @@ public class Round  {
             lock.notifyAll(); // اطلاع به نخ منتظر که کارت انتخاب شده است
         }
     }
-    private void waitForPlayerCardSelection() {
+    /*private void waitForPlayerCardSelection() {
         synchronized (lock2) {
             while (!isPlayerSelected) {
                 try {
@@ -202,11 +218,11 @@ public class Round  {
                 }
             }
         }
-    }
-    public void playerCardSelected() {
+    }*/
+    /*public void playerCardSelected() {
         synchronized (lock2) {
             isPlayerSelected = true;
             lock2.notifyAll();
         }
-    }
+    }*/
 }
