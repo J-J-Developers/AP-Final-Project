@@ -93,6 +93,16 @@ public class Round  {
             newSet.startSet();
             setNumber ++;
         }
+        if (game.roomTeams.get(0).getTeamWinedSets()==7){
+            game.roomTeams.get(0).addWinedRounds();
+            game.roomTeams.get(0).p1.sendMessage("YOU WINED THE ROUND.");
+            game.roomTeams.get(0).p2.sendMessage("YOU WINED THE ROUND.");
+        }else{
+            game.roomTeams.get(1).addWinedRounds();
+            game.roomTeams.get(1).p1.sendMessage("YOU WINED THE ROUND.");
+            game.roomTeams.get(1).p2.sendMessage("YOU WINED THE ROUND.");
+        }
+
     }
     //******************************************************************************************************************
     //Main methods
