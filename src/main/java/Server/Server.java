@@ -224,9 +224,7 @@ public class Server {
             group.get(2).setPlayerIndex(2);
             group.get(3).setPlayerIndex(3);
             AllGames.add(new Game(group));
-           // AllGames.getLast().initializingNames();
             AllGames.getLast().startMatch();
-
         }
     }
 
