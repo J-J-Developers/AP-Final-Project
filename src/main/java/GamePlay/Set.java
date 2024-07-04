@@ -15,7 +15,7 @@ public class Set {
     private int setNumber;
     private static ClientHandler firstPlayer;
     private static ClientHandler nextFirstPlayer;
-    private static String bordType = "Heart";
+    private static String bordType;
     private static final Object lock2 = new Object();
     private static boolean isPlayerSelected = false;
     //to make a turn
@@ -39,13 +39,6 @@ public class Set {
 
     public boolean isPlayerSelected() {
         return isPlayerSelected;
-    }
-
-    public void playerCardSelected() {
-        synchronized (lock2) {
-            isPlayerSelected = true;
-            lock2.notifyAll();
-        }
     }
 
     public static void addToBordCards(Card newCard) {
@@ -118,12 +111,11 @@ public class Set {
         round.getGame().roomPlayers.get((puterIndex + 2) % 4).sendMessage("FRONT CARD:" );
         round.getGame().roomPlayers.get((puterIndex + 3) % 4).sendMessage("RIGHT CARD:" );
     }
-
-
     public static void scoring(){
         switch (winner()) {
             case 0:
             case 2:
+                getRound().getGame().roomTeams.get(0).addTeamWinedSets();
                 getRound().getGame().roomPlayers.get(0).addToPlayerWinedSets();
                 getRound().getGame().roomPlayers.get(2).addToPlayerWinedSets();
                 getRound().getGame().roomPlayers.get(0).sendMessage("YOU WINED THE SET.");
@@ -132,6 +124,7 @@ public class Set {
 
             case 1:
             case 3:
+                getRound().getGame().roomTeams.get(1).addTeamWinedSets();
                 getRound().getGame().roomPlayers.get(1).addToPlayerWinedSets();
                 getRound().getGame().roomPlayers.get(3).addToPlayerWinedSets();
                 getRound().getGame().roomPlayers.get(1).sendMessage("YOU WINED THE SET.");
@@ -141,57 +134,21 @@ public class Set {
                 System.out.println("ERROR in winning set");
         }
     }
-
     public static void cleaningBord(){
         for (int i = 0; i < 4; i++) {
             getRound().getGame().roomPlayers.get(i).sendMessage("CLEANING BORD.");
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //******************************************************************************************************************
     //Helping methods
     public static int winner() {
         int winner = -1;
         int max = 0;
-        Card firstPlayerCard = bordMap.get(round.getRuler().getPlayerIndex());
-        String typeRuler = firstPlayerCard.getType(); // get the type of the ruler's card
-        // first, check if anyone has the Hokm card
+        // first, check if anyone has the Rul card
         for (Map.Entry<Integer, Card> entry : bordMap.entrySet()) {
             int indexOfPerson = entry.getKey();
-            if (entry.getValue().getType().equals(bordType)) {
-                // if someone has the Hokm card, check if they have the highest number
+            if (entry.getValue().getType().equals(round.getRulType())) {
+                // if someone has the Rul card, check if they have the highest number
                 int personScore = entry.getValue().getNumber();
                 if (personScore > max) {
                     max = personScore;
@@ -199,12 +156,12 @@ public class Set {
                 }
             }
         }
-        // if no one has the Hokm card, check for the ruler's card type
+        // if no one has the Rul card, check for the ruler's card type
         if (winner == -1) {
             max = 0;
             for (Map.Entry<Integer, Card> entry : bordMap.entrySet()) {
                 int indexOfPerson = entry.getKey();
-                if (entry.getValue().getType().equals(typeRuler)) {
+                if (entry.getValue().getType().equals(bordType)) {
                     // if someone has the same type as the ruler's card, check if they have the highest number
                     int personScore = entry.getValue().getNumber();
                     if (personScore > max) {
@@ -227,6 +184,11 @@ public class Set {
             }
         }
     }
-
+    public void playerCardSelected() {
+        synchronized (lock2) {
+            isPlayerSelected = true;
+            lock2.notifyAll();
+        }
+    }
 
 }

@@ -31,7 +31,7 @@ public class Team {
         return teamWinedRounds;
     }
 
-    public void addWinedSets() {
+    public void addTeamWinedSets() {
         this.teamWinedSets ++;
     }
 

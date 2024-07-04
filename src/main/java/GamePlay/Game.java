@@ -49,8 +49,8 @@ public class Game {
         gameRounds.add(round);
         while (roomTeams.get(0).getTeamWinedRounds() < 7 && roomTeams.get(1).getTeamWinedRounds() < 7) {
             Round newRound = new Round(this, roundNumber,gameRounds.getLast().getNextRuler());
-            gameRounds.add(round);
-            round.startRound();
+            gameRounds.add(newRound);
+            newRound.startRound();
             roundNumber++;
         }
         if (roomTeams.get(0).getTeamWinedRounds()==7){
