@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Round  {
     //Attributes
-    private Game game;
+    private static Game game;
     private int roundNumber;
     private static CardBox cardBox = new CardBox();
     private ClientHandler ruler;
@@ -25,7 +25,7 @@ public class Round  {
     //******************************************************************************************************************
     //Getter and Setters
 
-    public Game getGame() {
+    public static Game getGame() {
         return game;
     }
 
@@ -102,6 +102,8 @@ public class Round  {
             game.roomTeams.get(1).p1.sendMessage("YOU WINED THE ROUND.");
             game.roomTeams.get(1).p2.sendMessage("YOU WINED THE ROUND.");
         }
+        setNextRuler(whoIsNextRuler());
+        //0 کردن ست بازیکنان برای راند بعدی بازی
 
     }
     //******************************************************************************************************************
@@ -160,6 +162,15 @@ public class Round  {
                 }
             }
         }
+    }
+    public static ClientHandler whoIsNextRuler(){
+        ClientHandler nextRuler = getGame().roomPlayers.get(0);
+        for (int i = 1; i < 4; i++) {
+            if (getGame().roomPlayers.get(i).getPlayerWinedSets() > nextRuler.getPlayerWinedSets() ){
+                nextRuler = getGame().roomPlayers.get(i);
+            }
+        }
+        return nextRuler;
     }
     //******************************************************************************************************************
     //Helping methods
