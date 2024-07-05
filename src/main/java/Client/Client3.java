@@ -365,9 +365,16 @@ public class Client3 {
                                 getMyButtons().get(i).setEnabled(true);
                             }
                         } else {
+                            boolean found = false;
                             String correctType = message.substring(10);
                             for (int i = 0; i < getMyCards().size(); i++) {
                                 if (getMyCards().get(i).getType().equalsIgnoreCase(correctType)){
+                                    getMyButtons().get(i).setEnabled(true);
+                                    found = true;
+                                }
+                            }
+                            if (!found){
+                                for (int i = 0; i < getMyButtons().size(); i++) {
                                     getMyButtons().get(i).setEnabled(true);
                                 }
                             }
