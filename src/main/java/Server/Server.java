@@ -139,7 +139,7 @@ public class Server {
             } catch (IOException e) {
                 e.printStackTrace(); // چاپ خطا در صورت بروز مشکل در ارتباط
             }
-            /*finally {
+            finally {
                 // حذف کلاینت از لیست در صورت قطع ارتباط
                 if (nickname != null) {
                     clients.remove(nickname);
@@ -150,7 +150,7 @@ public class Server {
                 } catch (IOException e) {
                     e.printStackTrace(); // چاپ خطا در صورت بروز مشکل در بستن سوکت
                 }
-            }*/
+            }
         }
 
         // پردازش دستور create برای ایجاد بازی دوستانه
@@ -219,12 +219,22 @@ public class Server {
 
         // شروع بازی با گروه
         private void startGame(List<ClientHandler> group) {
+            Game newGame = new Game(group);
             group.get(0).setPlayerIndex(0);
             group.get(1).setPlayerIndex(1);
             group.get(2).setPlayerIndex(2);
             group.get(3).setPlayerIndex(3);
-            AllGames.add(new Game(group));
-            AllGames.getLast().startMatch();
+            System.out.println("*****  " + group.size());
+            AllGames.add(newGame);
+            new Thread(() ->{
+                try{
+                    newGame.startMatch();
+                }
+                catch (NullPointerException e){
+                    throw e;
+                }
+            }).start();
+            System.out.println("-----|  " + group.size());
         }
     }
 
