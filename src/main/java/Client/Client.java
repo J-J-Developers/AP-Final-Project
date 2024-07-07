@@ -63,7 +63,305 @@ public class Client {
         return mainPanel;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getPlayerWinedSets() {
+        return winedSets;
+    }
+    public void addToPlayerWinedSets(){
+        winedSets ++;
+    }
+    public void startNewRound() {
+        winedSets=0;
+    }
+    public int getPlayerWinedRounds() {
+        return winedRounds;
+    }
+    public void addToPlayerWinedRounds(){
+        winedRounds++;
+    }
+
+    public String getId() {
+        return id;
+    }
+    public JPanel getMyHand() {
+        return myHand;
+    }
+    public ArrayList<Card> getMyCards() {
+        return myCards;
+    }
+
+    public ArrayList<JButton> getMyButtons() {
+        return buttons;
+    }
+    ActionListener actionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton clickedButton = (JButton) e.getSource();
+            int clickedButtonIndex = 0;
+            for (int i = 0; i < buttons.size(); i++) {
+                if (buttons.get(i) == clickedButton){
+                    clickedButtonIndex = i;
+                    break;
+                }
+            }
+
+            String CodedPutCard = gson.toJson(myCards.get(clickedButtonIndex));
+            sendMessageToServer("I PUT:" + CodedPutCard);
+
+            myCards.remove(clickedButtonIndex);
+            buttons.remove(clickedButtonIndex);
+            myHand.remove(clickedButton);
+
+            myHand.repaint();
+            mainPanel.repaint();
+        }
+    };
+    public void showHandCards() {
+        Dimension buttonSize = new Dimension(100, 120);
+        buttons.getLast().setPreferredSize(buttonSize);
+        myHand.add(buttons.getLast());
+    }
+
+    public static void main(String[] args) throws Exception {
+        Client client = new Client(" ", " ");
+        client.initializeUI();
+        client.startClient();
+    }
+
+    // متد startClient برای شروع اتصال به سرور چت
+    public void startClient() throws Exception {
+        // ایجاد یک سوکت برای اتصال به سرور
+        Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+        // برای خواندن پیام‌های دریافتی از سرور
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        // برای نوشتن پیام‌ها به سرور
+        out = new PrintWriter(socket.getOutputStream(), true);
+
+        // Start a thread to read messages from the server
+        new Thread(() -> {
+            try {
+                String message;
+                while ((message = in.readLine()) != null) {
+                    if (message.startsWith("TAKE CARD:") ){
+                        String jsonCardString = message.substring(10);
+                        getMyCards().add(gson.fromJson(jsonCardString, Card.class));
+                        getMyButtons().add(new JButton());
+                        getMyButtons().getLast().setIcon(new ImageIcon(getMyCards().getLast().getRooImage().getImage()));
+                        getMyButtons().getLast().addActionListener(actionListener);
+                        getMyButtons().getLast().setEnabled(false);
+                        showHandCards();
+                    }
+                   if (message.startsWith("YOUR NAME:")){
+                       lblNik1.setText(message.substring(10));
+                   }
+                   if (message.startsWith("LEFT NAME:")){
+                       lblNik4.setText(message.substring(10));
+                   }
+                   if (message.startsWith("FRONT NAME:")){
+                       lblNik3.setText(message.substring(11));
+                   }
+                   if (message.startsWith("RIGHT NAME:")){
+                       lblNik2.setText(message.substring(11));
+                   }
+                   if (message.startsWith("YOU ARE RULER.")){
+                       ActionListener al = new ActionListener() {
+                           @Override
+                           public void actionPerformed(ActionEvent e) {
+                               JButton clicked = (JButton) e.getSource();
+                               sendMessageToServer("RUL IS:" + clicked.getText());
+                           }
+                       };
+                       Heart.addActionListener(al);
+                       Diamonds.addActionListener(al);
+                       Spades.addActionListener(al);
+                       Clubs.addActionListener(al);
+                       hokmPan.setVisible(true);
+                   }
+                   if (message.startsWith("YOU RULED.")){
+                       hokmPan.setVisible(false);
+                   }
+
+                   if (message.startsWith("YOUR TURN.")){
+                        if (message.equalsIgnoreCase("YOUR TURN.FREE")){
+                            for (int i = 0; i < getMyButtons().size(); i++) {
+                                getMyButtons().get(i).setEnabled(true);
+                            }
+                        } else {
+                            boolean found = false;
+                        String correctType = message.substring(10);
+                            for (int i = 0; i < getMyCards().size(); i++) {
+                                if (getMyCards().get(i).getType().equalsIgnoreCase(correctType)){
+                                    getMyButtons().get(i).setEnabled(true);
+                                    found = true;
+                                 }
+                            }
+                            if (!found){
+                                for (int i = 0; i < getMyButtons().size(); i++) {
+                                    getMyButtons().get(i).setEnabled(true);
+                                }
+                            }
+                        }
+                    }
+
+                    if (message.startsWith("NOT TURN.")){
+                        for (int i = 0; i < getMyButtons().size(); i++) {
+                            getMyButtons().get(i).setEnabled(false);
+                        }
+                    }
+
+                    if (message.startsWith("YOUR CARD:")){
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan1.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    }
+                    if (message.startsWith("LEFT CARD:")){
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    }
+                    if (message.startsWith("FRONT CARD:")){
+                        String puttedCard = message.substring(11);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan3.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    }
+                    if (message.startsWith("RIGHT CARD:")){
+                        String puttedCard = message.substring(11);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan2.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    }
+                    if (message.startsWith("RUL IS:")){
+                        String rul = message.substring(7);
+                        if (rul.equals("Heart")){
+                            HokmButton.setIcon(HeartIcon);
+                        }
+                        if(rul.equals("Diamonds")){
+                            HokmButton.setIcon(DiamondsIcon);
+                        }
+                        if(rul.equals("Clubs")){
+                            HokmButton.setIcon(ClubsIcon);
+                        }
+                        if(rul.equals("Spades")){
+                            HokmButton.setIcon(SpadesIcon);
+                        }
+                    }
+                    if (message.startsWith("CLEANING BORD.")){
+                        cleaningBord();
+                    }
+                    if (message.startsWith("NEW ROUND IS STARTING.")){
+                        for (int i = 0; i < getMyButtons().size(); i++) {
+                            myHand.remove(getMyButtons().get(i));
+                        }
+                        getMyButtons().clear();
+                        myCards.clear();
+                        //۰ شدن گرافیکی شماره ست های برده
+                    }
+                    if (message.startsWith("YOU LOST THE SET.")){
+                        //enemy set +1 in table
+                    }
+                    if (message.startsWith("YOU WINED THE SET.")){
+                        addToPlayerWinedSets();
+                        //your set +1 in table
+                    }
+                    if (message.startsWith("YOU LOST THE ROUND.")){
+                        //enemy round +1 in table
+                    }
+                    if (message.startsWith("YOU WINED THE ROUND.")){
+                        addToPlayerWinedRounds();
+                        //your round +1 in table
+                    }
+
+                    if (message.startsWith("YOU WINED THE GAME.")){
+                        JOptionPane.showMessageDialog(null,
+                                "YOU WINED THE GAME.",
+                                "WINNER",
+                                JOptionPane.ERROR_MESSAGE);
+
+                        // بستن برنامه
+                        System.exit(0);
+                    }
+                    if (message.startsWith("YOU LOST THE GAME.")){
+                        JOptionPane.showMessageDialog(null,
+                                "YOU LOSE THE GAME.",
+                                "LOSER",
+                                JOptionPane.ERROR_MESSAGE);
+
+                        // بستن برنامه
+                        System.exit(0);
+                    }
+
+
+ // **************************************************************************************************************************
+
+
+                   if (message.contains("Players")){
+                        String[]nameOfPlayer = message.split(" ");
+                        for (int i = 0 ; i< nameOfPlayer.length ; i++) {
+                            //nameOfPlayers.add(nameOfPlayer[i]);
+                        }
+                    }
+                   System.out.println(message);
+                }
+            } catch (IOException e) {
+                e.getMessage();
+                e.printStackTrace();
+            }
+        }).start();
+
+        // برای خواندن ورودی از کاربر
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Connected to chat server");
+
+        // Thread to read user input and send it to server
+        new Thread(() -> {
+            while (scanner.hasNextLine()) {
+                String userInput = scanner.nextLine();
+                sendMessageToServer(userInput);
+            }
+        }).start();
+    }
+
+    public void sendMessageToServer(String message) {
+        if (out != null) {
+            out.println(message);
+        }
+    }
+
+    public static void cleaningBord(){
+
+        if (pan1.getIcon() != null){
+            pan1.setIcon(null);
+        }
+        if (pan2.getIcon() != null){
+            pan2.setIcon(null);
+        }
+        if (pan3.getIcon() != null){
+            pan3.setIcon(null);
+        }
+        if (pan4.getIcon() != null){
+            pan4.setIcon(null);
+        }
+    }
     public Client(String name, String id){
+        //MACOS...
+        //        try {
+//            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (Exception e) {
+//            // If Nimbus is not available, fall back to cross-platform
+//            try {
+//                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+//            } catch (Exception ex) {
+//                // Not worth my time
+//            }
+//        }
+
         this.name = name;
         this.id = id;
         this.myCards = new ArrayList<>(13);
@@ -234,270 +532,6 @@ public class Client {
         mainPanel.add(HokmButton);
         mainPanel.add(hokmPan);
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPlayerWinedSets() {
-        return winedSets;
-    }
-    public void addToPlayerWinedSets(){
-        winedSets ++;
-    }
-
-    public int getPlayerWinedRounds() {
-        return winedRounds;
-    }
-    public void addToPlayerWinedRounds(){
-        winedRounds++;
-    }
-
-    public String getId() {
-        return id;
-    }
-    public JPanel getMyHand() {
-        return myHand;
-    }
-    public ArrayList<Card> getMyCards() {
-        return myCards;
-    }
-
-    public ArrayList<JButton> getMyButtons() {
-        return buttons;
-    }
-    ActionListener actionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JButton clickedButton = (JButton) e.getSource();
-            int clickedButtonIndex = 0;
-            for (int i = 0; i < buttons.size(); i++) {
-                if (buttons.get(i) == clickedButton){
-                    clickedButtonIndex = i;
-                    break;
-                }
-            }
-
-            String CodedPutCard = gson.toJson(myCards.get(clickedButtonIndex));
-            sendMessageToServer("I PUT:" + CodedPutCard);
-
-            myCards.remove(clickedButtonIndex);
-            buttons.remove(clickedButtonIndex);
-            myHand.remove(clickedButton);
-
-            myHand.repaint();
-            mainPanel.repaint();
-        }
-    };
-    public void showHandCards() {
-        Dimension buttonSize = new Dimension(100, 120);
-        buttons.getLast().setPreferredSize(buttonSize);
-        myHand.add(buttons.getLast());
-    }
-
-    public static void main(String[] args) throws Exception {
-        Client client = new Client(" ", " ");
-        client.initializeUI();
-        client.startClient();
-    }
-
-    // متد startClient برای شروع اتصال به سرور چت
-    public void startClient() throws Exception {
-        // ایجاد یک سوکت برای اتصال به سرور
-        Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-        // برای خواندن پیام‌های دریافتی از سرور
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        // برای نوشتن پیام‌ها به سرور
-        out = new PrintWriter(socket.getOutputStream(), true);
-
-        // Start a thread to read messages from the server
-        new Thread(() -> {
-            try {
-                String message;
-                while ((message = in.readLine()) != null) {
-                    if (message.startsWith("TAKE CARD:") ){
-                        String jsonCardString = message.substring(10);
-                        getMyCards().add(gson.fromJson(jsonCardString, Card.class));
-                        getMyButtons().add(new JButton());
-                        getMyButtons().getLast().setIcon(new ImageIcon(getMyCards().getLast().getRooImage().getImage()));
-                        getMyButtons().getLast().addActionListener(actionListener);
-                        getMyButtons().getLast().setEnabled(false);
-                        showHandCards();
-                    }
-                   if (message.startsWith("YOUR NAME:")){
-                       lblNik1.setText(message.substring(10));
-                   }
-                   if (message.startsWith("LEFT NAME:")){
-                       lblNik4.setText(message.substring(10));
-                   }
-                   if (message.startsWith("FRONT NAME:")){
-                       lblNik3.setText(message.substring(11));
-                   }
-                   if (message.startsWith("RIGHT NAME:")){
-                       lblNik2.setText(message.substring(11));
-                   }
-                   if (message.startsWith("YOU ARE RULER.")){
-                       ActionListener al = new ActionListener() {
-                           @Override
-                           public void actionPerformed(ActionEvent e) {
-                               JButton clicked = (JButton) e.getSource();
-                               sendMessageToServer("RUL IS:" + clicked.getText());
-                           }
-                       };
-                       Heart.addActionListener(al);
-                       Diamonds.addActionListener(al);
-                       Spades.addActionListener(al);
-                       Clubs.addActionListener(al);
-                       hokmPan.setVisible(true);
-                   }
-                   if (message.startsWith("YOU RULED.")){
-                       hokmPan.setVisible(false);
-                   }
-                   if (message.startsWith("YOU WINED THE SET.")){
-                       addToPlayerWinedSets();
-                   }
-
-
-                    if (message.startsWith("YOUR TURN.")){
-                        if (message.equalsIgnoreCase("YOUR TURN.FREE")){
-                            for (int i = 0; i < getMyButtons().size(); i++) {
-                                getMyButtons().get(i).setEnabled(true);
-                            }
-                        } else {
-                            boolean found = false;
-                        String correctType = message.substring(10);
-                            for (int i = 0; i < getMyCards().size(); i++) {
-                                if (getMyCards().get(i).getType().equalsIgnoreCase(correctType)){
-                                    getMyButtons().get(i).setEnabled(true);
-                                    found = true;
-                                 }
-                            }
-                            if (!found){
-                                for (int i = 0; i < getMyButtons().size(); i++) {
-                                    getMyButtons().get(i).setEnabled(true);
-                                }
-                            }
-                        }
-                    }
-
-                    if (message.startsWith("NOT TURN.")){
-                        for (int i = 0; i < getMyButtons().size(); i++) {
-                            getMyButtons().get(i).setEnabled(false);
-                        }
-                    }
-
-                    if (message.startsWith("YOUR CARD:")){
-                        String puttedCard = message.substring(10);
-                        Card card =gson.fromJson(puttedCard, Card.class);
-                        pan1.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                    }
-                    if (message.startsWith("LEFT CARD:")){
-                        String puttedCard = message.substring(10);
-                        Card card =gson.fromJson(puttedCard, Card.class);
-                        pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                    }
-                    if (message.startsWith("FRONT CARD:")){
-                        String puttedCard = message.substring(11);
-                        Card card =gson.fromJson(puttedCard, Card.class);
-                        pan3.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                    }
-                    if (message.startsWith("RIGHT CARD:")){
-                        String puttedCard = message.substring(11);
-                        Card card =gson.fromJson(puttedCard, Card.class);
-                        pan2.setIcon(new ImageIcon(card.getRooImage().getImage()));
-                    }
-                    if (message.startsWith("RUL IS:")){
-                        String rul = message.substring(7);
-                        if (rul.equals("Heart")){
-                            HokmButton.setIcon(HeartIcon);
-                        }
-                        if(rul.equals("Diamonds")){
-                            HokmButton.setIcon(DiamondsIcon);
-                        }
-                        if(rul.equals("Clubs")){
-                            HokmButton.setIcon(ClubsIcon);
-                        }
-                        if(rul.equals("Spades")){
-                            HokmButton.setIcon(SpadesIcon);
-                        }
-                    }
-                    if (message.startsWith("CLEANING BORD.")){
-                        cleaningBord();
-                    }
-                    if (message.startsWith("YOU WINED THE SET.")){
-                        addToPlayerWinedSets();
-                    }
-                    if (message.startsWith("YOU WINED THE ROUND.")){
-                        addToPlayerWinedRounds();
-                    }
-                    if (message.startsWith("YOU WINED THE GAME.")){
-                        //COMING SOON...
-                    }
-
-
- // **************************************************************************************************************************
-
-
-                   if (message.contains("Players")){
-                        String[]nameOfPlayer = message.split(" ");
-                        for (int i = 0 ; i< nameOfPlayer.length ; i++) {
-                            //nameOfPlayers.add(nameOfPlayer[i]);
-                        }
-                    }
-                   System.out.println(message);
-                }
-            } catch (IOException e) {
-                e.getMessage();
-                e.printStackTrace();
-            }
-        }).start();
-
-        // برای خواندن ورودی از کاربر
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Connected to chat server");
-
-        // Thread to read user input and send it to server
-        new Thread(() -> {
-            while (scanner.hasNextLine()) {
-                String userInput = scanner.nextLine();
-                sendMessageToServer(userInput);
-            }
-        }).start();
-    }
-
-    public void sendMessageToServer(String message) {
-        if (out != null) {
-            out.println(message);
-        }
-    }
-
-    public static void cleaningBord(){
-
-        if (pan1.getIcon() != null){
-            pan1.setIcon(null);
-        }
-        if (pan2.getIcon() != null){
-            pan2.setIcon(null);
-        }
-        if (pan3.getIcon() != null){
-            pan3.setIcon(null);
-        }
-        if (pan4.getIcon() != null){
-            pan4.setIcon(null);
-        }
-    }
-    public static ImageIcon stringToImageIcon(String imageString) {
-        try {
-            byte[] imageBytes = Base64.getDecoder().decode(imageString);
-            ByteArrayInputStream bais = new ByteArrayInputStream(imageBytes);
-            BufferedImage bufferedImage = ImageIO.read(bais);
-            return new ImageIcon(bufferedImage);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 
     public void initializeUI(){
         final Token TOKEN = new Token();
@@ -772,7 +806,7 @@ public class Client {
         frame.add(btn2);
         frame.setResizable(false);
         frame.setVisible(true);
-        frame.revalidate();
         frame.repaint();
+        frame.revalidate();
     }
 }
