@@ -296,7 +296,7 @@ public class Client2 {
     }
 
     public static void main(String[] args) throws Exception {
-        Client client = new Client(" ", " ");
+        Client2 client = new Client2(" ", " ");
         client.initializeUI();
         client.startClient();
     }
@@ -387,20 +387,24 @@ public class Client2 {
                     }
 
                     if (message.startsWith("YOUR CARD:")){
-                        String icon = message.substring(10);
-                        //پنل خودم.setIon(stringToImageIcon(icon));
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan1.setIcon(new ImageIcon(card.getRooImage().getImage()));
                     }
                     if (message.startsWith("LEFT CARD:")){
-                        String icon = message.substring(10);
-                        // پنل چپی.setIon(stringToImageIcon(icon));
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
                     }
                     if (message.startsWith("FRONT CARD:")){
-                        String icon = message.substring(10);
-                        //پنل رو به رویی.setIon(stringToImageIcon(icon));
+                        String puttedCard = message.substring(11);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan3.setIcon(new ImageIcon(card.getRooImage().getImage()));
                     }
                     if (message.startsWith("RIGHT CARD:")){
-                        String icon = message.substring(10);
-                        //پنل راستی.setIon(stringToImageIcon(icon));
+                        String puttedCard = message.substring(11);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan2.setIcon(new ImageIcon(card.getRooImage().getImage()));
                     }
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);
