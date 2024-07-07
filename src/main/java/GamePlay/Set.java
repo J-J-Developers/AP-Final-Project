@@ -37,7 +37,7 @@ public class Set {
         return isPlayerSelected;
     }
 
-    public static void addToBordCards(Card newCard) {
+    public void addToBordCards(Card newCard) {
         getBordCards().add(newCard);
     }
 
@@ -53,7 +53,7 @@ public class Set {
         nextFirstPlayer = firstPlayer;
     }
 
-    public static ArrayList<Card> getBordCards() {
+    public  ArrayList<Card> getBordCards() {
         return bordCards;
     }
 
@@ -107,13 +107,11 @@ public class Set {
         round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex()+3)%4).sendMessage("NOT TURN.");
         isPlayerSelected = false;
     }
-    public static void updateBordCards(Card putCard, int puterIndex) {
-        bordCards.add(putCard);
-        round.getGame().roomPlayers.get(puterIndex).sendMessage("NOT TURN.");
-        round.getGame().roomPlayers.get(puterIndex).sendMessage("YOUR CARD:" );
-        round.getGame().roomPlayers.get((puterIndex + 1) % 4).sendMessage("LEFT CARD:" );
-        round.getGame().roomPlayers.get((puterIndex + 2) % 4).sendMessage("FRONT CARD:" );
-        round.getGame().roomPlayers.get((puterIndex + 3) % 4).sendMessage("RIGHT CARD:" );
+    public void updateBordCards(String putCard, int puterIndex) {
+        round.getGame().roomPlayers.get(puterIndex).sendMessage("YOUR CARD:" + putCard);
+        round.getGame().roomPlayers.get((puterIndex + 1) % 4).sendMessage("LEFT CARD:" + putCard);
+        round.getGame().roomPlayers.get((puterIndex + 2) % 4).sendMessage("FRONT CARD:" + putCard);
+        round.getGame().roomPlayers.get((puterIndex + 3) % 4).sendMessage("RIGHT CARD:" + putCard);
     }
     public static void scoring(){
         switch (winner()) {
