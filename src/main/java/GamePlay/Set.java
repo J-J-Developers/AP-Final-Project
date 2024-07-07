@@ -12,7 +12,6 @@ import java.util.Map;
 public class Set {
     //Attributes
     private static Round round;
-    private int setNumber;
     private static ClientHandler firstPlayer;
     private static ClientHandler nextFirstPlayer;
     private static String bordType;
@@ -26,10 +25,6 @@ public class Set {
     Gson gson = new Gson();
     //******************************************************************************************************************
     //Getter and Setters
-    public int getSetNumber(){
-        return setNumber;
-    }
-
     public String getBordType() {
         return bordType;
     }
@@ -79,9 +74,8 @@ public class Set {
     }
     //******************************************************************************************************************
     //Constructor
-    public Set(Round round,int setNumber,ClientHandler firstPlayer){
+    public Set(Round round,ClientHandler firstPlayer){
         this.round = round;
-        this.setNumber = setNumber;
         this.firstPlayer = firstPlayer;
     }
     //******************************************************************************************************************

@@ -36,16 +36,14 @@ public class Game {
     //******************************************************************************************************************
     //Starting game methods
     public void startMatch() {
-        int roundNumber = gameRounds.size() + 1;
-        Round round = new Round(this, roundNumber,roomPlayers.get(rand.nextInt(roomPlayers.size())));
+        Round round = new Round(this,roomPlayers.get(rand.nextInt(roomPlayers.size())));
         gameRounds.add(round);
         round.startRound();
         while (true){
             while ((roomTeams.get(0).getTeamWinedRounds() < 7) && (roomTeams.get(1).getTeamWinedRounds() < 7) && (gameRounds.getLast().isIsRoundFinished())) {
-            Round newRound = new Round(this, roundNumber,gameRounds.getLast().getNextRuler());
+            Round newRound = new Round(this,gameRounds.getLast().getNextRuler());
             gameRounds.add(newRound);
             newRound.startRound();
-            roundNumber++;
             }
             if ((roomTeams.get(0).getTeamWinedRounds()== 7) || (roomTeams.get(1).getTeamWinedRounds() == 7))
                 break;
