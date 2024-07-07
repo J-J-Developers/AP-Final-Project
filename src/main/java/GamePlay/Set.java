@@ -126,6 +126,8 @@ public class Set {
                 System.out.println( "player 2 wined sets is:" + getRound().getGame().roomPlayers.get(2).getPlayerWinedSets());
                 getRound().getGame().roomPlayers.get(0).sendMessage("YOU WINED THE SET.");
                 getRound().getGame().roomPlayers.get(2).sendMessage("YOU WINED THE SET.");
+                getRound().getGame().roomPlayers.get(1).sendMessage("YOU LOST THE SET.");
+                getRound().getGame().roomPlayers.get(3).sendMessage("YOU LOST THE SET.");
                 break;
 
             case 1:
@@ -138,6 +140,8 @@ public class Set {
                 System.out.println( "player 3 wined sets is:" + getRound().getGame().roomPlayers.get(3).getPlayerWinedSets());
                 getRound().getGame().roomPlayers.get(1).sendMessage("YOU WINED THE SET.");
                 getRound().getGame().roomPlayers.get(3).sendMessage("YOU WINED THE SET.");
+                getRound().getGame().roomPlayers.get(0).sendMessage("YOU LOST THE SET.");
+                getRound().getGame().roomPlayers.get(2).sendMessage("YOU LOST THE SET.");
                 break;
             default:
                 System.out.println("ERROR in winning set");

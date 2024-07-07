@@ -112,6 +112,7 @@ public class Server {
                     }
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);
+                        //AllGames.getLast().gameRounds.getLast().setRulType(rul);
                         for (int i = 0; i < 4; i++) {
                             AllGames.getLast().roomPlayers.get(i).sendMessage("RUL IS:" + rul);
                         }

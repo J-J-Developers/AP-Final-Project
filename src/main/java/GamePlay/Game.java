@@ -51,9 +51,13 @@ public class Game {
         if (roomTeams.get(0).getTeamWinedRounds()==7){
             roomTeams.get(0).p1.sendMessage("YOU WINED THE GAME.");
             roomTeams.get(0).p2.sendMessage("YOU WINED THE GAME.");
+            roomTeams.get(1).p1.sendMessage("YOU LOST THE GAME.");
+            roomTeams.get(1).p2.sendMessage("YOU LOST THE GAME.");
         }else{
             roomTeams.get(1).p1.sendMessage("YOU WINED THE GAME.");
             roomTeams.get(1).p2.sendMessage("YOU WINED THE GAME.");
+            roomTeams.get(0).p1.sendMessage("YOU LOST THE GAME.");
+            roomTeams.get(0).p2.sendMessage("YOU LOST THE GAME.");
         }
     }
     //******************************************************************************************************************

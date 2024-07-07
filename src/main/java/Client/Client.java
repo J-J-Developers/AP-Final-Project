@@ -63,178 +63,6 @@ public class Client {
         return mainPanel;
     }
 
-    public Client(String name, String id){
-        this.name = name;
-        this.id = id;
-        this.myCards = new ArrayList<>(13);
-        this.buttons = new ArrayList<>(13);
-        this.myHand = new JPanel();
-        this.centerPanel = new JPanel();
-        this.mainPanel = new GamePlay.GamePage();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        lblNik1 = new JLabel("player1");
-        lblNik2 = new JLabel("player2");
-        lblNik3 = new JLabel("player3");
-        lblNik4 = new JLabel("player4");
-
-        pan1=new JButton();
-        pan2=new JButton();
-        pan3=new JButton();
-        pan4=new JButton();
-
-
-        // داده‌های جدول: نام تیم و امتیاز
-        Object[][] data = {
-                {"Team1", getPlayerWinedRounds(),getPlayerWinedSets()},
-                {"Team2", getPlayerWinedRounds(),getPlayerWinedSets()}
-        };
-
-        // نام ستون‌ها
-        String[] columnNames = {"Team", "round","set"};
-
-        // مدل جدول سفارشی با داده‌ها و نام ستون‌ها
-        DefaultTableModel model = new DefaultTableModel(data, columnNames) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                // همه سلول‌ها غیرقابل ویرایش هستند
-                return false;
-            }
-        };
-
-
-        resultTlb = new JTable(model) {
-            @Override
-            public Component prepareRenderer(javax.swing.table.TableCellRenderer renderer, int row, int column) {
-                Component cell = super.prepareRenderer(renderer, row, column);
-
-                // تنظیم رنگ پس‌زمینه سلول با استفاده از RGB
-                cell.setBackground(new Color(50, 87, 80)); // به عنوان مثال رنگ آبی روشن
-
-                // تنظیم رنگ متن سلول با استفاده از RGB
-                cell.setForeground(new Color(255, 255, 255)); // رنگ سیاه برای متن
-
-                return cell;
-            }
-        };
-
-        // تنظیم رندر سفارشی برای سربرگ جدول
-        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
-        headerRenderer.setBackground(new Color(119, 62, 62)); // رنگ پس‌زمینه سربرگ
-        headerRenderer.setForeground(Color.WHITE); // رنگ متن سربرگ
-        headerRenderer.setHorizontalAlignment(JLabel.CENTER); // تنظیم تراز متن به وسط
-
-        for (int i = 0; i < resultTlb.getColumnModel().getColumnCount(); i++) {
-            resultTlb.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
-        }
-
-
-        scrollPane = new JScrollPane(resultTlb);
-        scrollPane.getViewport().setBackground(new Color(50, 87, 80)); // رنگ پس‌زمینه ویوپورت
-        scrollPane.setBackground(new Color(50, 87, 80)); // رنگ پس‌زمینه خود ScrollPane
-
-        // تنظیم رنگ نوارهای اسکرول
-        scrollPane.getHorizontalScrollBar().setBackground(new Color(33, 56, 44));
-        scrollPane.getVerticalScrollBar().setBackground(new Color(33, 56, 44));
-
-        scrollPane.setBounds(1150, 28, 200, 55);
-
-        mainPanel.add(scrollPane);
-        hokmPan=new JPanel();
-
-        HeartIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Heart.jpg");
-        SpadesIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Spade.jpg");
-        DiamondsIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Diamond.jpg");
-        ClubsIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Club.jpg");
-
-        Heart = new JButton(HeartIcon);
-        Spades = new JButton(SpadesIcon);
-        Diamonds = new JButton(DiamondsIcon);
-        Clubs = new JButton(ClubsIcon);
-        HokmButton = new JButton();
-
-
-
-        mainPanel.setBounds(0, 0, 1500, 900);
-
-
-        myHand.setBackground(new Color(119, 62, 62));
-        myHand.setBounds(0, 650, 1500, 700);
-
-
-        centerPanel.setPreferredSize(new Dimension(1070, 400));
-        centerPanel.setBounds(190, 120, 1070, 400);
-        centerPanel.setBackground(new Color(50, 87, 80));
-        centerPanel.setVisible(true);
-
-
-        pan1.setBackground(new Color(119, 62, 62));
-        pan2.setBackground(new Color(119, 62, 62));
-        pan3.setBackground(new Color(119, 62, 62));
-        pan4.setBackground(new Color(119, 62, 62));
-
-        pan4.setBounds(200,215,200,200);
-        pan2.setBounds(1050,215,200,200);
-        pan1.setBounds(640,320,200,200);
-        pan3.setBounds(640,120,200,200);
-
-        pan1.setVisible(true);
-        pan2.setVisible(true);
-        pan3.setVisible(true);
-        pan4.setVisible(true);
-
-        mainPanel.add(pan1);
-        mainPanel.add(pan2);
-        mainPanel.add(pan3);
-        mainPanel.add(pan4);
-
-
-
-        lblNik1.setBounds(720,500,100,100);
-        lblNik2.setBounds(1300,270,100,100);
-        lblNik3.setBounds(720,50,100,100);
-        lblNik4.setBounds(120,270,100,100);
-
-
-
-        lblNik1.setVisible(true);
-        lblNik2.setVisible(true);
-        lblNik3.setVisible(true);
-        lblNik4.setVisible(true);
-        mainPanel.add(lblNik1);
-        mainPanel.add(lblNik2);
-        mainPanel.add(lblNik3);
-        mainPanel.add(lblNik4);
-        mainPanel.add(centerPanel);
-        mainPanel.add(myHand);
-
-
-        hokmPan.setBounds(10,120,80,400);
-        hokmPan.setBackground(new Color(50, 87, 80));
-        hokmPan.setLayout(null);
-        hokmPan.setVisible(true);
-
-        Clubs.setBounds(0,15,80,80);
-        Spades.setBounds(0,105,80,80);
-        Diamonds.setBounds(0,195,80,80);
-        Heart.setBounds(0,285,80,80);
-        HokmButton.setBounds(700,0,80,80);
-
-        Diamonds.setVisible(true);
-        Spades.setVisible(true);
-        Clubs.setVisible(true);
-        Heart.setVisible(true);
-        HokmButton.setVisible(true);
-
-        hokmPan.add(Diamonds);
-        hokmPan.add(Clubs);
-        hokmPan.add(Spades);
-        hokmPan.add(Heart);
-        hokmPan.setVisible(false);
-        mainPanel.add(HokmButton);
-        mainPanel.add(hokmPan);
-    }
-
     public String getName() {
         return name;
     }
@@ -245,7 +73,9 @@ public class Client {
     public void addToPlayerWinedSets(){
         winedSets ++;
     }
-
+    public void startNewRound() {
+        winedSets=0;
+    }
     public int getPlayerWinedRounds() {
         return winedRounds;
     }
@@ -353,12 +183,8 @@ public class Client {
                    if (message.startsWith("YOU RULED.")){
                        hokmPan.setVisible(false);
                    }
-                   if (message.startsWith("YOU WINED THE SET.")){
-                       addToPlayerWinedSets();
-                   }
 
-
-                    if (message.startsWith("YOUR TURN.")){
+                   if (message.startsWith("YOUR TURN.")){
                         if (message.equalsIgnoreCase("YOUR TURN.FREE")){
                             for (int i = 0; i < getMyButtons().size(); i++) {
                                 getMyButtons().get(i).setEnabled(true);
@@ -406,32 +232,65 @@ public class Client {
                         Card card =gson.fromJson(puttedCard, Card.class);
                         pan2.setIcon(new ImageIcon(card.getRooImage().getImage()));
                     }
+
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);
+                        if(rul.equals("Spades")){
+                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm1.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
+                        }
                         if (rul.equals("Heart")){
-                            HokmButton.setIcon(HeartIcon);
+                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm2.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
                         }
                         if(rul.equals("Diamonds")){
-                            HokmButton.setIcon(DiamondsIcon);
+                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm3.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
                         }
                         if(rul.equals("Clubs")){
-                            HokmButton.setIcon(ClubsIcon);
-                        }
-                        if(rul.equals("Spades")){
-                            HokmButton.setIcon(SpadesIcon);
+                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm4.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
                         }
                     }
                     if (message.startsWith("CLEANING BORD.")){
                         cleaningBord();
                     }
+                    if (message.startsWith("NEW ROUND IS STARTING.")){
+                        for (int i = 0; i < getMyButtons().size(); i++) {
+                            myHand.remove(getMyButtons().get(i));
+                        }
+                        getMyButtons().clear();
+                        myCards.clear();
+                        //۰ شدن گرافیکی شماره ست های برده
+                    }
+                    if (message.startsWith("YOU LOST THE SET.")){
+                        //enemy set +1 in table
+                    }
                     if (message.startsWith("YOU WINED THE SET.")){
                         addToPlayerWinedSets();
+                        //your set +1 in table
+                    }
+                    if (message.startsWith("YOU LOST THE ROUND.")){
+                        //enemy round +1 in table
                     }
                     if (message.startsWith("YOU WINED THE ROUND.")){
                         addToPlayerWinedRounds();
+                        //your round +1 in table
                     }
+
                     if (message.startsWith("YOU WINED THE GAME.")){
-                        //COMING SOON...
+                        JOptionPane.showMessageDialog(null,
+                                "YOU WINED THE GAME.",
+                                "WINNER",
+                                JOptionPane.ERROR_MESSAGE);
+
+                        // بستن برنامه
+                        System.exit(0);
+                    }
+                    if (message.startsWith("YOU LOST THE GAME.")){
+                        JOptionPane.showMessageDialog(null,
+                                "YOU LOSE THE GAME.",
+                                "LOSER",
+                                JOptionPane.ERROR_MESSAGE);
+
+                        // بستن برنامه
+                        System.exit(0);
                     }
 
 
@@ -486,18 +345,198 @@ public class Client {
             pan4.setIcon(null);
         }
     }
-    public static ImageIcon stringToImageIcon(String imageString) {
-        try {
-            byte[] imageBytes = Base64.getDecoder().decode(imageString);
-            ByteArrayInputStream bais = new ByteArrayInputStream(imageBytes);
-            BufferedImage bufferedImage = ImageIO.read(bais);
-            return new ImageIcon(bufferedImage);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+    public Client(String name, String id){
+        //MACOS...
+        //        try {
+//            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (Exception e) {
+//            // If Nimbus is not available, fall back to cross-platform
+//            try {
+//                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+//            } catch (Exception ex) {
+//                // Not worth my time
+//            }
+//        }
 
+        this.name = name;
+        this.id = id;
+        this.myCards = new ArrayList<>(13);
+        this.buttons = new ArrayList<>(13);
+        this.myHand = new JPanel();
+        this.centerPanel = new JPanel();
+        this.mainPanel = new GamePlay.GamePage();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        lblNik1 = new JLabel("player1");
+        lblNik2 = new JLabel("player2");
+        lblNik3 = new JLabel("player3");
+        lblNik4 = new JLabel("player4");
+
+        pan1=new JButton();
+        pan2=new JButton();
+        pan3=new JButton();
+        pan4=new JButton();
+
+
+        // داده‌های جدول: نام تیم و امتیاز
+        Object[][] data = {
+                {"Team1", getPlayerWinedRounds(),getPlayerWinedSets()},
+                {"Team2", getPlayerWinedRounds(),getPlayerWinedSets()}
+        };
+
+        // نام ستون‌ها
+        String[] columnNames = {"Team", "round","set"};
+
+        // مدل جدول سفارشی با داده‌ها و نام ستون‌ها
+        DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // همه سلول‌ها غیرقابل ویرایش هستند
+                return false;
+            }
+        };
+
+
+        resultTlb = new JTable(model) {
+            @Override
+            public Component prepareRenderer(javax.swing.table.TableCellRenderer renderer, int row, int column) {
+                Component cell = super.prepareRenderer(renderer, row, column);
+
+                // تنظیم رنگ پس‌زمینه سلول با استفاده از RGB
+                cell.setBackground(new Color(50, 87, 80)); // به عنوان مثال رنگ آبی روشن
+
+                // تنظیم رنگ متن سلول با استفاده از RGB
+                cell.setForeground(new Color(255, 255, 255)); // رنگ سیاه برای متن
+
+                return cell;
+            }
+        };
+
+        // تنظیم رندر سفارشی برای سربرگ جدول
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(new Color(119, 62, 62)); // رنگ پس‌زمینه سربرگ
+        headerRenderer.setForeground(Color.WHITE); // رنگ متن سربرگ
+        headerRenderer.setHorizontalAlignment(JLabel.CENTER); // تنظیم تراز متن به وسط
+
+        for (int i = 0; i < resultTlb.getColumnModel().getColumnCount(); i++) {
+            resultTlb.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
+
+
+        scrollPane = new JScrollPane(resultTlb);
+        scrollPane.getViewport().setBackground(new Color(50, 87, 80)); // رنگ پس‌زمینه ویوپورت
+        scrollPane.setBackground(new Color(50, 87, 80)); // رنگ پس‌زمینه خود ScrollPane
+
+        // تنظیم رنگ نوارهای اسکرول
+        scrollPane.getHorizontalScrollBar().setBackground(new Color(33, 56, 44));
+        scrollPane.getVerticalScrollBar().setBackground(new Color(33, 56, 44));
+
+        scrollPane.setBounds(1150, 28, 200, 55);
+
+        mainPanel.add(scrollPane);
+        hokmPan=new JPanel();
+
+        HeartIcon = new ImageIcon("src/main/java/Images/Heart.jpg");
+        SpadesIcon = new ImageIcon("src/main/java/Images/Spade.jpg");
+        DiamondsIcon = new ImageIcon("src/main/java/Images/Diamond.jpg");
+        ClubsIcon = new ImageIcon("src/main/java/Images/Club.jpg");
+
+        Heart = new JButton(HeartIcon);
+        Spades = new JButton(SpadesIcon);
+        Diamonds = new JButton(DiamondsIcon);
+        Clubs = new JButton(ClubsIcon);
+        HokmButton = new JButton();
+
+        Heart.setText("Heart");
+        Spades.setText("Spades");
+        Diamonds.setText("Diamonds");
+        Clubs.setText("Clubs");
+
+        mainPanel.setBounds(0, 0, 1500, 900);
+
+
+        myHand.setBackground(new Color(119, 62, 62));
+        myHand.setBounds(0, 650, 1500, 700);
+
+
+        centerPanel.setPreferredSize(new Dimension(1070, 400));
+        centerPanel.setBounds(190, 120, 1070, 400);
+        centerPanel.setBackground(new Color(50, 87, 80));
+        centerPanel.setVisible(true);
+
+
+        pan1.setBackground(new Color(119, 62, 62));
+        pan2.setBackground(new Color(119, 62, 62));
+        pan3.setBackground(new Color(119, 62, 62));
+        pan4.setBackground(new Color(119, 62, 62));
+        HokmButton.setBackground(new Color(97, 150, 134));
+
+        pan4.setBounds(200,215,200,200);
+        pan2.setBounds(1050,215,200,200);
+        pan1.setBounds(640,320,200,200);
+        pan3.setBounds(640,120,200,200);
+
+        pan1.setVisible(true);
+        pan2.setVisible(true);
+        pan3.setVisible(true);
+        pan4.setVisible(true);
+
+        mainPanel.add(pan1);
+        mainPanel.add(pan2);
+        mainPanel.add(pan3);
+        mainPanel.add(pan4);
+
+
+
+        lblNik1.setBounds(720,500,100,100);
+        lblNik2.setBounds(1300,270,100,100);
+        lblNik3.setBounds(720,50,100,100);
+        lblNik4.setBounds(120,270,100,100);
+
+
+
+        lblNik1.setVisible(true);
+        lblNik2.setVisible(true);
+        lblNik3.setVisible(true);
+        lblNik4.setVisible(true);
+        mainPanel.add(lblNik1);
+        mainPanel.add(lblNik2);
+        mainPanel.add(lblNik3);
+        mainPanel.add(lblNik4);
+        mainPanel.add(centerPanel);
+        mainPanel.add(myHand);
+
+
+        hokmPan.setBounds(10,120,80,400);
+        hokmPan.setBackground(new Color(50, 87, 80));
+        hokmPan.setLayout(null);
+        hokmPan.setVisible(true);
+
+        Clubs.setBounds(0,15,80,80);
+        Spades.setBounds(0,105,80,80);
+        Diamonds.setBounds(0,195,80,80);
+        Heart.setBounds(0,285,80,80);
+        HokmButton.setBounds(700,0,80,80);
+
+        Diamonds.setVisible(true);
+        Spades.setVisible(true);
+        Clubs.setVisible(true);
+        Heart.setVisible(true);
+        HokmButton.setVisible(true);
+
+        hokmPan.add(Diamonds);
+        hokmPan.add(Clubs);
+        hokmPan.add(Spades);
+        hokmPan.add(Heart);
+        hokmPan.setVisible(false);
+        mainPanel.add(HokmButton);
+        mainPanel.add(hokmPan);
+    }
 
     public void initializeUI(){
         final Token TOKEN = new Token();
@@ -772,7 +811,7 @@ public class Client {
         frame.add(btn2);
         frame.setResizable(false);
         frame.setVisible(true);
-        frame.revalidate();
         frame.repaint();
+        frame.revalidate();
     }
 }

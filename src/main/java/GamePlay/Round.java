@@ -36,6 +36,9 @@ public class Round  {
     public String getRulType(){
         return rulType;
     }
+    public void setRulType(String rulType){
+        this.rulType = rulType;
+    }
 
     public ClientHandler getRuler() {
         return ruler;
@@ -73,7 +76,7 @@ public class Round  {
         return isRoundFinished;
     }
 
-    public void setIsRoundFinished() {
+    public void roundIsFinished() {
         isRoundFinished = true;
     }
     //******************************************************************************************************************
@@ -81,6 +84,7 @@ public class Round  {
     public Round(Game game,ClientHandler ruler){
         this.game = game;
         this.ruler = ruler;
+        preRound();
     }
     //******************************************************************************************************************
     //Starting round method
@@ -102,13 +106,17 @@ public class Round  {
             game.roomTeams.get(0).addWinedRounds();
             game.roomTeams.get(0).p1.sendMessage("YOU WINED THE ROUND.");
             game.roomTeams.get(0).p2.sendMessage("YOU WINED THE ROUND.");
+            game.roomTeams.get(1).p1.sendMessage("YOU LOST THE ROUND.");
+            game.roomTeams.get(1).p2.sendMessage("YOU LOST THE ROUND.");
         }else{
             game.roomTeams.get(1).addWinedRounds();
             game.roomTeams.get(1).p1.sendMessage("YOU WINED THE ROUND.");
             game.roomTeams.get(1).p2.sendMessage("YOU WINED THE ROUND.");
+            game.roomTeams.get(0).p1.sendMessage("YOU LOST THE ROUND.");
+            game.roomTeams.get(0).p2.sendMessage("YOU LOST THE ROUND.");
         }
         setNextRuler(whoIsNextRuler());
-        //0 کردن ست بازیکنان برای راند بعدی بازی
+        roundIsFinished();
 
     }
     //******************************************************************************************************************
@@ -194,6 +202,11 @@ public class Round  {
         synchronized (lock) {
             isRulerCardSelected = true;
             lock.notifyAll(); // اطلاع به نخ منتظر که کارت انتخاب شده است
+        }
+    }
+    public static void preRound(){
+        for (int i = 0; i < 4; i++) {
+            getGame().roomPlayers.get(i).sendMessage("NEW ROUND IS STARTING.");
         }
     }
 }
