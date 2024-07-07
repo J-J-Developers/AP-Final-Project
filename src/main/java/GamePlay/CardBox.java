@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CardBox {
     public List<Card> cards = new ArrayList<>();
-    final static String basicDirectory = "C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\";
+    final static String basicDirectory = "src/main/java/Images/";
     public CardBox(){
         initializeFullDeck();
     }
