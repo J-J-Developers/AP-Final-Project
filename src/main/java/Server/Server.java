@@ -133,7 +133,7 @@ public class Server {
                     } else if (command.equals("message")) {
                         //handleMessage(parts); // فراخوانی تابع ارسال پیام به گروه
                     } else {
-                        out.println("Unknown command: " + command); // پیام خطا برای دستور ناشناخته
+                        //out.println("Unknown command: " + command); // پیام خطا برای دستور ناشناخته
                     }
                 }
             } catch (IOException e) {
@@ -219,11 +219,11 @@ public class Server {
 
         // شروع بازی با گروه
         private void startGame(List<ClientHandler> group) {
-            Game newGame = new Game(group);
             group.get(0).setPlayerIndex(0);
             group.get(1).setPlayerIndex(1);
             group.get(2).setPlayerIndex(2);
             group.get(3).setPlayerIndex(3);
+            Game newGame = new Game(group);
             System.out.println("*****  " + group.size());
             AllGames.add(newGame);
             new Thread(() ->{
