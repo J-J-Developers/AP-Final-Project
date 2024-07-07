@@ -36,6 +36,9 @@ public class Round  {
     public String getRulType(){
         return rulType;
     }
+    public void setRulType(String rulType){
+        this.rulType = rulType;
+    }
 
     public ClientHandler getRuler() {
         return ruler;
