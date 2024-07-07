@@ -11,7 +11,6 @@ import java.util.Random;
 public class Round  {
     //Attributes
     private static Game game;
-    private int roundNumber;
     private static CardBox cardBox = new CardBox();
     private ClientHandler ruler;
     private ClientHandler nextRuler;
@@ -22,15 +21,12 @@ public class Round  {
     private boolean isRulerCardSelected = false;
     public static ArrayList<Card> roundCards = new ArrayList<>(getCardBox().cards);
     public ArrayList<Set> gameSets = new ArrayList<>();
+    private boolean isRoundFinished = false;
     //******************************************************************************************************************
     //Getter and Setters
 
     public static Game getGame() {
         return game;
-    }
-
-    public int getRoundNumber() {
-        return roundNumber;
     }
 
     public static CardBox getCardBox() {
@@ -72,26 +68,35 @@ public class Round  {
     public ArrayList<Set> getGameSets() {
         return gameSets;
     }
+
+    public boolean isIsRoundFinished() {
+        return isRoundFinished;
+    }
+
+    public void setIsRoundFinished() {
+        isRoundFinished = true;
+    }
     //******************************************************************************************************************
     //Constructor
-    public Round(Game game,int roundNumber,ClientHandler ruler){
+    public Round(Game game,ClientHandler ruler){
         this.game = game;
-        this.roundNumber = roundNumber;
         this.ruler = ruler;
     }
     //******************************************************************************************************************
     //Starting round method
     public void startRound(){
         CardDividing();
-        int setNumber = gameSets.size() + 1;
-        Set set = new Set(this,setNumber,ruler);
+        Set set = new Set(this,ruler);
         gameSets.add(set);
-        Set.startSet();
-        while (game.roomTeams.get(0).getTeamWinedSets() < 7 && game.roomTeams.get(1).getTeamWinedSets() < 7) {
-            Set newSet = new Set(this,setNumber+1,gameSets.getLast().getNextFirstPlayer());
+        set.startSet();
+        while (true){
+            while ((game.roomTeams.get(0).getTeamWinedSets() < 7) && (game.roomTeams.get(1).getTeamWinedSets() < 7) && (gameSets.getLast().isIsSetFinished())) {
+            Set newSet = new Set(this,gameSets.getLast().getNextFirstPlayer());
             gameSets.add(newSet);
             newSet.startSet();
-            setNumber ++;
+            }
+            if ((game.roomTeams.get(0).getTeamWinedSets() == 7) || (game.roomTeams.get(1).getTeamWinedSets() == 7))
+                break;
         }
         if (game.roomTeams.get(0).getTeamWinedSets()==7){
             game.roomTeams.get(0).addWinedRounds();

@@ -12,12 +12,12 @@ import java.util.Map;
 public class Set {
     //Attributes
     private static Round round;
-    private int setNumber;
     private static ClientHandler firstPlayer;
     private static ClientHandler nextFirstPlayer;
     private static String bordType;
     private static final Object lock2 = new Object();
     private static boolean isPlayerSelected = false;
+    private boolean isSetFinished = false;
     //to make a turn
     public static ArrayList<Card> bordCards = new ArrayList<>();
     //For scoring
@@ -25,10 +25,6 @@ public class Set {
     Gson gson = new Gson();
     //******************************************************************************************************************
     //Getter and Setters
-    public int getSetNumber(){
-        return setNumber;
-    }
-
     public String getBordType() {
         return bordType;
     }
@@ -54,7 +50,7 @@ public class Set {
     }
 
     public static void setNextFirstPlayer(ClientHandler firstPlayer) {
-        nextFirstPlayer = nextFirstPlayer;
+        nextFirstPlayer = firstPlayer;
     }
 
     public static ArrayList<Card> getBordCards() {
@@ -69,22 +65,30 @@ public class Set {
         return round;
     }
 
+    public boolean isIsSetFinished() {
+        return isSetFinished;
+    }
+
+    public void setIsSetFinished() {
+        isSetFinished = true;
+    }
     //******************************************************************************************************************
     //Constructor
-    public Set(Round round,int setNumber,ClientHandler firstPlayer){
+    public Set(Round round,ClientHandler firstPlayer){
         this.round = round;
-        this.setNumber = setNumber;
         this.firstPlayer = firstPlayer;
     }
     //******************************************************************************************************************
-    //Main methods
-    public static void startSet(){
+    //Starting set method
+    public void startSet(){
         puttingCard();
         scoring();
         cleaningBord();
         setNextFirstPlayer(round.getGame().roomPlayers.get(winner()));
-
+        setIsSetFinished();
     }
+    //******************************************************************************************************************
+    //Main methods
     public static void puttingCard(){
         round.getGame().roomPlayers.get(firstPlayer.getPlayerIndex()).sendMessage("YOUR TURN." + "FREE");
         waitForPlayerCardSelection();
@@ -116,8 +120,11 @@ public class Set {
             case 0:
             case 2:
                 getRound().getGame().roomTeams.get(0).addTeamWinedSets();
+                System.out.println("team 0 wined sets is:" + getRound().getGame().roomTeams.get(0).getTeamWinedSets());
                 getRound().getGame().roomPlayers.get(0).addToPlayerWinedSets();
+                System.out.println( "player 0 wined sets is:" + getRound().getGame().roomPlayers.get(2).getPlayerWinedSets());
                 getRound().getGame().roomPlayers.get(2).addToPlayerWinedSets();
+                System.out.println( "player 2 wined sets is:" + getRound().getGame().roomPlayers.get(2).getPlayerWinedSets());
                 getRound().getGame().roomPlayers.get(0).sendMessage("YOU WINED THE SET.");
                 getRound().getGame().roomPlayers.get(2).sendMessage("YOU WINED THE SET.");
                 break;
@@ -125,8 +132,11 @@ public class Set {
             case 1:
             case 3:
                 getRound().getGame().roomTeams.get(1).addTeamWinedSets();
+                System.out.println("team 1 wined sets is:" + getRound().getGame().roomTeams.get(1).getTeamWinedSets());
                 getRound().getGame().roomPlayers.get(1).addToPlayerWinedSets();
+                System.out.println( "player 1 wined sets is:" + getRound().getGame().roomPlayers.get(1).getPlayerWinedSets());
                 getRound().getGame().roomPlayers.get(3).addToPlayerWinedSets();
+                System.out.println( "player 3 wined sets is:" + getRound().getGame().roomPlayers.get(3).getPlayerWinedSets());
                 getRound().getGame().roomPlayers.get(1).sendMessage("YOU WINED THE SET.");
                 getRound().getGame().roomPlayers.get(3).sendMessage("YOU WINED THE SET.");
                 break;
