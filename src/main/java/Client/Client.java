@@ -232,19 +232,20 @@ public class Client {
                         Card card =gson.fromJson(puttedCard, Card.class);
                         pan2.setIcon(new ImageIcon(card.getRooImage().getImage()));
                     }
+
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);
+                        if(rul.equals("Spades")){
+                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm1.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
+                        }
                         if (rul.equals("Heart")){
-                            HokmButton.setIcon(HeartIcon);
+                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm2.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
                         }
                         if(rul.equals("Diamonds")){
-                            HokmButton.setIcon(DiamondsIcon);
+                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm3.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
                         }
                         if(rul.equals("Clubs")){
-                            HokmButton.setIcon(ClubsIcon);
-                        }
-                        if(rul.equals("Spades")){
-                            HokmButton.setIcon(SpadesIcon);
+                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm4.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
                         }
                     }
                     if (message.startsWith("CLEANING BORD.")){
@@ -440,10 +441,10 @@ public class Client {
         mainPanel.add(scrollPane);
         hokmPan=new JPanel();
 
-        HeartIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Heart.jpg");
-        SpadesIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Spade.jpg");
-        DiamondsIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Diamond.jpg");
-        ClubsIcon = new ImageIcon("C:\\Program Files\\AP-Final-Project\\src\\main\\java\\Images\\Club.jpg");
+        HeartIcon = new ImageIcon("src/main/java/Images/Heart.jpg");
+        SpadesIcon = new ImageIcon("src/main/java/Images/Spade.jpg");
+        DiamondsIcon = new ImageIcon("src/main/java/Images/Diamond.jpg");
+        ClubsIcon = new ImageIcon("src/main/java/Images/Club.jpg");
 
         Heart = new JButton(HeartIcon);
         Spades = new JButton(SpadesIcon);
@@ -451,7 +452,10 @@ public class Client {
         Clubs = new JButton(ClubsIcon);
         HokmButton = new JButton();
 
-
+        Heart.setText("Heart");
+        Spades.setText("Spades");
+        Diamonds.setText("Diamonds");
+        Clubs.setText("Clubs");
 
         mainPanel.setBounds(0, 0, 1500, 900);
 
@@ -470,6 +474,7 @@ public class Client {
         pan2.setBackground(new Color(119, 62, 62));
         pan3.setBackground(new Color(119, 62, 62));
         pan4.setBackground(new Color(119, 62, 62));
+        HokmButton.setBackground(new Color(97, 150, 134));
 
         pan4.setBounds(200,215,200,200);
         pan2.setBounds(1050,215,200,200);
