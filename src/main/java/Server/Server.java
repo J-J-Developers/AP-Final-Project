@@ -106,11 +106,9 @@ public class Server {
                         if (AllGames.getLast().gameRounds.getLast().gameSets.getLast().getBordCards().isEmpty()){
                             AllGames.getLast().gameRounds.getLast().gameSets.getLast().setBordType(card.getType());
                         }
-                        //AllGames.getLast().gameRounds.getLast().gameSets.getLast().updateBordCards(card,playerIndex);
+                        AllGames.getLast().gameRounds.getLast().gameSets.getLast().bordCards.add(card);
+                        AllGames.getLast().gameRounds.getLast().gameSets.getLast().updateBordCards(JsonCardString,playerIndex);
                         AllGames.getLast().gameRounds.getLast().gameSets.getLast().playerCardSelected();
-                        //AllGames.getLast().getBordCards().add(card);
-                        //AllGames.getLast().updateBordCards(JsonCardString,playerIndex);
-                        //AllGames.getLast().playerCardSelected();
                     }
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);
