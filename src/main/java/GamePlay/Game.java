@@ -61,9 +61,9 @@ public class Game {
     public void initializingNames() {
         for (int i = 0; i < 4; i++) {
             roomPlayers.get(i).sendMessage("YOUR NAME:" + roomPlayers.get(i).getNickname());
-            roomPlayers.get(i).sendMessage("LEFT NAME:" + roomPlayers.get((i + 1) % 4).getNickname());
+            roomPlayers.get(i).sendMessage("RIGHT NAME:" + roomPlayers.get((i + 1) % 4).getNickname());
             roomPlayers.get(i).sendMessage("FRONT NAME:" + roomPlayers.get((i + 2) % 4).getNickname());
-            roomPlayers.get(i).sendMessage("RIGHT NAME:" + roomPlayers.get((i + 3) % 4).getNickname());
+            roomPlayers.get(i).sendMessage("LEFT NAME:" + roomPlayers.get((i + 3) % 4).getNickname());
         }
     }
 }

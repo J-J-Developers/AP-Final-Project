@@ -315,14 +315,14 @@ public class Client {
             try {
                 String message;
                 while ((message = in.readLine()) != null) {
-                   if (message.startsWith("TAKE CARD:") ){
+                    if (message.startsWith("TAKE CARD:") ){
                         String jsonCardString = message.substring(10);
                         getMyCards().add(gson.fromJson(jsonCardString, Card.class));
-                       getMyButtons().add(new JButton());
-                       getMyButtons().getLast().setIcon(new ImageIcon(getMyCards().getLast().getRooImage().getImage()));
-                       getMyButtons().getLast().addActionListener(actionListener);
-                       getMyButtons().getLast().setEnabled(false);
-                       showHandCards();
+                        getMyButtons().add(new JButton());
+                        getMyButtons().getLast().setIcon(new ImageIcon(getMyCards().getLast().getRooImage().getImage()));
+                        getMyButtons().getLast().addActionListener(actionListener);
+                        getMyButtons().getLast().setEnabled(false);
+                        showHandCards();
                     }
                    if (message.startsWith("YOUR NAME:")){
                        lblNik1.setText(message.substring(10));
@@ -386,21 +386,25 @@ public class Client {
                         }
                     }
 
-                   if (message.startsWith("YOUR CARD:")){
-                       String icon = message.substring(10);
-                       //پنل خودم.setIon(stringToImageIcon(icon));
-                   }
+                    if (message.startsWith("YOUR CARD:")){
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan1.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    }
                     if (message.startsWith("LEFT CARD:")){
-                        String icon = message.substring(10);
-                       // پنل چپی.setIon(stringToImageIcon(icon));
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
                     }
                     if (message.startsWith("FRONT CARD:")){
-                        String icon = message.substring(10);
-                        //پنل رو به رویی.setIon(stringToImageIcon(icon));
+                        String puttedCard = message.substring(11);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan3.setIcon(new ImageIcon(card.getRooImage().getImage()));
                     }
                     if (message.startsWith("RIGHT CARD:")){
-                        String icon = message.substring(10);
-                        //پنل راستی.setIon(stringToImageIcon(icon));
+                        String puttedCard = message.substring(11);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan2.setIcon(new ImageIcon(card.getRooImage().getImage()));
                     }
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);

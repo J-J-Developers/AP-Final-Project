@@ -10,6 +10,7 @@ import java.net.*;
 import java.util.*;
 
 public class Server {
+
     private static final int PORT = 6666; // پورت سرور
     private static Map<String, ClientHandler> clients = new HashMap<>(); // لیست کلاینت‌ها
     private static List<ClientHandler> randomPlayers = new ArrayList<>(); // لیست بازیکنان رندوم
@@ -107,6 +108,9 @@ public class Server {
                         }
                         //AllGames.getLast().gameRounds.getLast().gameSets.getLast().updateBordCards(card,playerIndex);
                         AllGames.getLast().gameRounds.getLast().gameSets.getLast().playerCardSelected();
+                        //AllGames.getLast().getBordCards().add(card);
+                        //AllGames.getLast().updateBordCards(JsonCardString,playerIndex);
+                        //AllGames.getLast().playerCardSelected();
                     }
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);
