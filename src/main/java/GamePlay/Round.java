@@ -140,12 +140,22 @@ public class Round  {
             String CodedRandomCard = gson.toJson(roundCards.get(randomCard));
             game.roomPlayers.get(rulerIndex).sendMessage("TAKE CARD:" + CodedRandomCard);
             roundCards.remove(randomCard);
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
         for (int j = 0; j < 5; j++) {
             randomCard = rand.nextInt(roundCards.size());
             String CodedRandomCard = gson.toJson(roundCards.get(randomCard));
             game.roomPlayers.get((rulerIndex + 1) % 4).sendMessage("TAKE CARD:" + CodedRandomCard);
             roundCards.remove(randomCard);
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
 
         game.roomPlayers.get(rulerIndex).sendMessage("YOU ARE RULER.");
@@ -158,12 +168,22 @@ public class Round  {
             String CodedRandomCard = gson.toJson(roundCards.get(randomCard));
             game.roomPlayers.get((rulerIndex + 2) % 4).sendMessage("TAKE CARD:" + CodedRandomCard);
             roundCards.remove(randomCard);
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
         for (int j = 0; j < 5; j++) {
             randomCard = rand.nextInt(roundCards.size());
             String CodedRandomCard = gson.toJson(roundCards.get(randomCard));
             game.roomPlayers.get((rulerIndex + 3) % 4).sendMessage("TAKE CARD:" + CodedRandomCard);
             roundCards.remove(randomCard);
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
         // دادن 2 دور 4 کارت به هر 4 نفر
         for (int i = 0; i < 2; i++) {
@@ -174,6 +194,11 @@ public class Round  {
                     String CodedRandomCard = gson.toJson(roundCards.get(randomCard));
                     game.roomPlayers.get(playerIndex).sendMessage("TAKE CARD:" + CodedRandomCard);
                     roundCards.remove(randomCard);
+                    try {
+                        Thread.sleep(250);
+                    } catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
                 }
             }
         }

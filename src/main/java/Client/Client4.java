@@ -104,6 +104,8 @@ public class Client4 {
         Dimension buttonSize = new Dimension(100, 120);
         buttons.getLast().setPreferredSize(buttonSize);
         myHand.add(buttons.getLast());
+        myHand.repaint();
+        myHand.revalidate();
     }
 
     public static void main(String[] args) throws Exception {
@@ -234,6 +236,13 @@ public class Client4 {
                     if (message.startsWith("NEW ROUND IS STARTING.")){
                         for (int i = 0; i < getMyButtons().size(); i++) {
                             myHand.remove(getMyButtons().get(i));
+                            myHand.repaint();
+                            myHand.revalidate();
+                            try {
+                                Thread.sleep(150);
+                            } catch (InterruptedException e){
+                                e.printStackTrace();
+                            }
                         }
                         getMyButtons().clear();
                         myCards.clear();
