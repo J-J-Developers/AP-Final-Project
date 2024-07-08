@@ -344,6 +344,7 @@ public class Client {
     }
 
     public void initializeUI(){
+        playSound("src/main/java/GameSound/gameSound.wav");
         final Token TOKEN = new Token();
         final JFrame frame = new JFrame("Hokm");
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
