@@ -85,6 +85,9 @@ public class Server {
         public void addToPlayerWinedRounds(){
             winedRounds++;
         }
+        public void playerZeroing(){
+            winedSets = 0;
+        }
 
         @Override
         public void run() {
@@ -112,7 +115,7 @@ public class Server {
                     }
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);
-                        //AllGames.getLast().gameRounds.getLast().setRulType(rul);
+                        AllGames.getLast().gameRounds.getLast().setRulType(rul);
                         for (int i = 0; i < 4; i++) {
                             AllGames.getLast().roomPlayers.get(i).sendMessage("RUL IS:" + rul);
                         }

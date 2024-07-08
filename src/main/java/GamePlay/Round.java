@@ -11,7 +11,7 @@ import java.util.Random;
 public class Round  {
     //Attributes
     private static Game game;
-    private static CardBox cardBox = new CardBox();
+    private static CardBox cardBox;
     private ClientHandler ruler;
     private ClientHandler nextRuler;
     private String rulType = "Heart";
@@ -19,7 +19,7 @@ public class Round  {
     Gson gson = new Gson();
     private final Object lock = new Object();
     private boolean isRulerCardSelected = false;
-    public static ArrayList<Card> roundCards = new ArrayList<>(getCardBox().cards);
+    public static ArrayList<Card> roundCards;
     public ArrayList<Set> gameSets = new ArrayList<>();
     private boolean isRoundFinished = false;
     //******************************************************************************************************************
@@ -84,6 +84,8 @@ public class Round  {
     public Round(Game game,ClientHandler ruler){
         this.game = game;
         this.ruler = ruler;
+        cardBox = new CardBox();
+        roundCards = new ArrayList<>(getCardBox().getCards());
         preRound();
     }
     //******************************************************************************************************************
@@ -94,15 +96,15 @@ public class Round  {
         gameSets.add(set);
         set.startSet();
         while (true){
-            while ((game.roomTeams.get(0).getTeamWinedSets() < 7) && (game.roomTeams.get(1).getTeamWinedSets() < 7) && (gameSets.getLast().isIsSetFinished())) {
+            while ((game.roomTeams.get(0).getTeamWinedSets() < 3) && (game.roomTeams.get(1).getTeamWinedSets() < 3) && (gameSets.getLast().isIsSetFinished())) {
             Set newSet = new Set(this,gameSets.getLast().getNextFirstPlayer());
             gameSets.add(newSet);
             newSet.startSet();
             }
-            if ((game.roomTeams.get(0).getTeamWinedSets() == 7) || (game.roomTeams.get(1).getTeamWinedSets() == 7))
+            if ((game.roomTeams.get(0).getTeamWinedSets() == 3) || (game.roomTeams.get(1).getTeamWinedSets() == 3))
                 break;
         }
-        if (game.roomTeams.get(0).getTeamWinedSets()==7){
+        if (game.roomTeams.get(0).getTeamWinedSets()==3){
             game.roomTeams.get(0).addWinedRounds();
             game.roomTeams.get(0).p1.sendMessage("YOU WINED THE ROUND.");
             game.roomTeams.get(0).p2.sendMessage("YOU WINED THE ROUND.");
@@ -206,7 +208,10 @@ public class Round  {
     }
     public static void preRound(){
         for (int i = 0; i < 4; i++) {
+            getGame().roomPlayers.get(i).playerZeroing();
             getGame().roomPlayers.get(i).sendMessage("NEW ROUND IS STARTING.");
         }
+        getGame().roomTeams.get(0).teamZeroing();
+        getGame().roomTeams.get(1).teamZeroing();
     }
 }

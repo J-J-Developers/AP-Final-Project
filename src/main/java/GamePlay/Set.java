@@ -120,8 +120,8 @@ public class Set {
             case 2:
                 getRound().getGame().roomTeams.get(0).addTeamWinedSets();
                 System.out.println("team 0 wined sets is:" + getRound().getGame().roomTeams.get(0).getTeamWinedSets());
-                getRound().getGame().roomPlayers.get(0).addToPlayerWinedSets();
-                System.out.println( "player 0 wined sets is:" + getRound().getGame().roomPlayers.get(2).getPlayerWinedSets());
+                //getRound().getGame().roomPlayers.get(0).addToPlayerWinedSets();
+                System.out.println( "player 0 wined sets is:" + getRound().getGame().roomPlayers.get(0).getPlayerWinedSets());
                 getRound().getGame().roomPlayers.get(2).addToPlayerWinedSets();
                 System.out.println( "player 2 wined sets is:" + getRound().getGame().roomPlayers.get(2).getPlayerWinedSets());
                 getRound().getGame().roomPlayers.get(0).sendMessage("YOU WINED THE SET.");
@@ -134,7 +134,7 @@ public class Set {
             case 3:
                 getRound().getGame().roomTeams.get(1).addTeamWinedSets();
                 System.out.println("team 1 wined sets is:" + getRound().getGame().roomTeams.get(1).getTeamWinedSets());
-                getRound().getGame().roomPlayers.get(1).addToPlayerWinedSets();
+                //getRound().getGame().roomPlayers.get(1).addToPlayerWinedSets();
                 System.out.println( "player 1 wined sets is:" + getRound().getGame().roomPlayers.get(1).getPlayerWinedSets());
                 getRound().getGame().roomPlayers.get(3).addToPlayerWinedSets();
                 System.out.println( "player 3 wined sets is:" + getRound().getGame().roomPlayers.get(3).getPlayerWinedSets());

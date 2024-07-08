@@ -235,16 +235,16 @@ public class Client3 {
 
                     if (message.startsWith("RUL IS:")){
                         String rul = message.substring(7);
-                        if(rul.equals("Spades")){
+                        if(rul.equals("Spade")){
                             HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm1.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
                         }
                         if (rul.equals("Heart")){
                             HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm2.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
                         }
-                        if(rul.equals("Diamonds")){
+                        if(rul.equals("Diamond")){
                             HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm3.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
                         }
-                        if(rul.equals("Clubs")){
+                        if(rul.equals("Club")){
                             HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm4.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
                         }
                     }
@@ -453,9 +453,9 @@ public class Client3 {
         HokmButton = new JButton();
 
         Heart.setText("Heart");
-        Spades.setText("Spades");
-        Diamonds.setText("Diamonds");
-        Clubs.setText("Clubs");
+        Spades.setText("Spade");
+        Diamonds.setText("Diamond");
+        Clubs.setText("Club");
 
         mainPanel.setBounds(0, 0, 1500, 900);
 

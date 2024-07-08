@@ -38,6 +38,9 @@ public class Team {
     public int getTeamWinedSets() {
         return teamWinedSets;
     }
+    public void teamZeroing(){
+        teamWinedSets = 0;
+    }
 
 }
 

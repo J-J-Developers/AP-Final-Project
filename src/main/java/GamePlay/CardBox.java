@@ -3,7 +3,7 @@ package GamePlay;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardBox {
+public final class CardBox {
     public List<Card> cards = new ArrayList<>();
     final static String basicDirectory = "src/main/java/Images/";
     public CardBox(){
