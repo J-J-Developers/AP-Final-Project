@@ -29,8 +29,10 @@ public class Client {
 
     private String name;
     private String id;
-    private int winedSets = 0;
-    private int winedRounds = 0;
+    private int ourWinedSets = 0;
+    private int ourWinedRounds = 0;
+    private int theirWinedSets = 0;
+    private int theirWinedRounds = 0;
     private JPanel myHand;
     JPanel centerPanel;
     GamePlay.GamePage mainPanel;
@@ -62,23 +64,6 @@ public class Client {
     public String getName() {
         return name;
     }
-
-    public int getPlayerWinedSets() {
-        return winedSets;
-    }
-    public void addToPlayerWinedSets(){
-        winedSets ++;
-    }
-    public void startNewRound() {
-        winedSets=0;
-    }
-    public int getPlayerWinedRounds() {
-        return winedRounds;
-    }
-    public void addToPlayerWinedRounds(){
-        winedRounds++;
-    }
-
     public String getId() {
         return id;
     }
@@ -252,21 +237,26 @@ public class Client {
                         }
                         getMyButtons().clear();
                         myCards.clear();
-                        //۰ شدن گرافیکی شماره ست های برده
+                        ourWinedSets = 0;
+                        theirWinedSets = 0;
+                        resultTlb.setValueAt(ourWinedSets,0,2);
+                        resultTlb.setValueAt(theirWinedSets,1,2);
                     }
                     if (message.startsWith("YOU LOST THE SET.")){
-                        //enemy set +1 in table
+                        theirWinedSets++;
+                        resultTlb.setValueAt(theirWinedSets,1,2);
                     }
                     if (message.startsWith("YOU WINED THE SET.")){
-                        addToPlayerWinedSets();
-                        //your set +1 in table
+                        ourWinedSets++;
+                        resultTlb.setValueAt(ourWinedSets,0,2);
                     }
                     if (message.startsWith("YOU LOST THE ROUND.")){
-                        //enemy round +1 in table
+                        theirWinedRounds++;
+                        resultTlb.setValueAt(theirWinedRounds,1,1);
                     }
                     if (message.startsWith("YOU WINED THE ROUND.")){
-                        addToPlayerWinedRounds();
-                        //your round +1 in table
+                        ourWinedRounds++;
+                        resultTlb.setValueAt(ourWinedRounds,0,1);
                     }
 
                     if (message.startsWith("YOU WINED THE GAME.")){
@@ -656,9 +646,9 @@ public class Client {
 
 
         // داده‌های جدول: نام تیم و امتیاز
-        Object[][] data = {
-                {"Team1", getPlayerWinedRounds(),getPlayerWinedSets()},
-                {"Team2", getPlayerWinedRounds(),getPlayerWinedSets()}
+        Object[][]  data = {
+                {"WE",ourWinedRounds,ourWinedSets},
+                {"THEM",theirWinedRounds,theirWinedSets}
         };
 
         // نام ستون‌ها
