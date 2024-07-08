@@ -277,8 +277,8 @@ public class Client4 {
                     if (message.startsWith("YOU WINED THE GAME.")){
                         JOptionPane.showMessageDialog(null,
                                 "YOU WINED THE GAME.",
-                                "WINNER",
-                                JOptionPane.ERROR_MESSAGE);
+                                "Congratulation",
+                                JOptionPane.INFORMATION_MESSAGE);
 
                         // بستن برنامه
                         System.exit(0);
@@ -286,7 +286,7 @@ public class Client4 {
                     if (message.startsWith("YOU LOST THE GAME.")){
                         JOptionPane.showMessageDialog(null,
                                 "YOU LOSE THE GAME.",
-                                "LOSER",
+                                "Sorry",
                                 JOptionPane.ERROR_MESSAGE);
 
                         // بستن برنامه
