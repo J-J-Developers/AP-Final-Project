@@ -7,6 +7,11 @@ import GamePlay.Token;
 import com.google.gson.Gson;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +24,6 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Scanner;
-
 public class Client {
     // آدرس سرور چت
     private static final String SERVER_ADDRESS = "127.0.0.1";
@@ -91,6 +95,8 @@ public class Client {
 
             String CodedPutCard = gson.toJson(myCards.get(clickedButtonIndex));
             sendMessageToServer("I PUT:" + CodedPutCard);
+
+            playSound("src/main/java/GameSound/cardSound.wav");
 
             myCards.remove(clickedButtonIndex);
             buttons.remove(clickedButtonIndex);
@@ -812,5 +818,16 @@ public class Client {
         hokmPan.setVisible(false);
         mainPanel.add(HokmButton);
         mainPanel.add(hokmPan);
+    }
+    public static void playSound(String soundFile){
+        try {
+            File soundPath = new File(soundFile);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundPath);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        }catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex){
+            ex.printStackTrace();
+        }
     }
 }
