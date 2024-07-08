@@ -244,11 +244,6 @@ public class Client {
                             myHand.remove(getMyButtons().get(i));
                             myHand.repaint();
                             myHand.revalidate();
-                            try {
-                                Thread.sleep(150);
-                            } catch (InterruptedException e){
-                                e.printStackTrace();
-                            }
                         }
                         getMyButtons().clear();
                         myCards.clear();
@@ -712,7 +707,7 @@ public class Client {
         scrollPane.getHorizontalScrollBar().setBackground(new Color(33, 56, 44));
         scrollPane.getVerticalScrollBar().setBackground(new Color(33, 56, 44));
 
-        scrollPane.setBounds(1150, 28, 200, 55);
+        scrollPane.setBounds(1150, 28, 200, 65);
 
         mainPanel.add(scrollPane);
         hokmPan=new JPanel();
