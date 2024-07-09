@@ -19,10 +19,11 @@ public class Set {
     private static boolean isPlayerSelected = false;
     private boolean isSetFinished = false;
     //to make a turn
-    public  ArrayList<Card> bordCards = new ArrayList<>();
+    public ArrayList<Card> bordCards = new ArrayList<>();
     //For scoring
-    static HashMap<Integer,Card> bordMap = new HashMap<>();
+    static HashMap<Integer, Card> bordMap = new HashMap<>();
     Gson gson = new Gson();
+
     //******************************************************************************************************************
     //Getter and Setters
     public String getBordType() {
@@ -74,13 +75,13 @@ public class Set {
     }
     //******************************************************************************************************************
     //Constructor
-    public Set(Round round,ClientHandler firstPlayer){
+    public Set(Round round, ClientHandler firstPlayer) {
         this.round = round;
         this.firstPlayer = firstPlayer;
     }
     //******************************************************************************************************************
     //Starting set method
-    public void startSet(){
+    public void startSet() {
         puttingCard();
         scoring();
         cleaningBord();
@@ -89,49 +90,88 @@ public class Set {
     }
     //******************************************************************************************************************
     //Main methods
-    public static void puttingCard(){
+    public static void puttingCard() {
         round.getGame().roomPlayers.get(firstPlayer.getPlayerIndex()).sendMessage("YOUR TURN." + "FREE");
         waitForPlayerCardSelection();
         round.getGame().roomPlayers.get(firstPlayer.getPlayerIndex()).sendMessage("NOT TURN.");
         isPlayerSelected = false;
-        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex()+1)%4).sendMessage("YOUR TURN." + bordType);
+        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex() + 1) % 4).sendMessage("YOUR TURN." + bordType);
         waitForPlayerCardSelection();
-        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex()+1)%4).sendMessage("NOT TURN.");
-        isPlayerSelected =false;
-        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex()+2)%4).sendMessage("YOUR TURN." + bordType);
-        waitForPlayerCardSelection();
-        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex()+2)%4).sendMessage("NOT TURN.");
+        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex() + 1) % 4).sendMessage("NOT TURN.");
         isPlayerSelected = false;
-        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex()+3)%4).sendMessage("YOUR TURN." + bordType);
+        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex() + 2) % 4).sendMessage("YOUR TURN." + bordType);
         waitForPlayerCardSelection();
-        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex()+3)%4).sendMessage("NOT TURN.");
+        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex() + 2) % 4).sendMessage("NOT TURN.");
+        isPlayerSelected = false;
+        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex() + 3) % 4).sendMessage("YOUR TURN." + bordType);
+        waitForPlayerCardSelection();
+        round.getGame().roomPlayers.get((firstPlayer.getPlayerIndex() + 3) % 4).sendMessage("NOT TURN.");
         isPlayerSelected = false;
     }
     public void updateBordCards(String putCard, int puterIndex) {
         round.getGame().roomPlayers.get(puterIndex).sendMessage("NOT TURN.");
-        round.getGame().roomPlayers.get(puterIndex).sendMessage("YOUR CARD:" + putCard );
-        round.getGame().roomPlayers.get((puterIndex + 1) % 4).sendMessage("LEFT CARD:" + putCard );
+        round.getGame().roomPlayers.get(puterIndex).sendMessage("YOUR CARD:" + putCard);
+        round.getGame().roomPlayers.get((puterIndex + 1) % 4).sendMessage("LEFT CARD:" + putCard);
         round.getGame().roomPlayers.get((puterIndex + 2) % 4).sendMessage("FRONT CARD:" + putCard);
         round.getGame().roomPlayers.get((puterIndex + 3) % 4).sendMessage("RIGHT CARD:" + putCard);
     }
-    public static void scoring(){
+    public static void scoring() {
         switch (winner()) {
             case 0:
             case 2:
-                getRound().getGame().roomTeams.get(0).addTeamWinedSets();
-                getRound().getGame().roomPlayers.get(0).sendMessage("YOU WINED THE SET.");
-                getRound().getGame().roomPlayers.get(2).sendMessage("YOU WINED THE SET.");
-                getRound().getGame().roomPlayers.get(1).sendMessage("YOU LOST THE SET.");
-                getRound().getGame().roomPlayers.get(3).sendMessage("YOU LOST THE SET.");
-                break;
-
+                if (getRound().getGame().roomTeams.get(0).getTeamWinedSets() == 7 && (getRound().getGame().roomTeams.get(1).getTeamWinedSets() == 0)) {
+                    if ((getRound().getRuler() == getRound().getGame().roomTeams.get(0).p1) || (getRound().getRuler() == getRound().getGame().roomTeams.get(0).p2)) {
+                        for (int i = 0; i < 3; i++) {
+                            getRound().getGame().roomTeams.get(0).addTeamWinedSets();
+                            getRound().getGame().roomPlayers.get(0).sendMessage("YOU WINED THE SET.");
+                            getRound().getGame().roomPlayers.get(2).sendMessage("YOU WINED THE SET.");
+                            getRound().getGame().roomPlayers.get(1).sendMessage("YOU LOST THE SET.");
+                            getRound().getGame().roomPlayers.get(3).sendMessage("YOU LOST THE SET.");
+                        }
+                    }else {
+                        for (int i = 0; i <2 ; i++) {
+                            getRound().getGame().roomTeams.get(0).addTeamWinedSets();
+                            getRound().getGame().roomPlayers.get(0).sendMessage("YOU WINED THE SET.");
+                            getRound().getGame().roomPlayers.get(2).sendMessage("YOU WINED THE SET.");
+                            getRound().getGame().roomPlayers.get(1).sendMessage("YOU LOST THE SET.");
+                            getRound().getGame().roomPlayers.get(3).sendMessage("YOU LOST THE SET.");
+                        }
+                    }
+                }else {
+                    getRound().getGame().roomTeams.get(0).addTeamWinedSets();
+                    getRound().getGame().roomPlayers.get(0).sendMessage("YOU WINED THE SET.");
+                    getRound().getGame().roomPlayers.get(2).sendMessage("YOU WINED THE SET.");
+                    getRound().getGame().roomPlayers.get(1).sendMessage("YOU LOST THE SET.");
+                    getRound().getGame().roomPlayers.get(3).sendMessage("YOU LOST THE SET.");
+                    break;
+                }
             case 1:
             case 3:
-                getRound().getGame().roomTeams.get(1).addTeamWinedSets();
-                getRound().getGame().roomPlayers.get(1).sendMessage("YOU WINED THE SET.");
-                getRound().getGame().roomPlayers.get(3).sendMessage("YOU WINED THE SET.");
-                getRound().getGame().roomPlayers.get(0).sendMessage("YOU LOST THE SET.");
-                getRound().getGame().roomPlayers.get(2).sendMessage("YOU LOST THE SET.");
+                if (getRound().getGame().roomTeams.get(1).getTeamWinedSets() == 7 && (getRound().getGame().roomTeams.get(0).getTeamWinedSets() == 0)) {
+                    if ((getRound().getRuler() == getRound().getGame().roomTeams.get(1).p1) || (getRound().getRuler() == getRound().getGame().roomTeams.get(1).p2)) {
+                        for (int i = 0; i < 3; i++) {
+                            getRound().getGame().roomTeams.get(1).addTeamWinedSets();
+                            getRound().getGame().roomPlayers.get(1).sendMessage("YOU WINED THE SET.");
+                            getRound().getGame().roomPlayers.get(3).sendMessage("YOU WINED THE SET.");
+                            getRound().getGame().roomPlayers.get(0).sendMessage("YOU LOST THE SET.");
+                            getRound().getGame().roomPlayers.get(2).sendMessage("YOU LOST THE SET.");
+                        }
+                    } else {
+                        for (int i = 0; i < 2; i++) {
+                            getRound().getGame().roomTeams.get(1).addTeamWinedSets();
+                            getRound().getGame().roomPlayers.get(1).sendMessage("YOU WINED THE SET.");
+                            getRound().getGame().roomPlayers.get(3).sendMessage("YOU WINED THE SET.");
+                            getRound().getGame().roomPlayers.get(0).sendMessage("YOU LOST THE SET.");
+                            getRound().getGame().roomPlayers.get(2).sendMessage("YOU LOST THE SET.");
+                        }
+                    }
+                } else {
+                    getRound().getGame().roomTeams.get(1).addTeamWinedSets();
+                    getRound().getGame().roomPlayers.get(1).sendMessage("YOU WINED THE SET.");
+                    getRound().getGame().roomPlayers.get(3).sendMessage("YOU WINED THE SET.");
+                    getRound().getGame().roomPlayers.get(0).sendMessage("YOU LOST THE SET.");
+                    getRound().getGame().roomPlayers.get(2).sendMessage("YOU LOST THE SET.");
+                }
                 break;
             default:
                 System.out.println("ERROR in team scoring!");
@@ -152,7 +192,7 @@ public class Set {
                 System.out.println("ERROR in player scoring!");
         }
     }
-    public static void cleaningBord(){
+    public static void cleaningBord() {
         for (int i = 0; i < 4; i++) {
             getRound().getGame().roomPlayers.get(i).sendMessage("CLEANING BORD.");
         }
@@ -208,5 +248,4 @@ public class Set {
             lock2.notifyAll();
         }
     }
-
 }
