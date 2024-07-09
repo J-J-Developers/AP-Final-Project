@@ -119,11 +119,6 @@ public class Set {
             case 0:
             case 2:
                 getRound().getGame().roomTeams.get(0).addTeamWinedSets();
-                System.out.println("team 0 wined sets is:" + getRound().getGame().roomTeams.get(0).getTeamWinedSets());
-                //getRound().getGame().roomPlayers.get(0).addToPlayerWinedSets();
-                System.out.println( "player 0 wined sets is:" + getRound().getGame().roomPlayers.get(0).getPlayerWinedSets());
-                getRound().getGame().roomPlayers.get(2).addToPlayerWinedSets();
-                System.out.println( "player 2 wined sets is:" + getRound().getGame().roomPlayers.get(2).getPlayerWinedSets());
                 getRound().getGame().roomPlayers.get(0).sendMessage("YOU WINED THE SET.");
                 getRound().getGame().roomPlayers.get(2).sendMessage("YOU WINED THE SET.");
                 getRound().getGame().roomPlayers.get(1).sendMessage("YOU LOST THE SET.");
@@ -133,18 +128,28 @@ public class Set {
             case 1:
             case 3:
                 getRound().getGame().roomTeams.get(1).addTeamWinedSets();
-                System.out.println("team 1 wined sets is:" + getRound().getGame().roomTeams.get(1).getTeamWinedSets());
-                //getRound().getGame().roomPlayers.get(1).addToPlayerWinedSets();
-                System.out.println( "player 1 wined sets is:" + getRound().getGame().roomPlayers.get(1).getPlayerWinedSets());
-                getRound().getGame().roomPlayers.get(3).addToPlayerWinedSets();
-                System.out.println( "player 3 wined sets is:" + getRound().getGame().roomPlayers.get(3).getPlayerWinedSets());
                 getRound().getGame().roomPlayers.get(1).sendMessage("YOU WINED THE SET.");
                 getRound().getGame().roomPlayers.get(3).sendMessage("YOU WINED THE SET.");
                 getRound().getGame().roomPlayers.get(0).sendMessage("YOU LOST THE SET.");
                 getRound().getGame().roomPlayers.get(2).sendMessage("YOU LOST THE SET.");
                 break;
             default:
-                System.out.println("ERROR in winning set");
+                System.out.println("ERROR in team scoring!");
+        }
+        switch (winner()) {
+            case 0:
+                getRound().getGame().roomPlayers.get(0).addToPlayerWinedSets();
+                break;
+            case 2:
+                getRound().getGame().roomPlayers.get(2).addToPlayerWinedSets();
+                break;
+            case 1:
+                getRound().getGame().roomPlayers.get(1).addToPlayerWinedSets();
+                break;
+            case 3:
+                getRound().getGame().roomPlayers.get(3).addToPlayerWinedSets();
+            default:
+                System.out.println("ERROR in player scoring!");
         }
     }
     public static void cleaningBord(){
