@@ -22,7 +22,7 @@ import java.util.Base64;
 import java.util.Scanner;
 public class Client {
     // آدرس سرور چت
-    private static final String SERVER_ADDRESS = "127.0.0.1";
+    private static final String SERVER_ADDRESS = "192.168.73.124";
     // پورتی که سرور چت بر روی آن گوش می‌دهد
     private static final int SERVER_PORT = 6666;
     static Gson gson = new Gson();
@@ -266,19 +266,27 @@ public class Client {
                         resultTlb.setValueAt(ourWinedRounds,0,1);
                     }
                     if (message.startsWith("YOU WINED THE GAME.")){
+                        UIManager.put("OptionPane.background" , new Color(97, 150, 134));
+                        UIManager.put("Panel.background" , new Color(97, 150, 134));
+                        UIManager.put("OptionPane.messageFont" , new Font("Arial" , Font.BOLD, 16 ));
+                        UIManager.put("OptionPane.messageForeground" , new Color(255, 255, 255));
                         JOptionPane.showMessageDialog(null,
-                                "YOU WINED THE GAME.",
-                                "Congratulation",
-                                JOptionPane.INFORMATION_MESSAGE);
+                                "CONGRATULATION! YOU HAVE WON THE GAME.",
+                                "GAME OVER",
+                                JOptionPane.PLAIN_MESSAGE);
 
                         // بستن برنامه
                         System.exit(0);
                     }
                     if (message.startsWith("YOU LOST THE GAME.")){
+                        UIManager.put("OptionPane.background" , new Color(119, 62, 62));
+                        UIManager.put("Panel.background" , new Color(119, 62, 62));
+                        UIManager.put("OptionPane.messageFont" , new Font("Arial" , Font.BOLD, 16 ));
+                        UIManager.put("OptionPane.messageForeground" , new Color(255, 255, 255));
                         JOptionPane.showMessageDialog(null,
-                                "YOU LOSE THE GAME.",
-                                "Sorry",
-                                JOptionPane.ERROR_MESSAGE);
+                                "YOU HAVE LOOSED THE GAME.",
+                                "GAME LOOSER",
+                                JOptionPane.PLAIN_MESSAGE);
 
                         // بستن برنامه
                         System.exit(0);
@@ -342,6 +350,7 @@ public class Client {
 
     public void initializeUI(){
         PlaySound("src/main/java/GameSound/gameSound.wav");
+
         final Token TOKEN = new Token();
         final JFrame frame = new JFrame("Hokm");
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
