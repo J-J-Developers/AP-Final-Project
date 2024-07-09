@@ -7,11 +7,7 @@ import GamePlay.Token;
 import com.google.gson.Gson;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -112,6 +108,7 @@ public class Client {
         myHand.add(buttons.getLast());
         myHand.repaint();
         myHand.revalidate();
+        playSound("src/main/java/GameSound/sendingCardSound.wav");
     }
 
     public static void main(String[] args) throws Exception {
@@ -142,49 +139,49 @@ public class Client {
                         getMyButtons().getLast().setEnabled(false);
                         showHandCards();
                     }
-                   if (message.startsWith("YOUR NAME:")){
-                       lblNik1.setText(message.substring(10));
-                   }
-                   if (message.startsWith("LEFT NAME:")){
-                       lblNik4.setText(message.substring(10));
-                   }
-                   if (message.startsWith("FRONT NAME:")){
-                       lblNik3.setText(message.substring(11));
-                   }
-                   if (message.startsWith("RIGHT NAME:")){
-                       lblNik2.setText(message.substring(11));
-                   }
-                   if (message.startsWith("YOU ARE RULER.")){
-                       ActionListener al = new ActionListener() {
-                           @Override
-                           public void actionPerformed(ActionEvent e) {
-                               JButton clicked = (JButton) e.getSource();
-                               sendMessageToServer("RUL IS:" + clicked.getText());
-                           }
-                       };
-                       Heart.addActionListener(al);
-                       Diamonds.addActionListener(al);
-                       Spades.addActionListener(al);
-                       Clubs.addActionListener(al);
-                       hokmPan.setVisible(true);
-                   }
-                   if (message.startsWith("YOU RULED.")){
-                       hokmPan.setVisible(false);
-                   }
+                    if (message.startsWith("YOUR NAME:")){
+                        lblNik1.setText(message.substring(10));
+                    }
+                    if (message.startsWith("LEFT NAME:")){
+                        lblNik4.setText(message.substring(10));
+                    }
+                    if (message.startsWith("FRONT NAME:")){
+                        lblNik3.setText(message.substring(11));
+                    }
+                    if (message.startsWith("RIGHT NAME:")){
+                        lblNik2.setText(message.substring(11));
+                    }
+                    if (message.startsWith("YOU ARE RULER.")){
+                        ActionListener al = new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                JButton clicked = (JButton) e.getSource();
+                                sendMessageToServer("RUL IS:" + clicked.getText());
+                            }
+                        };
+                        Heart.addActionListener(al);
+                        Diamonds.addActionListener(al);
+                        Spades.addActionListener(al);
+                        Clubs.addActionListener(al);
+                        hokmPan.setVisible(true);
+                    }
+                    if (message.startsWith("YOU RULED.")){
+                        hokmPan.setVisible(false);
+                    }
 
-                   if (message.startsWith("YOUR TURN.")){
+                    if (message.startsWith("YOUR TURN.")){
                         if (message.equalsIgnoreCase("YOUR TURN.FREE")){
                             for (int i = 0; i < getMyButtons().size(); i++) {
                                 getMyButtons().get(i).setEnabled(true);
                             }
                         } else {
                             boolean found = false;
-                        String correctType = message.substring(10);
+                            String correctType = message.substring(10);
                             for (int i = 0; i < getMyCards().size(); i++) {
                                 if (getMyCards().get(i).getType().equalsIgnoreCase(correctType)){
                                     getMyButtons().get(i).setEnabled(true);
                                     found = true;
-                                 }
+                                }
                             }
                             if (!found){
                                 for (int i = 0; i < getMyButtons().size(); i++) {
@@ -288,16 +285,16 @@ public class Client {
                     }
 
 
- // **************************************************************************************************************************
+                    // **************************************************************************************************************************
 
 
-                   if (message.contains("Players")){
+                    if (message.contains("Players")){
                         String[]nameOfPlayer = message.split(" ");
                         for (int i = 0 ; i< nameOfPlayer.length ; i++) {
                             //nameOfPlayers.add(nameOfPlayer[i]);
                         }
                     }
-                   System.out.println(message);
+                    System.out.println(message);
                 }
             } catch (IOException e) {
                 e.getMessage();
@@ -344,7 +341,7 @@ public class Client {
     }
 
     public void initializeUI(){
-        playSound("src/main/java/GameSound/gameSound.wav");
+        PlaySound("src/main/java/GameSound/gameSound.wav");
         final Token TOKEN = new Token();
         final JFrame frame = new JFrame("Hokm");
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -825,4 +822,18 @@ public class Client {
             ex.printStackTrace();
         }
     }
+
+    public static void PlaySound(String soundFile){
+        try {
+            File soundPath = new File(soundFile);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundPath);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
+        }catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex){
+            ex.printStackTrace();
+        }
+    }
+
 }

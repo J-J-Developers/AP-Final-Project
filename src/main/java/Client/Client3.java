@@ -7,11 +7,7 @@ import GamePlay.Token;
 import com.google.gson.Gson;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -112,6 +108,7 @@ public class Client3 {
         myHand.add(buttons.getLast());
         myHand.repaint();
         myHand.revalidate();
+        playSound("src/main/java/GameSound/sendingCardSound.wav");
     }
 
     public static void main(String[] args) throws Exception {
@@ -345,7 +342,7 @@ public class Client3 {
     }
 
     public void initializeUI(){
-        playSound("src/main/java/GameSound/gameSound.wav");
+        PlaySound("src/main/java/GameSound/gameSound.wav");
         final Token TOKEN = new Token();
         final JFrame frame = new JFrame("Hokm");
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -826,4 +823,18 @@ public class Client3 {
             ex.printStackTrace();
         }
     }
+
+    public static void PlaySound(String soundFile){
+        try {
+            File soundPath = new File(soundFile);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundPath);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
+        }catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex){
+            ex.printStackTrace();
+        }
+    }
+
 }
