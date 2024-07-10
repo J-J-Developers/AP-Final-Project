@@ -266,27 +266,18 @@ public class Client {
                         resultTlb.setValueAt(ourWinedRounds,0,1);
                     }
                     if (message.startsWith("YOU WINED THE GAME.")){
-                        UIManager.put("OptionPane.background" , new Color(97, 150, 134));
-                        UIManager.put("Panel.background" , new Color(97, 150, 134));
-                        UIManager.put("OptionPane.messageFont" , new Font("Arial" , Font.BOLD, 16 ));
-                        UIManager.put("OptionPane.messageForeground" , new Color(255, 255, 255));
                         JOptionPane.showMessageDialog(null,
                                 "CONGRATULATION! YOU HAVE WON THE GAME.",
-                                "GAME OVER",
-                                JOptionPane.PLAIN_MESSAGE);
-
+                                "GAME WINNER",
+                                JOptionPane.INFORMATION_MESSAGE);
                         // بستن برنامه
                         System.exit(0);
                     }
                     if (message.startsWith("YOU LOST THE GAME.")){
-                        UIManager.put("OptionPane.background" , new Color(119, 62, 62));
-                        UIManager.put("Panel.background" , new Color(119, 62, 62));
-                        UIManager.put("OptionPane.messageFont" , new Font("Arial" , Font.BOLD, 16 ));
-                        UIManager.put("OptionPane.messageForeground" , new Color(255, 255, 255));
                         JOptionPane.showMessageDialog(null,
                                 "YOU HAVE LOOSED THE GAME.",
-                                "GAME LOOSER",
-                                JOptionPane.PLAIN_MESSAGE);
+                                "GAME OVER",
+                                JOptionPane.ERROR_MESSAGE);
 
                         // بستن برنامه
                         System.exit(0);

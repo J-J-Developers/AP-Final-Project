@@ -268,17 +268,16 @@ public class Client2 {
 
                     if (message.startsWith("YOU WINED THE GAME.")){
                         JOptionPane.showMessageDialog(null,
-                                "YOU WINED THE GAME.",
-                                "Congratulation",
+                                "CONGRATULATION! YOU HAVE WON THE GAME.",
+                                "GAME WINNER",
                                 JOptionPane.INFORMATION_MESSAGE);
-
                         // بستن برنامه
                         System.exit(0);
                     }
                     if (message.startsWith("YOU LOST THE GAME.")){
                         JOptionPane.showMessageDialog(null,
-                                "YOU LOSE THE GAME.",
-                                "Sorry",
+                                "YOU HAVE LOOSED THE GAME.",
+                                "GAME OVER",
                                 JOptionPane.ERROR_MESSAGE);
 
                         // بستن برنامه
