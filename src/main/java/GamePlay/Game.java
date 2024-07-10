@@ -40,15 +40,15 @@ public class Game {
         gameRounds.add(round);
         round.startRound();
         while (true){
-            while ((roomTeams.get(0).getTeamWinedRounds() < 3) && (roomTeams.get(1).getTeamWinedRounds() < 3) && (gameRounds.getLast().isIsRoundFinished())) {
+            while ((roomTeams.get(0).getTeamWinedRounds() < 7) && (roomTeams.get(1).getTeamWinedRounds() < 7) && (gameRounds.getLast().isIsRoundFinished())) {
             Round newRound = new Round(this,gameRounds.getLast().getNextRuler());
             gameRounds.add(newRound);
             newRound.startRound();
             }
-            if ((roomTeams.get(0).getTeamWinedRounds()== 3) || (roomTeams.get(1).getTeamWinedRounds() == 3))
+            if ((roomTeams.get(0).getTeamWinedRounds()== 7) || (roomTeams.get(1).getTeamWinedRounds() == 7))
                 break;
         }
-        if (roomTeams.get(0).getTeamWinedRounds()==3){
+        if (roomTeams.get(0).getTeamWinedRounds() == 7){
             roomTeams.get(0).p1.sendMessage("YOU WINED THE GAME.");
             roomTeams.get(0).p2.sendMessage("YOU WINED THE GAME.");
             roomTeams.get(1).p1.sendMessage("YOU LOST THE GAME.");

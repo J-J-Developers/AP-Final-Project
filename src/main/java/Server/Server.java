@@ -1,9 +1,6 @@
 package Server;
-import Client.Client;
-import GamePlay.Card;
-import GamePlay.CardBox;
-//import GamePlay.Team;
-import GamePlay.Game;
+
+import GamePlay.*;
 import com.google.gson.Gson;
 import java.io.*;
 import java.net.*;
@@ -25,6 +22,15 @@ public class Server {
 
     public static void main(String[] args) {
         System.out.println("Server started...");
+        new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                String command = scanner.nextLine();
+                if (command.equals("GAMES STATUS")) {
+                    printGamesStatus();
+                }
+            }
+        }).start();
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (true) {
                 // منتظر اتصال کلاینت‌های جدید می‌ماند
@@ -244,7 +250,6 @@ public class Server {
             group.get(2).setGameIndex(AllGames.size() - 1);
             group.get(3).setGameIndex(AllGames.size() - 1);
             System.out.println("*****  " + group.size());
-            AllGames.add(newGame);
             new Thread(() ->{
                 try{
                     newGame.startMatch();
@@ -256,34 +261,62 @@ public class Server {
             System.out.println("-----|  " + group.size());
         }
     }
-
-    // ارسال پیام به اعضای گروه
-    private void sendMessageToGroup(String message, List<ClientHandler> group) {
-        for (ClientHandler player : group) {
-            player.out.println(message);
-        }
-    }
     public static void sendMessageToOne(String message, List<ClientHandler> group, int index) {
         group.get(index).out.println(message);
     }
 
 
-    // پردازش دستور message برای ارسال پیام به گروه
-       /* private void handleMessage(String[] parts) {
-            if (parts.length < 3) {
-                out.println("Error: Missing message or token");
-                return;
-            }
-            String token = parts[1];
-            String message = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
 
-            synchronized (friendGroups) {
-                if (friendGroups.containsKey(token)) {
-                    List<ClientHandler> group = friendGroups.get(token);
-                    sendMessageToGroup(nickname + ": " + message, group);
-                } else {
-                    out.println("Error: Invalid token");
+    public static void printGamesStatus() {
+        for (int i = 0; i < AllGames.size(); i++) {
+            System.out.println("*************************************************");
+            System.out.println("Game number: " + ( i + 1));
+            System.out.println("Rounds played: " + AllGames.get(i).gameRounds.size());
+            System.out.println("Game members: ");
+            for (int x = 0; x < AllGames.get(i).roomTeams.size(); x++) {
+                Team team = AllGames.get(i).roomTeams.get(x);
+                System.out.println("Team " + (x + 1) + " with players: ");
+                System.out.println("  Player: " + team.p1.getNickname() + " - Index: " + team.p1.getPlayerIndex());
+                System.out.println("  Player: " + team.p2.getNickname() + " - Index: " + team.p2.getPlayerIndex());
+            }
+
+            System.out.println("-------------------------------------------------");
+            System.out.println("Team Wins:");
+            System.out.printf("  %-10s %-10s %-10s\n", "Team", "Rounds", "Sets");
+            System.out.printf("  %-10s %-10d %-10d\n", "Team 1", AllGames.get(i).roomTeams.get(0).getTeamWinedRounds(), AllGames.get(i).roomTeams.get(0).getTeamWinedSets());
+            System.out.printf("  %-10s %-10d %-10d\n", "Team 2", AllGames.get(i).roomTeams.get(1).getTeamWinedRounds(), AllGames.get(i).roomTeams.get(1).getTeamWinedSets());
+            System.out.println("-------------------------------------------------");
+            System.out.println("Rounds information: ");
+
+            for (int j =0; j < AllGames.get(i).gameRounds.size(); j++) {
+                System.out.println("Round number: " + (j + 1) );
+                System.out.println("  Round ruler: " + AllGames.get(i).gameRounds.get(j).getRuler().nickname);
+                System.out.println("  Round RulType: " + AllGames.get(i).gameRounds.get(j).getRulType());
+                System.out.println("  Sets played in round: " + AllGames.get(i).gameRounds.get(j).gameSets.size());
+                System.out.println(" Sets information: ");
+
+                for (int k = 0; k < AllGames.get(i).gameRounds.get(j).gameSets.size(); k++) {
+                    System.out.println("  Set number: " + ( k + 1 ) );
+                    System.out.println("    Set first player: " + AllGames.get(i).gameRounds.get(j).gameSets.get(k).getFirstPlayer().nickname);
+                    System.out.println("    Set BordType: " + AllGames.get(i).gameRounds.get(j).gameSets.get(k).getBordType());
+                    System.out.println("    Cards played: " + AllGames.get(i).gameRounds.get(j).gameSets.get(k).bordCards.size());
+                    try {
+                        System.out.println("    Winner: " + AllGames.get(i).roomPlayers.get(AllGames.get(i).gameRounds.get(j).gameSets.get(k).winner()).nickname);
+                    }catch (IndexOutOfBoundsException e){
+                        System.out.println("Nobody didnt put any card yet!");
+                    }
+
+                    System.out.println("    Cards on the board:");
+                    System.out.printf("      %-15s %-10s\n", "Player", "Card");
+                    for (Map.Entry<Integer, Card> entry : AllGames.get(0).getGameRounds().get(j).gameSets.get(k).bordMap.entrySet()) {
+                        int playerIndex = entry.getKey();
+                        Card card = entry.getValue();
+                        System.out.printf("      %-15s %-10s\n", AllGames.get(0).roomPlayers.get(playerIndex).nickname, card.getNumber() + " " + card.getType());
+                    }
+
+                    System.out.println("    ----------------------");
                 }
             }
-        }*/
+        }
+    }
 }

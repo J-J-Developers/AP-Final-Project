@@ -22,7 +22,7 @@ import java.util.Base64;
 import java.util.Scanner;
 public class Client {
     // آدرس سرور چت
-    private static final String SERVER_ADDRESS = "192.168.73.124";
+    private static final String SERVER_ADDRESS = "127.0.0.1";
     // پورتی که سرور چت بر روی آن گوش می‌دهد
     private static final int SERVER_PORT = 6666;
     static Gson gson = new Gson();

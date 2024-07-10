@@ -11,17 +11,17 @@ import java.util.Map;
 
 public class Set {
     //Attributes
-    private static Round round;
-    private static ClientHandler firstPlayer;
-    private static ClientHandler nextFirstPlayer;
-    private static String bordType;
-    private static final Object lock2 = new Object();
-    private static boolean isPlayerSelected = false;
-    private boolean isSetFinished = false;
+    public Round round;
+    public ClientHandler firstPlayer;
+    public ClientHandler nextFirstPlayer;
+    public String bordType;
+    public final Object lock2 = new Object();
+    public boolean isPlayerSelected = false;
+    public boolean isSetFinished = false;
     //to make a turn
     public ArrayList<Card> bordCards = new ArrayList<>();
     //For scoring
-    static HashMap<Integer, Card> bordMap = new HashMap<>();
+    public HashMap<Integer, Card> bordMap = new HashMap<>();
     Gson gson = new Gson();
 
     //******************************************************************************************************************
@@ -50,7 +50,7 @@ public class Set {
         return nextFirstPlayer;
     }
 
-    public static void setNextFirstPlayer(ClientHandler firstPlayer) {
+    public void setNextFirstPlayer(ClientHandler firstPlayer) {
         nextFirstPlayer = firstPlayer;
     }
 
@@ -62,7 +62,7 @@ public class Set {
         return bordMap;
     }
 
-    public static Round getRound() {
+    public Round getRound() {
         return round;
     }
 
@@ -90,7 +90,7 @@ public class Set {
     }
     //******************************************************************************************************************
     //Main methods
-    public static void puttingCard() {
+    public void puttingCard() {
         round.getGame().roomPlayers.get(firstPlayer.getPlayerIndex()).sendMessage("YOUR TURN." + "FREE");
         waitForPlayerCardSelection();
         round.getGame().roomPlayers.get(firstPlayer.getPlayerIndex()).sendMessage("NOT TURN.");
@@ -115,8 +115,9 @@ public class Set {
         round.getGame().roomPlayers.get((puterIndex + 2) % 4).sendMessage("FRONT CARD:" + putCard);
         round.getGame().roomPlayers.get((puterIndex + 3) % 4).sendMessage("RIGHT CARD:" + putCard);
     }
-    public static void scoring() {
-        switch (winner()) {
+    public void scoring() {
+        int x = winner();
+        switch (x) {
             case 0:
             case 2:
                 if (getRound().getGame().roomTeams.get(0).getTeamWinedSets() == 7 && (getRound().getGame().roomTeams.get(1).getTeamWinedSets() == 0)) {
@@ -143,8 +144,8 @@ public class Set {
                     getRound().getGame().roomPlayers.get(2).sendMessage("YOU WINED THE SET.");
                     getRound().getGame().roomPlayers.get(1).sendMessage("YOU LOST THE SET.");
                     getRound().getGame().roomPlayers.get(3).sendMessage("YOU LOST THE SET.");
-                    break;
                 }
+                break;
             case 1:
             case 3:
                 if (getRound().getGame().roomTeams.get(1).getTeamWinedSets() == 7 && (getRound().getGame().roomTeams.get(0).getTeamWinedSets() == 0)) {
@@ -176,7 +177,7 @@ public class Set {
             default:
                 System.out.println("ERROR in team scoring!");
         }
-        switch (winner()) {
+        switch (x) {
             case 0:
                 getRound().getGame().roomPlayers.get(0).addToPlayerWinedSets();
                 break;
@@ -188,18 +189,19 @@ public class Set {
                 break;
             case 3:
                 getRound().getGame().roomPlayers.get(3).addToPlayerWinedSets();
+                break;
             default:
-                System.out.println("ERROR in player scoring!");
+                System.out.println("ERROR in player scoring!" + x);
         }
     }
-    public static void cleaningBord() {
+    public void cleaningBord() {
         for (int i = 0; i < 4; i++) {
             getRound().getGame().roomPlayers.get(i).sendMessage("CLEANING BORD.");
         }
     }
     //******************************************************************************************************************
     //Helping methods
-    public static int winner() {
+    public int winner() {
         int winner = -1;
         int max = 0;
         // first, check if anyone has the Rul card
@@ -231,7 +233,7 @@ public class Set {
         }
         return winner;
     }
-    private static void waitForPlayerCardSelection() {
+    private void waitForPlayerCardSelection() {
         synchronized (lock2) {
             while (!isPlayerSelected) {
                 try {
