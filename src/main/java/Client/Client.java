@@ -5,8 +5,6 @@ import GamePlay.Card;
 import GamePlay.GamePage;
 import GamePlay.Token;
 import com.google.gson.Gson;
-
-import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -14,11 +12,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Scanner;
 public class Client {
     // آدرس سرور چت
@@ -27,8 +23,7 @@ public class Client {
     private static final int SERVER_PORT = 6666;
     static Gson gson = new Gson();
 
-    private String name;
-    private String id;
+
     private int ourWinedSets = 0;
     private int ourWinedRounds = 0;
     private int theirWinedSets = 0;
@@ -59,16 +54,6 @@ public class Client {
     JButton HokmButton;
     public GamePage getMainPanel() {
         return mainPanel;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public String getId() {
-        return id;
-    }
-    public JPanel getMyHand() {
-        return myHand;
     }
     public ArrayList<Card> getMyCards() {
         return myCards;
@@ -112,7 +97,7 @@ public class Client {
     }
 
     public static void main(String[] args) throws Exception {
-        Client client = new Client(" ", " ");
+        Client client = new Client();
         client.startClient();
     }
 
@@ -273,7 +258,6 @@ public class Client {
                                 "CONGRATULATION! YOU HAVE WON THE GAME.",
                                 "GAME WINNER",
                                 JOptionPane.INFORMATION_MESSAGE);
-                        // بستن برنامه
                         System.exit(0);
                     }
                     else if (message.startsWith("YOU LOST THE GAME.")){
@@ -281,25 +265,13 @@ public class Client {
                                 "YOU HAVE LOOSED THE GAME.",
                                 "GAME OVER",
                                 JOptionPane.ERROR_MESSAGE);
-
-                        // بستن برنامه
                         System.exit(0);
                     }
 
-
-                    // **************************************************************************************************************************
-
-
-                    if (message.contains("Players")){
-                        String[]nameOfPlayer = message.split(" ");
-                        for (int i = 0 ; i< nameOfPlayer.length ; i++) {
-                            //nameOfPlayers.add(nameOfPlayer[i]);
-                        }
-                    }
                     System.out.println(message);
                 }
             } catch (IOException e) {
-                e.getMessage();
+                System.out.println(e.getMessage());
                 e.printStackTrace();
             }
         }).start();
@@ -338,16 +310,16 @@ public class Client {
             pan4.setIcon(null);
         }
     }
-    public Client(String name, String id){
+    public Client(){
         initializeUI();
     }
 
     public void initializeUI(){
         PlaySound("src/main/java/GameSound/gameSound.wav");
 
-        final Token TOKEN = new Token();
+        //final Token TOKEN = new Token();
         final JFrame frame = new JFrame("Hokm");
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        //final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize(1500, 900);
         frame.setLayout((LayoutManager)null);
         frame.getContentPane();
@@ -636,8 +608,7 @@ public class Client {
             }
         }
 
-        this.name = name;
-        this.id = id;
+
         this.myCards = new ArrayList<>(13);
         this.buttons = new ArrayList<>(13);
         this.myHand = new JPanel();
