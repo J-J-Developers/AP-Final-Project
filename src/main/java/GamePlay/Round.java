@@ -204,10 +204,12 @@ public class Round  {
         }
     }
     public ClientHandler whoIsNextRuler(){
-        ClientHandler nextRuler = getGame().roomPlayers.get(0);
+        nextRuler = getGame().roomPlayers.get(0);
         for (int i = 1; i < 4; i++) {
             if (getGame().roomPlayers.get(i).getPlayerWinedSets() > nextRuler.getPlayerWinedSets() ){
+                if (getGame().roomTeams.get(i%2).getTeamWinedSets() == 7){
                 nextRuler = getGame().roomPlayers.get(i);
+                }
             }
         }
         return nextRuler;
