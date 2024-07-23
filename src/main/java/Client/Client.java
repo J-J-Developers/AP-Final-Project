@@ -14,8 +14,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+import java.util.List;
+
 public class Client {
     // آدرس سرور چت
     private static final String SERVER_ADDRESS = "127.0.0.1";
@@ -93,7 +94,6 @@ public class Client {
         myHand.add(buttons.getLast());
         myHand.repaint();
         myHand.revalidate();
-        playSound("src/main/java/GameSound/sendingCardSound.wav");
     }
 
     public static void main(String[] args) throws Exception {
@@ -149,6 +149,33 @@ public class Client {
                         getMyButtons().getLast().addActionListener(actionListener);
                         getMyButtons().getLast().setEnabled(false);
                         showHandCards();
+                        playSound("src/main/java/GameSound/sendingCardSound.wav");
+
+                        if (getMyCards().size() == 13){
+                            Map<Card, JButton> cardButtonMap = new HashMap<>();
+                            for (int i = 0; i < getMyCards().size(); i++) {
+                                cardButtonMap.put(getMyCards().get(i), getMyButtons().get(i));
+                            }
+                            List<Card> sortedCards = new ArrayList<>(cardButtonMap.keySet());
+                            Collections.sort(sortedCards, new Comparator<Card>() {
+                                @Override
+                                public int compare(Card c1, Card c2) {
+                                    return c1.getType().compareTo(c2.getType());
+                                }
+                            });
+                            for (int i = 0; i < getMyButtons().size(); i++) {
+                                myHand.remove(getMyButtons().get(i));
+                                myHand.repaint();
+                                myHand.revalidate();
+                            }
+                            getMyButtons().clear();
+                            myCards.clear();
+                            for (Card card : sortedCards) {
+                                getMyCards().add(card);
+                                getMyButtons().add(cardButtonMap.get(card));
+                                showHandCards();
+                            }
+                        }
                     }
 
                     else if (message.startsWith("YOUR TURN.")){
