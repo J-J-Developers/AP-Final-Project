@@ -130,7 +130,33 @@ public class Client {
             try {
                 String message;
                 while ((message = in.readLine()) != null) {
-                    if (message.startsWith("TAKE CARD:") ){
+
+                    if (message.startsWith("YOUR CARD:")){
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan1.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    }
+                    else if (message.startsWith("LEFT CARD:")){
+                        String puttedCard = message.substring(10);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    }
+                    else if (message.startsWith("FRONT CARD:")){
+                        String puttedCard = message.substring(11);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan3.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    }
+                    else if (message.startsWith("RIGHT CARD:")){
+                        String puttedCard = message.substring(11);
+                        Card card =gson.fromJson(puttedCard, Card.class);
+                        pan2.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    }
+
+                    else if (message.startsWith("CLEANING BORD.")){
+                        cleaningBord();
+                    }
+
+                    else if (message.startsWith("TAKE CARD:") ){
                         String jsonCardString = message.substring(10);
                         getMyCards().add(gson.fromJson(jsonCardString, Card.class));
                         getMyButtons().add(new JButton());
@@ -139,37 +165,8 @@ public class Client {
                         getMyButtons().getLast().setEnabled(false);
                         showHandCards();
                     }
-                    if (message.startsWith("YOUR NAME:")){
-                        lblNik1.setText(message.substring(10));
-                    }
-                    if (message.startsWith("LEFT NAME:")){
-                        lblNik4.setText(message.substring(10));
-                    }
-                    if (message.startsWith("FRONT NAME:")){
-                        lblNik3.setText(message.substring(11));
-                    }
-                    if (message.startsWith("RIGHT NAME:")){
-                        lblNik2.setText(message.substring(11));
-                    }
-                    if (message.startsWith("YOU ARE RULER.")){
-                        ActionListener al = new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                JButton clicked = (JButton) e.getSource();
-                                sendMessageToServer("RUL IS:" + clicked.getText());
-                            }
-                        };
-                        Heart.addActionListener(al);
-                        Diamonds.addActionListener(al);
-                        Spades.addActionListener(al);
-                        Clubs.addActionListener(al);
-                        hokmPan.setVisible(true);
-                    }
-                    if (message.startsWith("YOU RULED.")){
-                        hokmPan.setVisible(false);
-                    }
 
-                    if (message.startsWith("YOUR TURN.")){
+                    else if (message.startsWith("YOUR TURN.")){
                         if (message.equalsIgnoreCase("YOUR TURN.FREE")){
                             for (int i = 0; i < getMyButtons().size(); i++) {
                                 getMyButtons().get(i).setEnabled(true);
@@ -191,52 +188,30 @@ public class Client {
                         }
                     }
 
-                    if (message.startsWith("NOT TURN.")){
+                    else if (message.startsWith("NOT TURN.")){
                         for (int i = 0; i < getMyButtons().size(); i++) {
                             getMyButtons().get(i).setEnabled(false);
                         }
                     }
 
-                    if (message.startsWith("YOUR CARD:")){
-                        String puttedCard = message.substring(10);
-                        Card card =gson.fromJson(puttedCard, Card.class);
-                        pan1.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    else if (message.startsWith("YOU LOST THE SET.")){
+                        theirWinedSets++;
+                        resultTlb.setValueAt(theirWinedSets,1,2);
                     }
-                    if (message.startsWith("LEFT CARD:")){
-                        String puttedCard = message.substring(10);
-                        Card card =gson.fromJson(puttedCard, Card.class);
-                        pan4.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    else if (message.startsWith("YOU WINED THE SET.")){
+                        ourWinedSets++;
+                        resultTlb.setValueAt(ourWinedSets,0,2);
                     }
-                    if (message.startsWith("FRONT CARD:")){
-                        String puttedCard = message.substring(11);
-                        Card card =gson.fromJson(puttedCard, Card.class);
-                        pan3.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    else if (message.startsWith("YOU LOST THE ROUND.")){
+                        theirWinedRounds++;
+                        resultTlb.setValueAt(theirWinedRounds,1,1);
                     }
-                    if (message.startsWith("RIGHT CARD:")){
-                        String puttedCard = message.substring(11);
-                        Card card =gson.fromJson(puttedCard, Card.class);
-                        pan2.setIcon(new ImageIcon(card.getRooImage().getImage()));
+                    else if (message.startsWith("YOU WINED THE ROUND.")){
+                        ourWinedRounds++;
+                        resultTlb.setValueAt(ourWinedRounds,0,1);
                     }
 
-                    if (message.startsWith("RUL IS:")){
-                        String rul = message.substring(7);
-                        if(rul.equals("Spade")){
-                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm1.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
-                        }
-                        if (rul.equals("Heart")){
-                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm2.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
-                        }
-                        if(rul.equals("Diamond")){
-                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm3.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
-                        }
-                        if(rul.equals("Club")){
-                            HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm4.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
-                        }
-                    }
-                    if (message.startsWith("CLEANING BORD.")){
-                        cleaningBord();
-                    }
-                    if (message.startsWith("NEW ROUND IS STARTING.")){
+                    else if (message.startsWith("NEW ROUND IS STARTING.")){
                         for (int i = 0; i < getMyButtons().size(); i++) {
                             myHand.remove(getMyButtons().get(i));
                             myHand.repaint();
@@ -249,23 +224,51 @@ public class Client {
                         resultTlb.setValueAt(ourWinedSets,0,2);
                         resultTlb.setValueAt(theirWinedSets,1,2);
                     }
-                    if (message.startsWith("YOU LOST THE SET.")){
-                        theirWinedSets++;
-                        resultTlb.setValueAt(theirWinedSets,1,2);
+
+                    else if (message.startsWith("RUL IS:")){
+                        String rul = message.substring(7);
+                        switch (rul) {
+                            case "Spade" ->
+                                    HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm1.png").getImage().getScaledInstance(80, -1, Image.SCALE_SMOOTH)));
+                            case "Heart" ->
+                                    HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm2.png").getImage().getScaledInstance(80, -1, Image.SCALE_SMOOTH)));
+                            case "Diamond" ->
+                                    HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm3.png").getImage().getScaledInstance(80, -1, Image.SCALE_SMOOTH)));
+                            case "Club" ->
+                                    HokmButton.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm4.png").getImage().getScaledInstance(80, -1, Image.SCALE_SMOOTH)));
+                        }
                     }
-                    if (message.startsWith("YOU WINED THE SET.")){
-                        ourWinedSets++;
-                        resultTlb.setValueAt(ourWinedSets,0,2);
+
+                    else if (message.startsWith("YOUR NAME:")){
+                        lblNik1.setText(message.substring(10));
                     }
-                    if (message.startsWith("YOU LOST THE ROUND.")){
-                        theirWinedRounds++;
-                        resultTlb.setValueAt(theirWinedRounds,1,1);
+                    else if (message.startsWith("LEFT NAME:")){
+                        lblNik4.setText(message.substring(10));
                     }
-                    if (message.startsWith("YOU WINED THE ROUND.")){
-                        ourWinedRounds++;
-                        resultTlb.setValueAt(ourWinedRounds,0,1);
+                    else if (message.startsWith("FRONT NAME:")){
+                        lblNik3.setText(message.substring(11));
                     }
-                    if (message.startsWith("YOU WINED THE GAME.")){
+                    else if (message.startsWith("RIGHT NAME:")){
+                        lblNik2.setText(message.substring(11));
+                    }
+                    else if (message.startsWith("YOU ARE RULER.")){
+                        ActionListener al = new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                JButton clicked = (JButton) e.getSource();
+                                sendMessageToServer("RUL IS:" + clicked.getText());
+                            }
+                        };
+                        Heart.addActionListener(al);
+                        Diamonds.addActionListener(al);
+                        Spades.addActionListener(al);
+                        Clubs.addActionListener(al);
+                        hokmPan.setVisible(true);
+                    }
+                    else if (message.startsWith("YOU RULED.")){
+                        hokmPan.setVisible(false);
+                    }
+                    else if (message.startsWith("YOU WINED THE GAME.")){
                         JOptionPane.showMessageDialog(null,
                                 "CONGRATULATION! YOU HAVE WON THE GAME.",
                                 "GAME WINNER",
@@ -273,7 +276,7 @@ public class Client {
                         // بستن برنامه
                         System.exit(0);
                     }
-                    if (message.startsWith("YOU LOST THE GAME.")){
+                    else if (message.startsWith("YOU LOST THE GAME.")){
                         JOptionPane.showMessageDialog(null,
                                 "YOU HAVE LOOSED THE GAME.",
                                 "GAME OVER",
