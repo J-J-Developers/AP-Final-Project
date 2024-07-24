@@ -165,7 +165,7 @@ public class Client {
                             for (int i = 0; i < getMyCards().size(); i++) {
                                 cardButtonMap.put(getMyCards().get(i), getMyButtons().get(i));
                             }
-                            sortedCards = new ArrayList<>(cardButtonMap.keySet());
+                            this.sortedCards = new ArrayList<>(cardButtonMap.keySet());
                             Collections.sort(sortedCards, new Comparator<Card>() {
                                 @Override
                                 public int compare(Card c1, Card c2) {
@@ -250,7 +250,12 @@ public class Client {
                         }
                         getMyButtons().clear();
                         myCards.clear();
-
+                        try {
+                            sortedCards.clear();
+                        } catch (NullPointerException e){
+                            System.out.println(e.getMessage());
+                        }
+                        cardButtonMap.clear();
                         ourWinedSets = 0;
                         theirWinedSets = 0;
                         resultTlb.setValueAt(ourWinedSets,0,2);
