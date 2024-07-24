@@ -34,6 +34,8 @@ public class Client {
     GamePlay.GamePage mainPanel;
     private ArrayList<Card> myCards;
     private ArrayList<JButton> buttons;
+    private Map<Card, JButton> cardButtonMap;
+    private List<Card> sortedCards;
     private PrintWriter out;
     JLabel lblNik1;
     JLabel lblNik2;
@@ -59,10 +61,18 @@ public class Client {
     public ArrayList<Card> getMyCards() {
         return myCards;
     }
-
     public ArrayList<JButton> getMyButtons() {
         return buttons;
     }
+
+    public Map<Card, JButton> getCardButtonMap() {
+        return cardButtonMap;
+    }
+
+    public List<Card> getSortedCards() {
+        return sortedCards;
+    }
+
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -152,11 +162,10 @@ public class Client {
                         playSound("src/main/java/GameSound/sendingCardSound.wav");
 
                         if (getMyCards().size() == 13){
-                            Map<Card, JButton> cardButtonMap = new HashMap<>();
                             for (int i = 0; i < getMyCards().size(); i++) {
                                 cardButtonMap.put(getMyCards().get(i), getMyButtons().get(i));
                             }
-                            List<Card> sortedCards = new ArrayList<>(cardButtonMap.keySet());
+                            sortedCards = new ArrayList<>(cardButtonMap.keySet());
                             Collections.sort(sortedCards, new Comparator<Card>() {
                                 @Override
                                 public int compare(Card c1, Card c2) {
@@ -649,6 +658,7 @@ public class Client {
 
         this.myCards = new ArrayList<>(13);
         this.buttons = new ArrayList<>(13);
+        this.cardButtonMap = new HashMap<>();
         this.myHand = new JPanel();
         this.centerPanel = new JPanel();
         this.mainPanel = new GamePlay.GamePage();
