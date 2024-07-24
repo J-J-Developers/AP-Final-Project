@@ -1,10 +1,6 @@
 package GamePlay;
 
-import Server.Server;
-import com.google.gson.Gson;
 import Server.Server.ClientHandler;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +18,6 @@ public class Set {
     public ArrayList<Card> bordCards = new ArrayList<>();
     //For scoring
     public HashMap<Integer, Card> bordMap = new HashMap<>();
-    Gson gson = new Gson();
 
     //******************************************************************************************************************
     //Getter and Setters
@@ -32,14 +27,6 @@ public class Set {
 
     public void setBordType(String bordType) {
         this.bordType = bordType;
-    }
-
-    public boolean isPlayerSelected() {
-        return isPlayerSelected;
-    }
-
-    public void addToBordCards(Card newCard) {
-        getBordCards().add(newCard);
     }
 
     public ClientHandler getFirstPlayer() {
@@ -221,13 +208,13 @@ public class Set {
                 }
             }
         }
-        // if no one has the Rul card, check for the ruler's card type
+        // if no one has the Rul card, check for the firstPlayer's card type
         if (winner == -1) {
             max = 0;
             for (Map.Entry<Integer, Card> entry : bordMap.entrySet()) {
                 int indexOfPerson = entry.getKey();
                 if (entry.getValue().getType().equals(bordType)) {
-                    // if someone has the same type as the ruler's card, check if they have the highest number
+                    // if someone has the same type as the firstPlayer's card, check if they have the highest number
                     int personScore = entry.getValue().getNumber();
                     if (personScore > max) {
                         max = personScore;
