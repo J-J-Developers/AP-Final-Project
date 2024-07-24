@@ -1,16 +1,7 @@
 package GamePlay;
+
 import Server.Server.ClientHandler;
-import Server.Server;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.util.*;
-
-import com.google.gson.Gson;
-
-import static Server.Server.sendMessageToOne;
 
 public class Game {
 
