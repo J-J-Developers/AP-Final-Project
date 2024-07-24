@@ -83,6 +83,11 @@ public class Set {
     //Starting set method
     public void startSet() {
         puttingCard();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
         scoring();
         cleaningBord();
         setNextFirstPlayer(round.getGame().roomPlayers.get(winner()));
