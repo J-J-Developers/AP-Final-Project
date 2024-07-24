@@ -403,7 +403,7 @@ public class Client {
                     public void actionPerformed(ActionEvent e) {
                         String nickname = txt2.getText();
                         if (!nickname.isEmpty()) {
-                            sendMessageToServer("random " + nickname);
+                            sendMessageToServer("random::" + nickname);
                             frame.remove(btn5);
                             frame.remove(lbl2);
                             frame.remove(txt2);
@@ -483,7 +483,7 @@ public class Client {
                                 String nickname= txt2.getText();
                                 String token = txt1.getText();
                                 if (!nickname.isEmpty() && !token.isEmpty()) {
-                                    sendMessageToServer("join " + nickname + " " + token);
+                                    sendMessageToServer("join::" + nickname + "::" + token);
                                     frame.remove(lbl1);
                                     frame.remove(txt1);
                                     frame.remove(btn5);
@@ -572,7 +572,7 @@ public class Client {
                                 String nickname= txt2.getText();
                                 String token = txt1.getText() ;
                                 if (!nickname.isEmpty()) {
-                                    sendMessageToServer("create " + nickname + " " + token);
+                                    sendMessageToServer("create::" + nickname + "::" + token);
                                     frame.remove(btn5);
                                     frame.remove(lbl2);
                                     frame.remove(txt2);

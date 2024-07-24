@@ -150,14 +150,12 @@ public class Server {
 
 
                     //دستورات مربوط به جوین شدن در بازی
-                    String[] parts = message.split(" ");
+                    String[] parts = message.split("::");
                     String command = parts[0];
-                    if (command.equals("create")) {
-                        handleCreate(parts);
-                    } else if (command.equals("join")) {
-                        handleJoin(parts);
-                    } else if (command.equals("random")) {
-                        handleRandom(parts);
+                    switch (command) {
+                        case "create" -> handleCreate(parts);
+                        case "join" -> handleJoin(parts);
+                        case "random" -> handleRandom(parts);
                     }
 
                 }
