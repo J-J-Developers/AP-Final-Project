@@ -167,6 +167,11 @@ public class Client {
                                 myHand.remove(getMyButtons().get(i));
                                 myHand.repaint();
                                 myHand.revalidate();
+                                try {
+                                    Thread.sleep(50);
+                                } catch (InterruptedException e){
+                                    e.printStackTrace();
+                                }
                             }
                             getMyButtons().clear();
                             myCards.clear();
@@ -174,6 +179,11 @@ public class Client {
                                 getMyCards().add(card);
                                 getMyButtons().add(cardButtonMap.get(card));
                                 showHandCards();
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException e){
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -231,6 +241,7 @@ public class Client {
                         }
                         getMyButtons().clear();
                         myCards.clear();
+
                         ourWinedSets = 0;
                         theirWinedSets = 0;
                         resultTlb.setValueAt(ourWinedSets,0,2);
