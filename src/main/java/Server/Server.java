@@ -28,6 +28,36 @@ public class Server {
                 String command = scanner.nextLine();
                 if (command.equals("GAMES STATUS")) {
                     printGamesStatus();
+                }else if (command.startsWith("game result ")){
+                    try {
+                        printGameResult(Integer.parseInt(command.substring(12, 13)));
+                    } catch (NumberFormatException e){
+                        System.out.println("Correct format is: game result <gameIndex>");
+                    }
+                } else if (command.startsWith("game players ")) {
+                    try {
+                        printGamePlayers(Integer.parseInt(command.substring(13, 14)));
+                    } catch (NumberFormatException e){
+                        System.out.println("Correct format is: game result <gameIndex>");
+                    }
+                } else if (command.startsWith("game rounds ")) {
+                    try {
+                        printGameRounds(Integer.parseInt(command.substring(12, 13)));
+                    } catch (NumberFormatException e){
+                        System.out.println("Correct format is: game result <gameIndex>");
+                    }
+                } else if (command.startsWith("game round sets ")) {
+                    try {
+                        printRoundSets(Integer.parseInt(command.substring(16, 17)), Integer.parseInt(command.substring(18, 19)));
+                    } catch (NumberFormatException e){
+                        System.out.println("Correct format is: game result <gameIndex>  <roundIndex>");
+                    }
+                } else if (command.startsWith("set cards ")) {
+                    try {
+                        printSetCards(Integer.parseInt(command.substring(10, 11)), Integer.parseInt(command.substring(12, 13)), Integer.parseInt(command.substring(14, 15)));
+                    } catch (NumberFormatException e){
+                        System.out.println("Correct format is: game result <gameIndex>  <roundIndex>  <setIndex>");
+                    }
                 }
             }
         }).start();
@@ -260,24 +290,24 @@ public class Server {
             System.out.println("Rounds information: ");
 
             for (int j =0; j < AllGames.get(i).gameRounds.size(); j++) {
-                System.out.println("Round number: " + (j + 1) );
-                System.out.println("  Round ruler: " + AllGames.get(i).gameRounds.get(j).getRuler().nickname);
-                System.out.println("  Round RulType: " + AllGames.get(i).gameRounds.get(j).getRulType());
-                System.out.println("  Sets played in round: " + AllGames.get(i).gameRounds.get(j).gameSets.size());
-                System.out.println(" Sets information: ");
+                System.out.println("    Round number: " + (j + 1) );
+                System.out.println("    Round ruler: " + AllGames.get(i).gameRounds.get(j).getRuler().nickname);
+                System.out.println("    Round RulType: " + AllGames.get(i).gameRounds.get(j).getRulType());
+                System.out.println("    Sets played in round: " + AllGames.get(i).gameRounds.get(j).gameSets.size());
+                System.out.println("    Sets information: ");
 
                 for (int k = 0; k < AllGames.get(i).gameRounds.get(j).gameSets.size(); k++) {
-                    System.out.println("  Set number: " + ( k + 1 ) );
-                    System.out.println("    Set first player: " + AllGames.get(i).gameRounds.get(j).gameSets.get(k).getFirstPlayer().nickname);
-                    System.out.println("    Set BordType: " + AllGames.get(i).gameRounds.get(j).gameSets.get(k).getBordType());
-                    System.out.println("    Cards played: " + AllGames.get(i).gameRounds.get(j).gameSets.get(k).bordCards.size());
+                    System.out.println("        Set number: " + ( k + 1 ) );
+                    System.out.println("        Set first player: " + AllGames.get(i).gameRounds.get(j).gameSets.get(k).getFirstPlayer().nickname);
+                    System.out.println("        Set BordType: " + AllGames.get(i).gameRounds.get(j).gameSets.get(k).getBordType());
+                    System.out.println("        Cards played: " + AllGames.get(i).gameRounds.get(j).gameSets.get(k).bordCards.size());
                     try {
-                        System.out.println("    Winner: " + AllGames.get(i).roomPlayers.get(AllGames.get(i).gameRounds.get(j).gameSets.get(k).winner()).nickname);
+                        System.out.println("        Winner: " + AllGames.get(i).roomPlayers.get(AllGames.get(i).gameRounds.get(j).gameSets.get(k).winner()).nickname);
                     }catch (IndexOutOfBoundsException e){
-                        System.out.println("Nobody didnt put any card yet!");
+                        System.out.println("        Nobody didnt put any card yet!");
                     }
 
-                    System.out.println("    Cards on the board:");
+                    System.out.println("        Cards on the board:");
                     System.out.printf("      %-15s %-10s\n", "Player", "Card");
                     for (Map.Entry<Integer, Card> entry : AllGames.get(i).getGameRounds().get(j).gameSets.get(k).bordMap.entrySet()) {
                         int playerIndex = entry.getKey();
@@ -290,4 +320,90 @@ public class Server {
             }
         }
     }
+    public static void printGameResult(int gameIndex) {
+        if (gameIndex < 0 || gameIndex >= AllGames.size()) {
+            System.out.println("Invalid game index!");
+            return;
+        }
+        System.out.println("-------------------------------------------------");
+        System.out.println("Game number: " + (gameIndex + 1));
+        System.out.println("Team Wins:");
+        System.out.printf("  %-10s %-10s %-10s\n", "Team", "Rounds", "Sets");
+        System.out.printf("  %-10s %-10d %-10d\n", "Team 1", AllGames.get(gameIndex).roomTeams.get(0).getTeamWinedRounds(), AllGames.get(gameIndex).roomTeams.get(0).getTeamWinedSets());
+        System.out.printf("  %-10s %-10d %-10d\n", "Team 2", AllGames.get(gameIndex).roomTeams.get(1).getTeamWinedRounds(), AllGames.get(gameIndex).roomTeams.get(1).getTeamWinedSets());
+        System.out.println("-------------------------------------------------");
+    }
+    public static void printGamePlayers(int gameIndex) {
+        if (gameIndex < 0 || gameIndex >= AllGames.size()) {
+            System.out.println("Invalid game index!");
+            return;
+        }
+        System.out.println("-------------------------------------------------");
+        System.out.println("Game number: " + (gameIndex + 1));
+        System.out.println("Game members: ");
+        for (int x = 0; x < AllGames.get(gameIndex).roomTeams.size(); x++) {
+            Team team = AllGames.get(gameIndex).roomTeams.get(x);
+            System.out.println("Team " + (x + 1) + " with players: ");
+            System.out.println("  Player: " + team.p1.getNickname() + " - Index: " + team.p1.getPlayerIndex());
+            System.out.println("  Player: " + team.p2.getNickname() + " - Index: " + team.p2.getPlayerIndex());
+        }
+        System.out.println("-------------------------------------------------");
+    }
+    public static void printGameRounds(int gameIndex) {
+        if (gameIndex < 0 || gameIndex >= AllGames.size()) {
+            System.out.println("Invalid game index!");
+            return;
+        }
+        System.out.println("-------------------------------------------------");
+        System.out.println("Game number: " + (gameIndex + 1));
+        System.out.println("Rounds information: ");
+        for (int j = 0; j < AllGames.get(gameIndex).gameRounds.size(); j++) {
+            System.out.println("Round number: " + (j + 1));
+            System.out.println("  Round ruler: " + AllGames.get(gameIndex).gameRounds.get(j).getRuler().nickname);
+            System.out.println("  Round RulType: " + AllGames.get(gameIndex).gameRounds.get(j).getRulType());
+            System.out.println("  Sets played in round: " + AllGames.get(gameIndex).gameRounds.get(j).gameSets.size());
+        }
+        System.out.println("-------------------------------------------------");
+    }
+    public static void printRoundSets(int gameIndex, int roundIndex) {
+        if (gameIndex < 0 || gameIndex >= AllGames.size() || roundIndex < 0 || roundIndex >= AllGames.get(gameIndex).gameRounds.size()) {
+            System.out.println("Invalid game or round index!");
+            return;
+        }
+        System.out.println("-------------------------------------------------");
+        System.out.println("Game number: " + (gameIndex + 1));
+        System.out.println("Round number: " + (roundIndex + 1));
+        System.out.println(" Sets information: ");
+        for (int k = 0; k < AllGames.get(gameIndex).gameRounds.get(roundIndex).gameSets.size(); k++) {
+            System.out.println("  Set number: " + (k + 1));
+            System.out.println("    Set first player: " + AllGames.get(gameIndex).gameRounds.get(roundIndex).gameSets.get(k).getFirstPlayer().nickname);
+            System.out.println("    Set BordType: " + AllGames.get(gameIndex).gameRounds.get(roundIndex).gameSets.get(k).getBordType());
+            System.out.println("    Cards played: " + AllGames.get(gameIndex).gameRounds.get(roundIndex).gameSets.get(k).bordCards.size());
+            try {
+                System.out.println("    Winner: " + AllGames.get(gameIndex).roomPlayers.get(AllGames.get(gameIndex).gameRounds.get(roundIndex).gameSets.get(k).winner()).nickname);
+            }catch (IndexOutOfBoundsException e){
+                System.out.println("Nobody didnt put any card yet!");
+            }
+        }
+        System.out.println("-------------------------------------------------");
+    }
+    public static void printSetCards(int gameIndex, int roundIndex, int setIndex) {
+        if (gameIndex < 0 || gameIndex >= AllGames.size() || roundIndex < 0 || roundIndex >= AllGames.get(gameIndex).gameRounds.size() || setIndex < 0 || setIndex >= AllGames.get(gameIndex).gameRounds.get(roundIndex).gameSets.size()) {
+            System.out.println("Invalid game, round, or set index!");
+            return;
+        }
+        System.out.println("-------------------------------------------------");
+        System.out.println("Game number: " + (gameIndex + 1));
+        System.out.println("Round number: " + (roundIndex + 1));
+        System.out.println("Set number: " + (setIndex + 1));
+        System.out.println("Cards on the board:");
+        System.out.printf("  %-15s %-10s\n", "Player", "Card");
+        for (Map.Entry<Integer, Card> entry : AllGames.get(gameIndex).getGameRounds().get(roundIndex).gameSets.get(setIndex).bordMap.entrySet()) {
+            int playerIndex = entry.getKey();
+            Card card = entry.getValue();
+            System.out.printf("  %-15s %-10s\n", AllGames.get(gameIndex).roomPlayers.get(playerIndex).nickname, card.getNumber() + " " + card.getType());
+        }
+        System.out.println("-------------------------------------------------");
+    }
+
 }
