@@ -18,36 +18,31 @@ import java.util.*;
 import java.util.List;
 
 public class Client {
-    // آدرس سرور چت
     private static final String SERVER_ADDRESS = "127.0.0.1";
-    // پورتی که سرور چت بر روی آن گوش می‌دهد
     private static final int SERVER_PORT = 6666;
+    private PrintWriter out;
     static Gson gson = new Gson();
-
-
-    private int ourWinedSets = 0;
-    private int ourWinedRounds = 0;
-    private int theirWinedSets = 0;
-    private int theirWinedRounds = 0;
-    private JPanel myHand;
-    JPanel centerPanel;
-    GamePlay.GamePage mainPanel;
     private ArrayList<Card> myCards;
     private ArrayList<JButton> buttons;
     private Map<Card, JButton> cardButtonMap;
     private List<Card> sortedCards;
-    private PrintWriter out;
+    private int ourWinedSets = 0;
+    private int ourWinedRounds = 0;
+    private int theirWinedSets = 0;
+    private int theirWinedRounds = 0;
+
+    private JPanel myHand;
+    JPanel centerPanel;
+    GamePlay.GamePage mainPanel;
     JLabel lblNik1;
     JLabel lblNik2;
     JLabel lblNik3;
     JLabel lblNik4;
-
     static JButton pan1;
     static JButton pan2;
     static JButton pan3;
     static JButton pan4;
     JPanel hokmPan;
-
     JButton Heart;
     JButton Diamonds;
     JButton Clubs;
@@ -65,13 +60,6 @@ public class Client {
         return buttons;
     }
 
-    public Map<Card, JButton> getCardButtonMap() {
-        return cardButtonMap;
-    }
-
-    public List<Card> getSortedCards() {
-        return sortedCards;
-    }
 
     ActionListener actionListener = new ActionListener() {
         @Override
@@ -111,13 +99,9 @@ public class Client {
         client.startClient();
     }
 
-    // متد startClient برای شروع اتصال به سرور چت
     public void startClient() throws Exception {
-        // ایجاد یک سوکت برای اتصال به سرور
         Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-        // برای خواندن پیام‌های دریافتی از سرور
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        // برای نوشتن پیام‌ها به سرور
         out = new PrintWriter(socket.getOutputStream(), true);
 
         // Start a thread to read messages from the server
@@ -328,10 +312,8 @@ public class Client {
             }
         }).start();
 
-        // برای خواندن ورودی از کاربر
         Scanner scanner = new Scanner(System.in);
         System.out.println("Connected to chat server");
-
         // Thread to read user input and send it to server
         new Thread(() -> {
             while (scanner.hasNextLine()) {
