@@ -3,7 +3,6 @@ package Client;
 
 import GamePlay.Card;
 import GamePlay.GamePage;
-import GamePlay.Token;
 import com.google.gson.Gson;
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -351,9 +350,8 @@ public class Client {
     public void initializeUI(){
         PlaySound("src/main/java/GameSound/gameSound.wav");
 
-        //final Token TOKEN = new Token();
         final JFrame frame = new JFrame("Hokm");
-        //final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize(1500, 900);
         frame.setLayout((LayoutManager)null);
         frame.getContentPane();
@@ -533,11 +531,10 @@ public class Client {
                         frame.remove(btn4);
                         frame.remove(exit);
                         frame.setTitle("Game Room");
-                        Token TOKEN = new Token();
 
                         final JLabel lbl2 = new JLabel("Nickname:");
                         final JLabel lbl1 = new JLabel("Token:");
-                        final JTextField txt1 = new JTextField(String.valueOf(TOKEN));
+                        final JTextField txt1 = new JTextField(generateRandomString());
                         final JTextField txt2 = new JTextField();
                         final JButton btn5 = new JButton("Go");
                         final JButton exit1 = new JButton("Back");
@@ -843,6 +840,18 @@ public class Client {
         }catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex){
             ex.printStackTrace();
         }
+    }
+    public static String generateRandomString() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(10);
+
+        for (int i = 0; i < 10; i++) {
+            int index = random.nextInt(characters.length());
+            sb.append(characters.charAt(index));
+        }
+
+        return sb.toString();
     }
 
 }
