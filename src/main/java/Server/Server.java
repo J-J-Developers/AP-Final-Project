@@ -8,10 +8,10 @@ import java.util.*;
 
 public class Server {
 
-    private static final int PORT = 6666; // پورت سرور
-    private static Map<String, ClientHandler> clients = new HashMap<>(); // لیست کلاینت‌ها
-    private static List<ClientHandler> randomPlayers = new ArrayList<>(); // لیست بازیکنان رندوم
-    private static Map<String, List<ClientHandler>> friendGroups = new HashMap<>(); // گروه‌های دوستانه
+    private static final int PORT = 6666;
+    private static Map<String, ClientHandler> clients = new HashMap<>();
+    private static List<ClientHandler> randomPlayers = new ArrayList<>();
+    private static Map<String, List<ClientHandler>> friendGroups = new HashMap<>();
     private static ArrayList<Game> AllGames = new ArrayList<>();
 
     static Gson gson = new Gson();
@@ -33,25 +33,15 @@ public class Server {
         }).start();
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (true) {
-                // منتظر اتصال کلاینت‌های جدید می‌ماند
                 Socket clientSocket = serverSocket.accept();
                 ClientHandler handler = new ClientHandler(clientSocket);
                 new Thread(handler).start(); // شروع ترد جدید برای مدیریت کلاینت
             }
         } catch (IOException e) {
-            e.printStackTrace(); // چاپ خطا در صورت مشکل در اتصال
+            e.printStackTrace();
         }
     }
 
-    public static ArrayList<Game> getAllGames() {
-        return AllGames;
-    }
-
-    public static void setAllGames(ArrayList<Game> allGames) {
-        AllGames = allGames;
-    }
-
-    // کلاس مدیریت کلاینت‌ها
     public static class ClientHandler  implements Runnable {
         private Socket socket;
         private BufferedReader in;
@@ -70,9 +60,6 @@ public class Server {
             this.playerIndex = playerIndex;
         }
 
-        public int getGameIndex() {
-            return gameIndex;
-        }
         public void setGameIndex(int gameIndex){
             this.gameIndex =gameIndex;
         }
@@ -93,12 +80,6 @@ public class Server {
         public void addToPlayerWinedSets(){
             winedSets ++;
         }
-        public int getPlayerWinedRounds() {
-            return winedRounds;
-        }
-        public void addToPlayerWinedRounds(){
-            winedRounds++;
-        }
         public void playerZeroing(){
             winedSets = 0;
         }
@@ -106,12 +87,10 @@ public class Server {
         @Override
         public void run() {
             try {
-                // تنظیم ورودی و خروجی برای ارتباط با کلاینت
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
 
                 while (true) {
-                    // دریافت پیام از کلاینت
                     String message = in.readLine();
                     if (message == null) {
                         break; // قطع ارتباط در صورت دریافت پیام null
@@ -137,27 +116,23 @@ public class Server {
                     }
 
 
-                    System.out.println("Player " + playerIndex+ " :" + message);
+                    System.out.println( "from Game " + gameIndex +",Player " + playerIndex+ " :" + message);
 
 
                     //دستورات مربوط به جوین شدن در بازی
-                    String[] parts = message.split(" "); // جدا کردن دستورات و پارامترها
-                    String command = parts[0]; // اولین قسمت پیام به عنوان دستور
-                    // پردازش دستورها
+                    String[] parts = message.split(" ");
+                    String command = parts[0];
                     if (command.equals("create")) {
-                        handleCreate(parts); // فراخوانی تابع ایجاد بازی دوستانه
+                        handleCreate(parts);
                     } else if (command.equals("join")) {
-                        handleJoin(parts); // فراخوانی تابع پیوستن به گروه
+                        handleJoin(parts);
                     } else if (command.equals("random")) {
-                        handleRandom(parts); // فراخوانی تابع پیوستن به گروه تصادفی
-                    } else if (command.equals("message")) {
-                        //handleMessage(parts); // فراخوانی تابع ارسال پیام به گروه
-                    } else {
-                        //out.println("Unknown command: " + command); // پیام خطا برای دستور ناشناخته
+                        handleRandom(parts);
                     }
+
                 }
             } catch (IOException e) {
-                e.printStackTrace(); // چاپ خطا در صورت بروز مشکل در ارتباط
+                e.printStackTrace();
             }
             finally {
                 // حذف کلاینت از لیست در صورت قطع ارتباط
@@ -166,37 +141,37 @@ public class Server {
                     System.out.println("Client disconnected: " + nickname);
                 }
                 try {
-                    socket.close(); // بستن سوکت
+                    socket.close();
                 } catch (IOException e) {
-                    e.printStackTrace(); // چاپ خطا در صورت بروز مشکل در بستن سوکت
+                    e.printStackTrace();
                 }
             }
         }
 
-        // پردازش دستور create برای ایجاد بازی دوستانه
+        // create order for friendly game
         private void handleCreate(String[] parts) {
             if (parts.length < 3) {
                 out.println("Error: Missing nickname or token"); // پیام خطا در صورت نبودن نام مستعار یا توکن
                 return;
             }
-            this.nickname = parts[1]; // دریافت نام مستعار
-            String token = parts[2]; // دریافت توکن از کلاینت
+            this.nickname = parts[1];
+            String token = parts[2];
 
             clients.put(nickname, this); // اضافه کردن کلاینت به لیست
             List<ClientHandler> newGroup = new ArrayList<>();
             newGroup.add(this); // ایجاد گروه جدید دوستانه با توکن
             friendGroups.put(token, newGroup); // اضافه کردن گروه به لیست گروه‌ها
-            out.println("Success: Game created with token " + token); // ارسال پیام موفقیت به کلاینت همراه با توکن
+            out.println("Success: Game created with token " + token);
         }
 
-        // پردازش دستور join برای پیوستن به بازی دوستانه
+        // join order for friendly game
         private void handleJoin(String[] parts) {
             if (parts.length < 3) {
                 out.println("Error: Missing nickname or token"); // پیام خطا در صورت نبودن نام مستعار یا توکن
                 return;
             }
-            this.nickname = parts[1]; // دریافت نام مستعار
-            String token = parts[2]; // دریافت توکن از کلاینت
+            this.nickname = parts[1];
+            String token = parts[2];
 
             synchronized (friendGroups) { // استفاده از synchronized برای جلوگیری از شرایط رقابتی
                 if (!friendGroups.containsKey(token)) {
@@ -211,19 +186,19 @@ public class Server {
                     startGame(group); // شروع بازی با گروه
                     friendGroups.remove(token); // حذف گروه پس از شروع بازی
                 } else {
-                    out.println("Waiting for more friends to join..."); // پیام انتظار برای دوستان بیشتر
+                    out.println("Waiting for more friends to join...");
                 }
             }
         }
 
-        // پردازش دستور random برای پیوستن به گروه تصادفی
+        // random order
         private void handleRandom(String[] parts) {
-            this.nickname = parts[1]; // دریافت نام مستعار
+            this.nickname = parts[1];
             clients.put(nickname, this); // اضافه کردن کلاینت به لیست
             joinRandomGroup(); // پیوستن به گروه تصادفی
         }
 
-        // پیوستن به گروه تصادفی
+        //join to a random group
         private void joinRandomGroup() {
             randomPlayers.add(this); // اضافه کردن کلاینت به لیست بازیکنان تصادفی
             if (randomPlayers.size() % 4 == 0) { // اگر تعداد بازیکنان به ۴ نفر رسید
@@ -233,11 +208,11 @@ public class Server {
                 }
                 startGame(newGroup); // شروع بازی با گروه جدید
             } else {
-                out.println("Waiting for more players to join..."); // پیام انتظار برای بازیکنان بیشتر
+                out.println("Waiting for more players to join...");
             }
         }
 
-        // شروع بازی با گروه
+        // starting game for a group
         private void startGame(List<ClientHandler> group) {
             Game newGame = new Game(group);
             AllGames.add(newGame);
@@ -261,10 +236,6 @@ public class Server {
             System.out.println("-----|  " + group.size());
         }
     }
-    public static void sendMessageToOne(String message, List<ClientHandler> group, int index) {
-        group.get(index).out.println(message);
-    }
-
 
 
     public static void printGamesStatus() {
@@ -308,10 +279,10 @@ public class Server {
 
                     System.out.println("    Cards on the board:");
                     System.out.printf("      %-15s %-10s\n", "Player", "Card");
-                    for (Map.Entry<Integer, Card> entry : AllGames.get(0).getGameRounds().get(j).gameSets.get(k).bordMap.entrySet()) {
+                    for (Map.Entry<Integer, Card> entry : AllGames.get(i).getGameRounds().get(j).gameSets.get(k).bordMap.entrySet()) {
                         int playerIndex = entry.getKey();
                         Card card = entry.getValue();
-                        System.out.printf("      %-15s %-10s\n", AllGames.get(0).roomPlayers.get(playerIndex).nickname, card.getNumber() + " " + card.getType());
+                        System.out.printf("      %-15s %-10s\n", AllGames.get(i).roomPlayers.get(playerIndex).nickname, card.getNumber() + " " + card.getType());
                     }
 
                     System.out.println("    ----------------------");
