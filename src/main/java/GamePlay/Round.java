@@ -2,10 +2,7 @@ package GamePlay;
 
 import Server.Server.ClientHandler;
 import com.google.gson.Gson;
-
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Round  {
@@ -36,6 +33,7 @@ public class Round  {
     public String getRulType(){
         return rulType;
     }
+
     public void setRulType(String rulType){
         this.rulType = rulType;
     }
@@ -44,32 +42,12 @@ public class Round  {
         return ruler;
     }
 
-    public void setRuler(ClientHandler ruler) {
-        this.ruler = ruler;
-    }
-
     public ClientHandler getNextRuler() {
         return nextRuler;
     }
 
     public void setNextRuler(ClientHandler nextRuler) {
         this.nextRuler = nextRuler;
-    }
-
-    public boolean isRulerCardSelected() {
-        return isRulerCardSelected;
-    }
-
-    public void setRulerCardSelected(boolean rulerCardSelected) {
-        isRulerCardSelected = rulerCardSelected;
-    }
-
-    public ArrayList<Card> getRoomCards() {
-        return roundCards;
-    }
-
-    public ArrayList<Set> getGameSets() {
-        return gameSets;
     }
 
     public boolean isIsRoundFinished() {
@@ -220,7 +198,7 @@ public class Round  {
         synchronized (lock) {
             while (!isRulerCardSelected) {
                 try {
-                    lock.wait(); // منتظر می‌ماند تا حاکم کارت را انتخاب کند
+                    lock.wait();
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -230,7 +208,7 @@ public class Round  {
     public void rulerCardSelected() {
         synchronized (lock) {
             isRulerCardSelected = true;
-            lock.notifyAll(); // اطلاع به نخ منتظر که کارت انتخاب شده است
+            lock.notifyAll();
         }
     }
     public void preRound(){

@@ -4,7 +4,6 @@ import Server.Server.ClientHandler;
 import java.util.*;
 
 public class Game {
-
     //Attributes
     public List<ClientHandler> roomPlayers;
     public ArrayList<Team> roomTeams = new ArrayList<>(2);
