@@ -30,7 +30,7 @@ public class StartPages extends JPanel {
         this.cards = new ArrayList<>();
 
         // Create 52 cards
-        for (int i = 0; i < 47; i++) {
+        for (int i = 0; i <= 52; i++) {
             cards.add(new Card("src/main/java/Images/" + i + ".jpg", 0, 900, i)); // Initial position (0,0) will be updated
         }
 
