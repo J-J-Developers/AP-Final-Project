@@ -38,25 +38,25 @@ public class Server {
                     try {
                         printGamePlayers(Integer.parseInt(command.substring(13, 14)));
                     } catch (NumberFormatException e){
-                        System.out.println("Correct format is: game result <gameIndex>");
+                        System.out.println("Correct format is: game players <gameIndex>");
                     }
                 } else if (command.startsWith("game rounds ")) {
                     try {
                         printGameRounds(Integer.parseInt(command.substring(12, 13)));
                     } catch (NumberFormatException e){
-                        System.out.println("Correct format is: game result <gameIndex>");
+                        System.out.println("Correct format is: game rounds <gameIndex>");
                     }
                 } else if (command.startsWith("game round sets ")) {
                     try {
                         printRoundSets(Integer.parseInt(command.substring(16, 17)), Integer.parseInt(command.substring(18, 19)));
                     } catch (NumberFormatException e){
-                        System.out.println("Correct format is: game result <gameIndex>  <roundIndex>");
+                        System.out.println("Correct format is: game round sets <gameIndex>  <roundIndex>");
                     }
                 } else if (command.startsWith("set cards ")) {
                     try {
                         printSetCards(Integer.parseInt(command.substring(10, 11)), Integer.parseInt(command.substring(12, 13)), Integer.parseInt(command.substring(14, 15)));
                     } catch (NumberFormatException e){
-                        System.out.println("Correct format is: game result <gameIndex>  <roundIndex>  <setIndex>");
+                        System.out.println("Correct format is: set cards <gameIndex>  <roundIndex>  <setIndex>");
                     }
                 }
             }
@@ -78,7 +78,7 @@ public class Server {
         private PrintWriter out;
         private String nickname;
         private int playerIndex;
-        private int gameIndex;
+        private int gameIndex = -1;
         private int winedSets = 0;
         private int winedRounds = 0;
 
@@ -121,6 +121,7 @@ public class Server {
                 out = new PrintWriter(socket.getOutputStream(), true);
 
                 while (true) {
+                    try {
                     String message = in.readLine();
                     if (message == null) {
                         break; // قطع ارتباط در صورت دریافت پیام null
@@ -157,6 +158,13 @@ public class Server {
                         case "join" -> handleJoin(parts);
                         case "random" -> handleRandom(parts);
                     }
+                    } catch (IOException e) {
+                        System.out.println("Connection error: " + e.getMessage());
+                        if (gameIndex != -1){
+                            connectionLostMessage(gameIndex,socket);
+                        }
+                        break; // خروج از حلقه در صورت بروز خطا
+                    }
 
                 }
             } catch (IOException e) {
@@ -169,8 +177,11 @@ public class Server {
                     System.out.println("Client disconnected: " + nickname);
                 }
                 try {
-                    socket.close();
+                    if (in != null) in.close();
+                    if (out != null) out.close();
+                    if (socket != null) socket.close();
                 } catch (IOException e) {
+                    System.out.println("Error closing resources: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
@@ -262,6 +273,18 @@ public class Server {
                 }
             }).start();
             System.out.println("-----|  " + group.size());
+        }
+    }
+
+    public static void connectionLostMessage(int gameIndex,Socket socket) throws IOException {
+        Iterator<ClientHandler> iterator = AllGames.get(gameIndex).roomPlayers.iterator();
+        while (iterator.hasNext()) {
+            ClientHandler player = iterator.next();
+            if (socket.isClosed()){
+                throw new IOException("Socket is closed!");
+            } else {
+                player.out.println("SOME ONE'S CONNECTION LOST");
+            }
         }
     }
 

@@ -302,6 +302,13 @@ public class Client {
                                 JOptionPane.ERROR_MESSAGE);
                         System.exit(0);
                     }
+                    else if (message.startsWith("SOME ONE'S CONNECTION LOST")){
+                        JOptionPane.showMessageDialog(null,
+                                "Some one's connection lost please start a new game",
+                                "Connection lost!",
+                                JOptionPane.ERROR_MESSAGE);
+                        System.exit(0);
+                    }
 
                     System.out.println(message);
                 }
