@@ -1,7 +1,9 @@
 package Client;
 
+import javax.swing.border.LineBorder;
 
 import GamePlay.Card;
+import GamePlay.EllipticalLabel;
 import GamePlay.GamePage;
 import com.google.gson.Gson;
 import javax.sound.sampled.*;
@@ -33,10 +35,10 @@ public class Client {
     private JPanel myHand;
     JPanel centerPanel;
     GamePlay.GamePage mainPanel;
-    JLabel lblNik1;
-    JLabel lblNik2;
-    JLabel lblNik3;
-    JLabel lblNik4;
+    EllipticalLabel lblNik1;
+    EllipticalLabel lblNik2;
+    EllipticalLabel lblNik3;
+    EllipticalLabel lblNik4;
     static JButton pan1;
     static JButton pan2;
     static JButton pan3;
@@ -654,10 +656,21 @@ public class Client {
         this.centerPanel = new JPanel();
         this.mainPanel = new GamePlay.GamePage();
 
-        lblNik1 = new JLabel("player1");
-        lblNik2 = new JLabel("player2");
-        lblNik3 = new JLabel("player3");
-        lblNik4 = new JLabel("player4");
+        lblNik1 = new EllipticalLabel("player1");
+        lblNik2 = new EllipticalLabel("player2");
+        lblNik3 = new EllipticalLabel("player3");
+        lblNik4 = new EllipticalLabel("player4");
+        
+
+       
+        
+       
+
+
+
+
+
+        //lblNik1.setOpaque(true);
 
         pan1=new JButton();
         pan2=new JButton();
@@ -729,10 +742,10 @@ public class Client {
         Clubs = new JButton();
         HokmButton = new JButton();
 
-        Heart.setBackground(new Color(50, 87, 80));
-        Spades.setBackground(new Color(50, 87, 80));
-        Diamonds.setBackground(new Color(50, 87, 80));
-        Clubs.setBackground(new Color(50, 87, 80));
+        Heart.setBackground(new Color(76, 141, 128));
+        Spades.setBackground(new Color(76, 141, 128));
+        Diamonds.setBackground(new Color(76, 141, 128));
+        Clubs.setBackground(new Color(76, 141, 128));
 
         Heart.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm2.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
         Spades.setIcon(new ImageIcon(new ImageIcon("src/main/java/Images/Hokm1.png").getImage().getScaledInstance(80,-1,Image.SCALE_SMOOTH)));
@@ -749,12 +762,6 @@ public class Client {
 
         myHand.setBackground(new Color(119, 62, 62));
         myHand.setBounds(0, 650, 1500, 700);
-
-
-        centerPanel.setPreferredSize(new Dimension(1070, 400));
-        centerPanel.setBounds(190, 120, 1070, 400);
-        centerPanel.setBackground(new Color(50, 87, 80));
-        centerPanel.setVisible(true);
 
 
         pan1.setBackground(new Color(50, 87, 80));
@@ -780,10 +787,10 @@ public class Client {
 
 
 
-        lblNik1.setBounds(720,500,100,100);
-        lblNik2.setBounds(1300,270,100,100);
-        lblNik3.setBounds(720,50,100,100);
-        lblNik4.setBounds(120,270,100,100);
+        lblNik1.setBounds(650,540,180,70);
+        lblNik2.setBounds(1260,273,180,70);
+        lblNik3.setBounds(650,38,180,70);
+        lblNik4.setBounds(12,273,180,70);
 
 
 
@@ -799,17 +806,17 @@ public class Client {
         mainPanel.add(myHand);
 
 
-        hokmPan.setBounds(10,120,80,400);
-        hokmPan.setBackground(new Color(50, 87, 80));
+        hokmPan.setBounds(550,285,388,80);
+        hokmPan.setBackground( new Color(50, 87, 80));
         hokmPan.setLayout(null);
         hokmPan.setVisible(true);
 
-        Clubs.setBounds(0,15,80,80);
-        Spades.setBounds(0,105,80,80);
-        Diamonds.setBounds(0,195,80,80);
-        Heart.setBounds(0,285,80,80);
-        HokmButton.setBounds(700,0,80,80);
-
+        Clubs.setBounds(15,0,80,80);
+        Heart.setBounds(105,0,80,80);
+        Spades.setBounds(195,0,80,80);
+        Diamonds.setBounds(285,0,80,80);
+        HokmButton.setBounds(99,29,80,80);
+        
         Diamonds.setVisible(true);
         Spades.setVisible(true);
         Clubs.setVisible(true);
