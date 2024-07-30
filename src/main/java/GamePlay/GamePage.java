@@ -14,7 +14,7 @@ public class GamePage extends JPanel {
 
    public GamePage() {
       this.setLayout((LayoutManager)null);
-      backgroundImage = new ImageIcon("src/main/java/Images/background.jpg"); // آدرس تصویر بک گراند را وارد کنید
+      backgroundImage = new ImageIcon("src/main/java/Images/background.jpg");
    }
 
    @Override
@@ -22,13 +22,11 @@ public class GamePage extends JPanel {
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D)g;
 
-      // اضافه کردن بک گراند
+
       Image image = backgroundImage.getImage();
       g2.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 
-      // اضافه کردن ویژگی‌های قبلی
-      //g2.setColor(new Color(97, 150, 134));
-      //g2.fillRect(0, 0, 1500, 650);
+    
 
       g2.setColor(Color.WHITE);
       g2.drawRect(100, 30, 1250, 600);
@@ -38,14 +36,4 @@ public class GamePage extends JPanel {
    
 
 
-public static void main(String[] args) {
-   JFrame frame =new JFrame();
-   frame.setBounds(0,0,1500,900);
-   frame.setSize(600,600);
-   GamePage page =new GamePage();
-   page.setBounds(0,0,1500,900);
-   frame.add(page);
-   frame.setVisible(true);
-
-}
 }
