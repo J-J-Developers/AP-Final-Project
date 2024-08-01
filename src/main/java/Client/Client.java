@@ -382,18 +382,17 @@ public class Client {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize(1450, 830);
         frame.setLayout((LayoutManager)null);
-        // frame.getContentPane();
+        
         StartPages startpagePan=new StartPages();
         startpagePan.setLayout(null);
         startpagePan.setBounds(0,0,1450,810);
-
          frame.add(startpagePan);
 
         Color customColor =  new Color(159, 69, 69);
         final Color customColor1 = new Color(104, 182, 168);
         final Color customColor2 = new Color(26, 49, 34);
         Font boldFont = new Font("Arial", Font.ITALIC, 25);
-        //frame.getContentPane().setBackground(customColor);
+        
         final JButton btn1 = new JButton("Random");
         final JButton btn2 = new JButton("Friends");
         
@@ -425,11 +424,8 @@ public class Client {
         });
         
         timer.start();
-        
-
         timer.setInitialDelay(15000);
-        // startpagePan.add(btn1);
-        // startpagePan.add(btn2);
+        
 
         btn1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
