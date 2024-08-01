@@ -1,10 +1,12 @@
 package Client;
 
 import javax.swing.border.LineBorder;
-
 import GamePlay.Card;
 import GamePlay.EllipticalLabel;
 import GamePlay.GamePage;
+import GamePlay.Smallpanel;
+import GamePlay.StartPages;
+
 import com.google.gson.Gson;
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -358,280 +360,6 @@ public class Client {
 
     public void initializeUI(){
         PlaySound("src/main/java/GameSound/gameSound.wav");
-
-        final JFrame frame = new JFrame("Hokm");
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize(1500, 900);
-        frame.setLayout((LayoutManager)null);
-        frame.getContentPane();
-        Color customColor = new Color(97, 150, 134);
-        final Color customColor1 = new Color(50, 87, 80);
-        frame.getContentPane().setBackground(customColor);
-        final JButton btn1 = new JButton("Random");
-        final JButton btn2 = new JButton("Friends");
-        btn1.setBounds(625, 250, 150, 70);
-        btn2.setBounds(625, 400, 150, 70);
-        btn1.setBackground(customColor1);
-        btn1.setOpaque(true);
-        btn1.setForeground(new Color(131, 75, 166));
-        btn2.setBackground(customColor1);
-        btn2.setOpaque(true);
-        btn2.setForeground(new Color(131, 75, 166));
-        btn1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.remove(btn1);
-                frame.remove(btn2);
-                frame.setTitle("Game Room");
-                final JLabel lbl2 = new JLabel("Nickname:");
-                final JTextField txt2 = new JTextField();
-                final JButton btn5 = new JButton("Go");
-                final JButton exit1 = new JButton("Back");
-                btn5.setBackground(customColor1);
-                btn5.setOpaque(true);
-                btn5.setForeground(new Color(131, 75, 166));
-                exit1.setBackground(customColor1);
-                exit1.setOpaque(true);
-                exit1.setForeground(new Color(131, 75, 166));
-                lbl2.setBounds(520, 300, 110, 50);
-                txt2.setBounds(650, 300, 250, 50);
-                btn5.setBounds(800, 400, 90, 50);
-                exit1.setBounds(670, 400, 90, 50);
-                exit1.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        frame.remove(btn5);
-                        frame.remove(lbl2);
-                        frame.remove(txt2);
-                        frame.remove(exit1);
-                        frame.add(btn1);
-                        frame.add(btn2);
-                        frame.revalidate();
-                        frame.repaint();
-                    }
-                });
-                btn5.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        String nickname = txt2.getText();
-                        if (!nickname.isEmpty()) {
-                            sendMessageToServer("random::" + nickname);
-                            frame.remove(btn5);
-                            frame.remove(lbl2);
-                            frame.remove(txt2);
-                            frame.remove(exit1);
-                            frame.add(getMainPanel());
-                            lblNik1.setText(txt2.getText());
-                            frame.revalidate();
-                            frame.repaint();
-                        } else {
-                            JOptionPane.showMessageDialog((Component)null, "please sure you write the nickname", "Error", 2);
-                        }
-                    }
-                });
-                frame.add(lbl2);
-                frame.add(txt2);
-                frame.add(btn5);
-                frame.add(exit1);
-                frame.setVisible(true);
-                frame.revalidate();
-                frame.repaint();
-            }
-        });
-        btn2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.remove(btn1);
-                frame.remove(btn2);
-                frame.setTitle("Friendly Game");
-                final JButton btn3 = new JButton("Join");
-                final JButton btn4 = new JButton("Create");
-                final JButton exit = new JButton("Back");
-                btn3.setBounds(625, 200, 150, 70);
-                btn4.setBounds(625, 300, 150, 70);
-                exit.setBounds(625, 400, 150, 70);
-                btn3.setBackground(customColor1);
-                btn3.setOpaque(true);
-                btn3.setForeground(new Color(131, 75, 166));
-                btn4.setBackground(customColor1);
-                btn4.setOpaque(true);
-                btn4.setForeground(new Color(131, 75, 166));
-                exit.setBackground(customColor1);
-                exit.setOpaque(true);
-                btn3.setOpaque(true);
-                btn3.setForeground(new Color(131, 75, 166));
-                btn4.setOpaque(true);
-                btn4.setForeground(new Color(131, 75, 166));
-                exit.setOpaque(true);
-                exit.setForeground(new Color(131, 75, 166));
-                frame.add(exit);
-                frame.add(btn3);
-                frame.add(btn4);
-                btn3.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        frame.remove(exit);
-                        frame.remove(btn3);
-                        frame.remove(btn4);
-                        frame.setTitle("Join By Token");
-                        final JLabel lbl1 = new JLabel("GamePlay.Token:");
-                        final JTextField txt1 = new JTextField();
-                        final JLabel lbl2 = new JLabel("Nickname:");
-                        final JTextField txt2 = new JTextField();
-                        final JButton btn5 = new JButton("Go");
-                        final JButton exit1 = new JButton("Back");
-                        btn5.setBackground(customColor1);
-                        btn5.setOpaque(true);
-                        btn5.setForeground(new Color(131, 75, 166));
-                        exit1.setBackground(customColor1);
-                        exit1.setOpaque(true);
-                        exit1.setForeground(new Color(131, 75, 166));
-                        lbl2.setBounds(520, 200, 110, 50);
-                        txt2.setBounds(650, 200, 250, 50);
-                        lbl1.setBounds(520, 300, 110, 50);
-                        txt1.setBounds(650, 300, 250, 50);
-                        btn5.setBounds(800, 400, 90, 50);
-                        exit1.setBounds(670, 400, 90, 50);
-                        btn5.addActionListener(new ActionListener() {
-                            public void actionPerformed(ActionEvent e) {
-                                String nickname= txt2.getText();
-                                String token = txt1.getText();
-                                if (!nickname.isEmpty() && !token.isEmpty()) {
-                                    sendMessageToServer("join::" + nickname + "::" + token);
-                                    frame.remove(lbl1);
-                                    frame.remove(txt1);
-                                    frame.remove(btn5);
-                                    frame.remove(lbl2);
-                                    frame.remove(txt2);
-                                    frame.remove(exit1);
-                                    frame.setTitle("Game Room");
-                                    frame.add(getMainPanel());
-                                    frame.revalidate();
-                                    frame.repaint();
-                                } else {
-                                    JOptionPane.showMessageDialog((Component)null, "please sure you write the nickname and token", "Error", 2);
-                                }
-
-                            }
-                        });
-                        exit1.addActionListener(new ActionListener() {
-                            public void actionPerformed(ActionEvent e) {
-                                frame.remove(lbl1);
-                                frame.remove(txt1);
-                                frame.remove(btn5);
-                                frame.remove(lbl2);
-                                frame.remove(txt2);
-                                frame.remove(exit1);
-                                frame.add(btn3);
-                                frame.add(btn4);
-                                frame.add(exit);
-                                frame.revalidate();
-                                frame.repaint();
-                            }
-                        });
-                        frame.add(lbl2);
-                        frame.add(txt2);
-                        frame.add(lbl1);
-                        frame.add(txt1);
-                        frame.add(btn5);
-                        frame.add(exit1);
-                        frame.revalidate();
-                        frame.repaint();
-                    }
-                });
-                btn4.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        frame.remove(btn3);
-                        frame.remove(btn4);
-                        frame.remove(exit);
-                        frame.setTitle("Game Room");
-
-                        final JLabel lbl2 = new JLabel("Nickname:");
-                        final JLabel lbl1 = new JLabel("Token:");
-                        final JTextField txt1 = new JTextField(generateRandomString());
-                        final JTextField txt2 = new JTextField();
-                        final JButton btn5 = new JButton("Go");
-                        final JButton exit1 = new JButton("Back");
-
-                        txt1.setEditable(false);
-
-                        btn5.setBackground(customColor1);
-                        btn5.setOpaque(true);
-                        btn5.setForeground(new Color(131, 75, 166));
-                        exit1.setBackground(customColor1);
-                        exit1.setOpaque(true);
-                        exit1.setForeground(new Color(131, 75, 166));
-                        lbl2.setBounds(520, 300, 110, 50);
-                        txt2.setBounds(650, 300, 250, 50);
-                        lbl1.setBounds(520, 200, 110, 50);
-                        txt1.setBounds(650, 200, 250, 50);
-                        btn5.setBounds(800, 400, 90, 50);
-                        exit1.setBounds(670, 400, 90, 50);
-                        exit1.addActionListener(new ActionListener() {
-                            public void actionPerformed(ActionEvent e) {
-                                frame.remove(btn5);
-                                frame.remove(lbl2);
-                                frame.remove(txt2);
-                                frame.remove(lbl1);
-                                frame.remove(txt1);
-                                frame.remove(exit1);
-                                frame.add(btn1);
-                                frame.add(btn2);
-                                frame.revalidate();
-                                frame.repaint();
-                            }
-                        });
-                        btn5.addActionListener(new ActionListener() {
-                            public void actionPerformed(ActionEvent e) {
-                                String nickname= txt2.getText();
-                                String token = txt1.getText() ;
-                                if (!nickname.isEmpty()) {
-                                    sendMessageToServer("create::" + nickname + "::" + token);
-                                    frame.remove(btn5);
-                                    frame.remove(lbl2);
-                                    frame.remove(txt2);
-                                    frame.remove(exit1);
-                                    frame.remove(lbl1);
-                                    frame.remove(txt1);
-                                    frame.add(getMainPanel());
-
-                                    frame.revalidate();
-                                    frame.repaint();
-                                } else {
-                                    JOptionPane.showMessageDialog((Component)null, "please sure you write the nickname", "Error", 2);
-                                }
-
-                            }
-                        });
-                        frame.add(lbl1);
-                        frame.add(txt1);
-                        frame.add(lbl2);
-                        frame.add(txt2);
-                        frame.add(btn5);
-                        frame.add(exit1);
-                        frame.setVisible(true);
-                        frame.revalidate();
-                        frame.repaint();
-                    }
-
-                });
-                exit.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        frame.remove(btn3);
-                        frame.remove(btn4);
-                        frame.remove(exit);
-                        frame.add(btn1);
-                        frame.add(btn2);
-                        frame.revalidate();
-                        frame.repaint();
-                    }
-                });
-                frame.revalidate();
-                frame.repaint();
-            }
-        });
-        frame.add(btn1);
-        frame.add(btn2);
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.repaint();
-        frame.revalidate();
-
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -647,6 +375,341 @@ public class Client {
                 // Not worth my time
             }
         }
+        final JFrame frame = new JFrame();
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setSize(1450, 830);
+        frame.setLayout((LayoutManager)null);
+        // frame.getContentPane();
+        StartPages startpagePan=new StartPages();
+        startpagePan.setLayout(null);
+        startpagePan.setBounds(0,0,1450,810);
+
+         frame.add(startpagePan);
+
+        Color customColor =  new Color(159, 69, 69);
+        final Color customColor1 = new Color(104, 182, 168);
+        final Color customColor2 = new Color(26, 49, 34);
+        Font boldFont = new Font("Arial", Font.ITALIC, 25);
+        //frame.getContentPane().setBackground(customColor);
+        final JButton btn1 = new JButton("Random");
+        final JButton btn2 = new JButton("Friends");
+        
+        btn1.setBackground(customColor1);
+        btn1.setOpaque(true);
+        btn1.setForeground(customColor);
+        btn1.setFont(boldFont);
+        btn2.setBackground(customColor1);
+        btn2.setOpaque(true);
+        btn2.setForeground(customColor);
+        btn2.setFont(boldFont);
+        btn1.setBounds(650, 270, 150, 70);
+        btn2.setBounds(650, 450, 150, 70);
+
+        Smallpanel smallpan = new Smallpanel();
+        smallpan.setBounds(480,250,500,300);
+        startpagePan.add(smallpan);
+        smallpan.setVisible(false);
+
+        startpagePan.add(btn1);
+        startpagePan.add(btn2);
+
+        btn1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                startpagePan.remove(btn1);
+                startpagePan.remove(btn2);
+                frame.setTitle("Game Room");
+                final JLabel lbl2 = new JLabel("Nickname:");
+                final JTextField txt2 = new JTextField();
+                final JButton btn5 = new JButton("Go");
+                final JButton exit1 = new JButton("Back");
+
+                smallpan.setVisible(true);
+
+               
+
+                btn5.setBackground(customColor1);
+                btn5.setOpaque(true);
+                btn5.setForeground(customColor);
+                btn5.setFont(boldFont);
+                exit1.setBackground(customColor1);
+                exit1.setOpaque(true);
+                exit1.setFont(boldFont);
+                exit1.setForeground(customColor);
+                lbl2.setFont(boldFont);
+                lbl2.setForeground(customColor2);
+                lbl2.setBounds(50, 80, 180, 50);
+                txt2.setBounds(200, 80, 250, 50);
+                btn5.setBounds(340, 170, 90, 50);
+                exit1.setBounds(230, 170, 90, 50);
+                
+                
+                exit1.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                    
+                        smallpan.remove(btn5);
+                        smallpan.remove(lbl2);
+                        smallpan.remove(txt2);
+                        smallpan.remove(exit1);
+                        smallpan.setVisible(false);
+                        startpagePan.add(btn1);
+                        startpagePan.add(btn2);
+                        startpagePan.revalidate();
+                        startpagePan.repaint(); 
+                    }
+                });
+                btn5.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        String nickname = txt2.getText();
+                        if (!nickname.isEmpty()) {
+                            sendMessageToServer("random::" + nickname);
+                            startpagePan.remove(btn5);
+                            startpagePan.remove(lbl2);
+                            startpagePan.remove(txt2);
+                            startpagePan.remove(exit1);
+                            smallpan.setVisible(false);
+                            startpagePan.setVisible(false);
+                            frame.add(getMainPanel());
+                            lblNik1.setText(txt2.getText());
+                            startpagePan.revalidate();
+                            startpagePan.repaint();
+                        } else {
+                            JOptionPane.showMessageDialog((Component)null, "please sure you write the nickname", "Error", 2);
+                        }
+                    }
+                });
+                smallpan.add(lbl2);
+                smallpan.add(txt2);
+                smallpan.add(btn5);
+                smallpan.add(exit1);
+                smallpan.setVisible(true);
+                startpagePan.revalidate();
+                startpagePan.repaint();
+            }
+        });
+        btn2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                startpagePan.remove(btn1);
+                startpagePan.remove(btn2);
+                frame.setTitle("Friendly Game");
+                final JButton btn3 = new JButton("Join");
+                final JButton btn4 = new JButton("Create");
+                final JButton exit = new JButton("Back");
+                btn3.setBounds(650, 270, 150, 70);
+                btn4.setBounds(650, 360, 150, 70);
+                exit.setBounds(650, 450, 150, 70);
+                
+                btn3.setBackground (customColor1);
+                btn3.setOpaque(true);
+                btn3.setForeground(customColor);
+                btn3.setFont(boldFont);
+                btn4.setBackground(customColor1);
+                btn4.setOpaque(true);
+                btn4.setForeground(customColor);
+                btn4.setFont(boldFont);
+                exit.setBackground(customColor1);
+                exit.setOpaque(true);
+                exit.setFont(boldFont);
+                btn3.setOpaque(true);
+                btn3.setForeground(customColor);
+                btn4.setOpaque(true);
+                btn4.setForeground(customColor);
+                exit.setOpaque(true);
+                exit.setForeground(customColor);
+                startpagePan.add(exit);
+                startpagePan.add(btn3);
+                startpagePan.add(btn4);
+                btn3.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        startpagePan.remove(exit);
+                        startpagePan.remove(btn3);
+                        startpagePan.remove(btn4);
+                        frame.setTitle("Join By Token");
+                        final JLabel lbl1 = new JLabel("GamePlay.Token:");
+                        final JTextField txt1 = new JTextField();
+                        final JLabel lbl2 = new JLabel("Nickname:");
+                        final JTextField txt2 = new JTextField();
+                        final JButton btn5 = new JButton("Go");
+                        final JButton exit1 = new JButton("Back");
+                        
+                        
+                        btn5.setBackground(customColor1);
+                        btn5.setOpaque(true);
+                        btn5.setForeground(customColor);
+                        btn5.setFont(boldFont);
+                        exit1.setBackground(customColor1);
+                        exit1.setOpaque(true);
+                        exit1.setForeground(customColor);
+                        lbl2.setFont(boldFont);
+                        lbl2.setForeground(customColor2);
+                        lbl1.setFont(boldFont);
+                        lbl1.setForeground(customColor2);
+
+                        smallpan.setVisible(true);
+                        lbl2.setBounds(70, 125, 180, 50);
+                        txt2.setBounds(220, 125, 250, 50);
+                        lbl1.setBounds(10, 50, 300, 50);
+                        txt1.setBounds(220, 50, 250, 50);
+                        btn5.setBounds(340, 200, 90, 50);
+                        exit1.setBounds(230, 200, 90, 50);
+                        btn5.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                String nickname= txt2.getText();
+                                String token = txt1.getText();
+                                if (!nickname.isEmpty() && !token.isEmpty()) {
+                                    sendMessageToServer("join::" + nickname + "::" + token);
+                                    smallpan.remove(lbl1);
+                                    smallpan.remove(txt1);
+                                    smallpan.remove(btn5);
+                                    smallpan.remove(lbl2);
+                                    smallpan.remove(txt2);
+                                    smallpan.remove(exit1);
+                                    frame.setTitle("Game Room");
+                                    smallpan.setVisible(false);
+                                    startpagePan.setVisible(false);
+                                    frame.add(getMainPanel());
+                                    startpagePan.revalidate();
+                                    startpagePan.repaint();
+                                } else {
+                                    JOptionPane.showMessageDialog((Component)null, "please sure you write the nickname and token", "Error", 2);
+                                }
+
+                            }
+                        });
+                        exit1.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                smallpan.setVisible(false);
+                                smallpan.remove(lbl1);
+                                smallpan.remove(txt1);
+                                smallpan.remove(btn5);
+                                smallpan.remove(lbl2);
+                                smallpan.remove(txt2);
+                                smallpan.remove(exit1);
+                                startpagePan.add(btn3);
+                                startpagePan.add(btn4);
+                                startpagePan.add(exit);
+                                startpagePan.revalidate();
+                                startpagePan.repaint();
+                            }
+                        });
+                        smallpan.add(lbl2);
+                        smallpan.add(txt2);
+                        smallpan.add(lbl1);
+                        smallpan.add(txt1);
+                        smallpan.add(btn5);
+                        smallpan.add(exit1);
+                        startpagePan.revalidate();
+                        startpagePan.repaint();
+                    }
+                });
+                btn4.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        startpagePan.remove(btn3);
+                        startpagePan.remove(btn4);
+                        startpagePan.remove(exit);
+                        frame.setTitle("Game Room");
+
+                        final JLabel lbl2 = new JLabel("Nickname:");
+                        final JLabel lbl1 = new JLabel("Token:");
+                        final JTextField txt1 = new JTextField(generateRandomString());
+                        final JTextField txt2 = new JTextField();
+                        final JButton btn5 = new JButton("Go");
+                        final JButton exit1 = new JButton("Back");
+
+                        txt1.setEditable(false);
+
+                        btn5.setBackground(customColor1);
+                        btn5.setOpaque(true);
+                        btn5.setForeground(customColor);
+                        btn5.setFont(boldFont);
+                        exit1.setBackground(customColor1);
+                        exit1.setOpaque(true);
+                        exit1.setForeground(customColor);
+                        exit1.setFont(boldFont);
+                        lbl2.setFont(boldFont);
+                        lbl2.setForeground(customColor2);
+                        lbl1.setFont(boldFont);
+                        lbl1.setForeground(customColor2);
+                        lbl2.setBounds(50, 125, 180, 50);
+                        txt2.setBounds(200, 125, 250, 50);
+                        lbl1.setBounds(60, 50, 300, 50);
+                        txt1.setBounds(200, 50, 250, 50);
+                        btn5.setBounds(340, 200, 90, 50);
+                        exit1.setBounds(230, 200, 90, 50);
+                        exit1.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                smallpan.setVisible(false);
+                                smallpan.remove(btn5);
+                                smallpan.remove(lbl2);
+                                smallpan.remove(txt2);
+                                smallpan.remove(lbl1);
+                                smallpan.remove(txt1);
+                                smallpan.remove(exit1);
+                                startpagePan.add(btn3);
+                                startpagePan.add(btn4);
+                                startpagePan.add(exit);
+                                startpagePan.revalidate();
+                                startpagePan.repaint();
+                            }
+                        });
+                        btn5.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                String nickname= txt2.getText();
+                                String token = txt1.getText() ;
+                                if (!nickname.isEmpty()) {
+                                    sendMessageToServer("create::" + nickname + "::" + token);
+                                    smallpan.remove(btn5);
+                                    smallpan.remove(lbl2);
+                                    smallpan.remove(txt2);
+                                    smallpan.remove(exit1);
+                                    smallpan.remove(lbl1);
+                                    smallpan.remove(txt1);
+                                    smallpan.setVisible(false);
+                                    startpagePan.setVisible(false);
+                                    frame.add(getMainPanel());
+                                    
+
+                                    startpagePan.revalidate();
+                                    startpagePan.repaint();
+                                } else {
+                                    JOptionPane.showMessageDialog((Component)null, "please sure you write the nickname", "Error", 2);
+                                }
+
+                            }
+                        });
+                        smallpan.setVisible(true);
+                        smallpan.add(lbl1);
+                        smallpan.add(txt1);
+                        smallpan.add(lbl2);
+                        smallpan.add(txt2);
+                        smallpan.add(btn5);
+                        smallpan.add(exit1);
+                        startpagePan.revalidate();
+                        startpagePan.repaint();
+                    }
+
+                });
+                exit.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        startpagePan.remove(btn3);
+                        startpagePan.remove(btn4);
+                        startpagePan.remove(exit);
+                        startpagePan.add(btn1);
+                        startpagePan.add(btn2);
+                        startpagePan.revalidate();
+                        startpagePan.repaint();
+                    }
+                });
+                startpagePan.revalidate();
+                startpagePan.repaint();
+            }
+        });
+        
+        frame.setResizable(false);
+        frame.setVisible(true);
+        startpagePan.repaint();
+        startpagePan.revalidate();
+
+    
 
 
         this.myCards = new ArrayList<>(13);
