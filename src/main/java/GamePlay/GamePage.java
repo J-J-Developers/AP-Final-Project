@@ -31,7 +31,7 @@ public class GamePage extends JPanel {
       g2.setColor(Color.WHITE);
       g2.drawRect(100, 30, 1250, 600);
       g2.setColor(new Color(50, 87, 80));
-      g2.fillRect(190, 120, 1070, 400);
+      g2.fillRoundRect(190, 120, 1070, 400,50,50);
    }
    
 
