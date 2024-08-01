@@ -201,19 +201,5 @@ public class StartPages extends JPanel {
         }
     }
 
-    public static void main(String[] args) {
 
-
-        // Create the frame
-        JFrame frame = new JFrame("Card Animation Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1500, 900); // Set the frame size to 1500x900
-
-        // Create an instance of StartPages
-        StartPages startPages = new StartPages();
-        frame.setContentPane(startPages);
-
-        // Make the frame visible
-        frame.setVisible(true);
-    }
 }
