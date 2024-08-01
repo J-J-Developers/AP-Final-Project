@@ -29,16 +29,4 @@ public class EllipticalLabel extends JLabel {
         int y = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();
         g2d.drawString(getText(), x, y);
     }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Elliptical Label");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        EllipticalLabel label = new EllipticalLabel("jjj");
-        label.setText("Hello, World!"); // Change the text later
-
-        frame.getContentPane().add(label, BorderLayout.CENTER);
-        frame.setSize(200, 100);
-        frame.setVisible(true);
-    }
 }
