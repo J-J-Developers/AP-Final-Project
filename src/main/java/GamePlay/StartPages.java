@@ -34,8 +34,8 @@ public class StartPages extends JPanel {
             cards.add(new Card("src/main/java/Images/" + i + ".jpg", 0, 900, i)); // Initial position (0,0) will be updated
         }
 
-        // Timer for animation
-        Timer timer = new Timer(10, e -> {
+        // تایمر سرعت پخش کارت هارو صفحه
+        Timer timer = new Timer(8, e -> {
             boolean allReached = true;
             for (Card card : cards) {
                 card.updatePosition(getWidth(), getHeight());
@@ -201,5 +201,19 @@ public class StartPages extends JPanel {
         }
     }
 
+    // public static void main(String[] args) {
 
+
+    //     // Create the frame
+    //     JFrame frame = new JFrame("Card Animation Example");
+    //     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    //     frame.setSize(1500, 900); // Set the frame size to 1500x900
+
+    //     // Create an instance of StartPages
+    //     StartPages startPages = new StartPages();
+    //     frame.setContentPane(startPages);
+
+    //     // Make the frame visible
+    //     frame.setVisible(true);
+    // }
 }
