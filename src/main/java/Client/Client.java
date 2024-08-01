@@ -1,6 +1,9 @@
 package Client;
 
-import javax.swing.border.LineBorder;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import GamePlay.Card;
 import GamePlay.EllipticalLabel;
 import GamePlay.GamePage;
@@ -410,8 +413,23 @@ public class Client {
         startpagePan.add(smallpan);
         smallpan.setVisible(false);
 
-        startpagePan.add(btn1);
-        startpagePan.add(btn2);
+
+        Timer timer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startpagePan.add(btn1);
+                startpagePan.add(btn2);
+                startpagePan.revalidate();
+                startpagePan.repaint();
+            }
+        });
+        
+        timer.start();
+        
+
+        timer.setInitialDelay(15000);
+        // startpagePan.add(btn1);
+        // startpagePan.add(btn2);
 
         btn1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -723,17 +741,7 @@ public class Client {
         lblNik2 = new EllipticalLabel("player2");
         lblNik3 = new EllipticalLabel("player3");
         lblNik4 = new EllipticalLabel("player4");
-        
 
-       
-        
-       
-
-
-
-
-
-        //lblNik1.setOpaque(true);
 
         pan1=new JButton();
         pan2=new JButton();
