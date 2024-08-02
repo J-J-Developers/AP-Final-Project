@@ -379,6 +379,7 @@ public class Client {
             }
         }
         final JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize(1450, 830);
         frame.setLayout((LayoutManager)null);
