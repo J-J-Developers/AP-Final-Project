@@ -393,6 +393,7 @@ public class Client {
         final Color customColor2 = new Color(26, 49, 34);
         Font boldFont = new Font("Arial", Font.ITALIC, 25);
         
+        frame.setTitle("Court Piece Game ");
         final JButton btn1 = new JButton("Random");
         final JButton btn2 = new JButton("Friends");
         
