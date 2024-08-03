@@ -26,26 +26,6 @@ Welcome to the Online Court Piece Game project! This is a Java-based online mult
 3. Real-Time Game Status: Display real-time information of all games on the server with the GAMES STATUS command.
 4. Player Disconnection Handling: If a player disconnects, a JOption will prompt other players to start a new game to avoid waiting.
 
-## Gameplay Showcase
-### Lobby
-#### Main Menu
-![Main Menu](src/main/java/Images/Main%20menu.gif)
-
-#### Random Mode
-![Random](src/main/java/Images/random.png)
-
-#### Create Mode
-![Create](src/main/java/Images/create.png)
-
-#### Join Mode
-![Join](src/main/java/Images/join.png)
-
-### Card Distribution and Rul Selection
-![Card Distribution and Rul Selection](src/main/java/Images/Card%20dividing.gif)
-
-### In-Game Play
-![Game Play](src/main/java/Images/Card%20Puting.gif)
-
 ## Installation
 To run this project locally, follow these steps:
 
@@ -87,6 +67,16 @@ If you have any questions or feedback, feel free to reach out to us at the email
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Gameplay Showcase
+### Lobby
+![Main Menu](src/main/java/Images/Lobby5.gif)
+
+### Card Distribution and Rul Selection
+![Card Distribution and Rul Selection](src/main/java/Images/Card%20dividing.gif)
+
+### In-Game Play
+![Game Play](src/main/java/Images/Card%20Puting.gif)
 
 ---
 
