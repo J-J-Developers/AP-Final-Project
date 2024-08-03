@@ -65,8 +65,6 @@ This project was developed by students of Noshirvani University of Technology:
 
 If you have any questions or feedback, feel free to reach out to us at the emails above.
 
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ## Gameplay Showcase
 ### Lobby
