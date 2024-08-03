@@ -1,7 +1,9 @@
+
+
 # Online Court Piece Game
 
 ## Introduction
-Welcome to the Online Court Piece Game project! This is a Java-based online multiplayer card game where players can enjoy the traditional Persian game of Hokm.
+Welcome to the Online Court Piece Game project! This is a Java-based online multiplayer card game where players can enjoy the traditional Persian game of Court Piece.
 
 ## Features
 ### Online Gameplay
@@ -24,22 +26,42 @@ Welcome to the Online Court Piece Game project! This is a Java-based online mult
 3. Real-Time Game Status: Display real-time information of all games on the server with the GAMES STATUS command.
 4. Player Disconnection Handling: If a player disconnects, a JOption will prompt other players to start a new game to avoid waiting.
 
+## Gameplay Showcase
+### Lobby
+#### Main Menu
+![Main Menu](src/main/java/Images/Main%20menu.gif)
+
+#### Random Mode
+![Random](src/main/java/Images/random.png)
+
+#### Create Mode
+![Create](src/main/java/Images/create.png)
+
+#### Join Mode
+![Join](src/main/java/Images/join.png)
+
+### Card Distribution and Rul Selection
+![Card Distribution and Rul Selection](src/main/java/Images/Card%20dividing.gif)
+
+### In-Game Play
+![Game Play](src/main/java/Images/Card%20Puting.gif)
+
 ## Installation
 To run this project locally, follow these steps:
 
 1. Clone the repository:
-
+  
    git clone https://github.com/J-J-Developers/AP-Final-Project.git
    cd AP-Final-Project
-
+   
 2. Build the project:
-
+  
    ./gradlew build
-
+   
 3. Run the server:
-
+  
    ./gradlew run
-
+   
 ## Usage
 - Open your browser and navigate to http://localhost:8080 to start playing.
 - Register a new account or log in with your existing credentials.
@@ -54,21 +76,19 @@ We welcome contributions! Please follow these steps to contribute:
 4. Push to the branch (git push origin feature-branch).
 5. Open a pull request.
 
-## Team Members
+## Team Members and Contact
 This project was developed by students of Noshirvani University of Technology:
 - Arshia Mohammadzadeh - [mohammadzade.arshia84@gmail.com](mailto:mohammadzade.arshia84@gmail.com)
 - Amir Mohammad Arabi - [arabiamir2005@gmail.com](mailto:arabiamir2005@gmail.com)
 - Zeynab Abbasi - [darya.abbasi1383@gmail.com](mailto:darya.abbasi1383@gmail.com)
 - Vania Vafaei - [vafaivania@gmail.com](mailto:vafaivania@gmail.com)
 
+If you have any questions or feedback, feel free to reach out to us at the emails above.
+
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## Contact
-If you have any questions or feedback, feel free to reach out to us at [your-email@example.com](mailto:your-email@example.com).
-
 ---
-
 
 
 
