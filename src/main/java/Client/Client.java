@@ -296,25 +296,37 @@ public class Client {
                         hokmPan.setVisible(false);
                     }
                     else if (message.startsWith("YOU WINED THE GAME.")){
-                        JOptionPane.showMessageDialog(null,
-                                "CONGRATULATION! YOU HAVE WON THE GAME.",
-                                "GAME WINNER",
-                                JOptionPane.INFORMATION_MESSAGE);
-                        System.exit(0);
+                        SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                JOptionPane.showMessageDialog(null,
+                                        "CONGRATULATION! YOU HAVE WON THE GAME.",
+                                        "GAME WINNER",
+                                        JOptionPane.INFORMATION_MESSAGE);
+                                System.exit(0);
+                            }
+                        });
                     }
                     else if (message.startsWith("YOU LOST THE GAME.")){
-                        JOptionPane.showMessageDialog(null,
-                                "YOU HAVE LOOSED THE GAME.",
-                                "GAME OVER",
-                                JOptionPane.ERROR_MESSAGE);
-                        System.exit(0);
+                        SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                JOptionPane.showMessageDialog(null,
+                                        "YOU HAVE LOOSED THE GAME.",
+                                        "GAME OVER",
+                                        JOptionPane.ERROR_MESSAGE);
+                                System.exit(0);
+                            }
+                        });
                     }
-                    else if (message.startsWith("SOME ONE'S CONNECTION LOST")){
-                        JOptionPane.showMessageDialog(null,
-                                "Some one's connection lost please start a new game",
-                                "Connection lost!",
-                                JOptionPane.ERROR_MESSAGE);
-                        System.exit(0);
+                    else if (message.startsWith("SOME ONE'S CONNECTION LOST")) {
+                        SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                JOptionPane.showMessageDialog(null,
+                                        "Some one's connection lost please start a new game",
+                                        "Connection lost!",
+                                        JOptionPane.ERROR_MESSAGE);
+                                System.exit(0);
+                            }
+                        });
                     }
 
                     System.out.println(message);
