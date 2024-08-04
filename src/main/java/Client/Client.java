@@ -400,7 +400,7 @@ public class Client {
         startpagePan.setLayout(null);
         startpagePan.setBounds(0,0,1450,810);
          frame.add(startpagePan);
-         
+
         Color customColor =  new Color(159, 69, 69);
         final Color customColor1 = new Color(104, 182, 168);
         final Color customColor2 = new Color(26, 49, 34);
@@ -444,6 +444,7 @@ public class Client {
 
         btn1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                timer.stop();
                 startpagePan.remove(btn1);
                 startpagePan.remove(btn2);
                 frame.setTitle("Game Room");
@@ -516,7 +517,8 @@ public class Client {
             }
         });
         btn2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {     
+            public void actionPerformed(ActionEvent e) {
+                timer.stop();
                 startpagePan.remove(btn1);
                 startpagePan.remove(btn2);
                 frame.setTitle("Friendly Game");
