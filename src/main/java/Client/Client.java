@@ -400,7 +400,7 @@ public class Client {
         startpagePan.setLayout(null);
         startpagePan.setBounds(0,0,1450,810);
          frame.add(startpagePan);
-
+         
         Color customColor =  new Color(159, 69, 69);
         final Color customColor1 = new Color(104, 182, 168);
         final Color customColor2 = new Color(26, 49, 34);
@@ -439,6 +439,7 @@ public class Client {
         
         timer.start();
         timer.setInitialDelay(15000);
+        
         
 
         btn1.addActionListener(new ActionListener() {
@@ -515,7 +516,7 @@ public class Client {
             }
         });
         btn2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {     
                 startpagePan.remove(btn1);
                 startpagePan.remove(btn2);
                 frame.setTitle("Friendly Game");
@@ -565,8 +566,9 @@ public class Client {
                         btn5.setForeground(customColor);
                         btn5.setFont(boldFont);
                         exit1.setBackground(customColor1);
-                        exit1.setOpaque(true);
                         exit1.setForeground(customColor);
+                        exit1.setOpaque(true);
+                        exit1.setFont(boldFont);
                         lbl2.setFont(boldFont);
                         lbl2.setForeground(customColor2);
                         lbl1.setFont(boldFont);
